@@ -20,7 +20,7 @@ from src.heuristics.loader import get_heuristics_loader
 from src.heuristics.extractor import extract_entities_heuristics
 from src.spacy_extractor import extract_entities_spacy
 from src.regex_extractor import extract_entities_regex
-from src.flows.extraction_flow import _score_structure_signals, _classify_content_type
+from src.flows.extraction_flow import _score_structure_signals, classify_content_type
 
 async def _resolve_document_uuid(doc):
     """Resolve document UUID from various sources"""
@@ -91,7 +91,7 @@ async def insert_documents_standalone(batch):
             content_type_value = "Unknown"
             if text:
                 try:
-                    classification = _classify_content_type(text, title, url)
+                    classification = classify_content_type(url, title, text)
                     content_type_value = classification.get("content_type", "Unknown")
                 except Exception:
                     pass

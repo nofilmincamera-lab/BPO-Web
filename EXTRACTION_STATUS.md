@@ -46,7 +46,7 @@ docker-compose logs prefect-agent --tail 20
 - **✅ API Service**: Running on port 8000
 
 ### Data Pipeline
-- **Source**: `data/preprocessed/dataset_45000_converted.jsonl`
+- **Source**: `data/processed/preprocessed.jsonl` (canonical dataset)
 - **Batch Size**: 100 documents per batch
 - **Heuristics Version**: 2.0.0
 - **Start Offset**: 0

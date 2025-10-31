@@ -14,9 +14,10 @@ def trigger_extraction():
     print("Triggering Full Document Extraction via API")
     print("=" * 50)
     
-    # Parameters for the extraction
+    # Parameters for the extraction - CANONICAL PRODUCTION DATASET
+    # Use preprocessed JSONL from scripts/preprocess.py output
     params = {
-        "source_path": "data/preprocessed/dataset_45000_converted.jsonl",
+        "source_path": "data/processed/preprocessed.jsonl",
         "heuristics_version": "2.0.0",
         "batch_size": 100
     }

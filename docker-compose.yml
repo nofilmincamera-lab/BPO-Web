@@ -69,7 +69,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - "D:\\BPO-Project\\ops\\init-scripts:/docker-entrypoint-initdb.d"
+      - "./ops/init-scripts:/docker-entrypoint-initdb.d"
     networks:
       - bpo-main-network
       - bpo-db-network
@@ -117,7 +117,7 @@ services:
     ports:
       - "6432:5432"
     volumes:
-      - "D:\\BPO-Project\\docker\\entrypoints\\run-pgbouncer.sh:/run-pgbouncer.sh:ro"
+      - "./docker/entrypoints/run-pgbouncer.sh:/run-pgbouncer.sh:ro"
     entrypoint: ["/bin/sh", "/run-pgbouncer.sh"]
     networks:
       - bpo-network
@@ -257,9 +257,9 @@ services:
     secrets:
       - postgres_password
     volumes:
-      - "D:\\BPO-Project\\data:/data"
-      - "D:\\BPO-Project\\Heuristics:/heuristics"
-      - "D:\\BPO-Project\\src:/app/src"
+      - "./data:/data"
+      - "./Heuristics:/heuristics"
+      - "./src:/app/src"
     depends_on:
       postgres:
         condition: service_healthy
@@ -307,9 +307,9 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - "D:\\BPO-Project\\data:/data"
-      - "D:\\BPO-Project\\Heuristics:/heuristics"
-      - "D:\\BPO-Project\\src:/app/src"
+      - "./data:/data"
+      - "./Heuristics:/heuristics"
+      - "./src:/app/src"
     networks:
       - bpo-main-network
       - bpo-gpu-network
@@ -342,7 +342,7 @@ services:
     ports:
       - "11434:11434"
     volumes:
-      - "D:\\BPO-Project\\data\\ollama:/root/.ollama"
+      - "./data/ollama:/root/.ollama"
     networks:
       - bpo-network
     restart: unless-stopped
@@ -370,7 +370,7 @@ services:
     ports:
       - "8082:8080"
     volumes:
-      - "D:\\BPO-Project\\data\\label-studio:/label-studio/data"
+      - "./data/label-studio:/label-studio/data"
     networks:
       - bpo-network
     healthcheck:
@@ -417,7 +417,7 @@ services:
     ports:
       - "${PROMETHEUS_PORT:-9090}:9090"
     volumes:
-      - "D:\\BPO-Project\\ops\\prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "./ops/prometheus.yml:/etc/prometheus/prometheus.yml"
       - prometheus_data:/prometheus
     networks:
       - bpo-network
@@ -446,7 +446,7 @@ services:
       - "${GRAFANA_PORT:-3000}:3000"
     volumes:
       - grafana_data:/var/lib/grafana
-      - "D:\\BPO-Project\\ops\\grafana-dashboards:/etc/grafana/provisioning/dashboards"
+      - "./ops/grafana-dashboards:/etc/grafana/provisioning/dashboards"
     networks:
       - bpo-network
     depends_on:

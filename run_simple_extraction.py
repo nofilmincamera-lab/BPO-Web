@@ -1,6 +1,20 @@
 #!/usr/bin/env python3
 """
 Simple extraction without Prefect dependencies
+
+⚠️ NOTE: This is a SIMPLIFIED extraction pipeline using basic regex patterns.
+For PRODUCTION extraction with full heuristics-first multi-tier pipeline:
+  - Use: python queue_extraction_prefect.py (orchestrated)
+  - Or: run_direct_extraction.py (direct, uses proper extraction_flow)
+
+This script:
+  ✓ Uses canonical dataset (data/processed/preprocessed.jsonl)
+  ✓ Direct database insertion (no Prefect overhead)
+  ⚠️ Basic regex extraction (NOT full heuristics pipeline)
+  ⚠️ Simplified confidence scoring
+
+Good for: Testing, development, minimal dependency environments
+Not for: Production extraction requiring full heuristics accuracy
 """
 import asyncio
 import time
@@ -436,8 +450,9 @@ def _batched_documents_simple(source_path, start_offset=0, batch_size=100):
 async def main():
     # Parse command line arguments
     parser = argparse.ArgumentParser(description='Simple extraction without Prefect dependencies')
-    parser.add_argument('--source', default='/data/preprocessed/test_5000_rich.jsonl',
-                       help='Path to JSONL dataset file (default: /data/preprocessed/test_5000_rich.jsonl)')
+    # CANONICAL PRODUCTION DATASET - preprocessed from scripts/preprocess.py
+    parser.add_argument('--source', default='/data/processed/preprocessed.jsonl',
+                       help='Path to JSONL dataset file (default: /data/processed/preprocessed.jsonl - CANONICAL PRODUCTION DATASET)')
     parser.add_argument('--batch-size', type=int, default=100,
                        help='Batch size for processing (default: 100)')
     parser.add_argument('--start-offset', type=int, default=0,

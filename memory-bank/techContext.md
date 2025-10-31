@@ -4,7 +4,7 @@
 
 **Python**: 3.11+ (runtime tested: 3.13)
 **Database**: PostgreSQL 16 with pgvector
-**Orchestration**: Prefect 3.1.9 (Docker work pool) or direct GPU runner
+**Orchestration**: Prefect 3.1.9 (Docker work pool) or direct execution
 **API**: FastAPI with asyncpg
 **NLP**: spaCy (GPU-enabled via torch), sentence-transformers
 **LLM**: Ollama (optional, GPU-enabled)
@@ -58,6 +58,6 @@ Start-Process "http://localhost:4200"
   - Env (Cloud): `PREFECT_API_URL`, `PREFECT_API_KEY`
   - Env (Self-hosted): `PREFECT_API_URL` (e.g., http://localhost:4200/api)
 
-- Docker MCP (planned), Sequential Thinking MCP (planned), Context7 MCP (planned)
+- Docker MCP (planned), Sequential Thinking MCP (planned)
   - Register entries in `.cursor/mcp.json` when endpoints/packages are finalized
 

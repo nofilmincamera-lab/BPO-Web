@@ -16,8 +16,9 @@
 **Entity set**: COMPANY, PERSON, DATE, TECHNOLOGY, MONEY, PERCENT, PRODUCT/COMPUTING_PRODUCT, BUSINESS_TITLE, LOCATION, TIME_RANGE, ORL, TEMPORAL, SKILL.
 
 **Flow Orchestration**:
-- Prefect for durable execution and monitoring
-- or Direct GPU runner `run_gpu_extraction.py` for simplicity/speed
+- Prefect for durable execution and monitoring (`queue_extraction_prefect.py`)
+- or Direct execution without Prefect (`run_direct_extraction.py`)
+- Both use proper heuristics-first multi-tier extraction pipeline
 - Chunking and progress reporting regardless of orchestration
 - Retry policies per task with caching
 
@@ -61,8 +62,4 @@
 - Sequential Thinking MCP (planned)
   - Purpose: structured multi-step reasoning tools
   - Access: package/entrypoint to be confirmed or hosted endpoint
-
-- Context7 MCP (planned)
-  - Purpose: enterprise knowledge/context retrieval as a tool
-  - Access: hosted `httpUrl` endpoint when provisioned
 

@@ -338,7 +338,9 @@ async def main():
     failed_documents = []
     
     try:
-        source_path = "/data/preprocessed/test_5000_rich.jsonl"
+        # CANONICAL PRODUCTION DATASET - preprocessed from scripts/preprocess.py
+        # Change to test_5000_rich.jsonl for testing only
+        source_path = "/data/processed/preprocessed.jsonl"
         heuristics_version = "2.0.0"
         batch_size = 100
         start_offset = 0

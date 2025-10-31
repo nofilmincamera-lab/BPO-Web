@@ -8,7 +8,8 @@ from prefect.deployments import run_deployment
 
 async def main():
     """Queue extraction workflow."""
-    source_path = "data/preprocessed/preprocessed_full.jsonl"
+    # CANONICAL PRODUCTION DATASET - preprocessed from scripts/preprocess.py
+    source_path = "data/processed/preprocessed.jsonl"
     heuristics_version = "2.0.0"
     batch_size = 100
     

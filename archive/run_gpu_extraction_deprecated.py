@@ -1,7 +1,19 @@
 #!/usr/bin/env python3
 """
-Direct GPU extraction without Prefect
-Processes the full 45K document dataset with GPU acceleration
+⚠️ DEPRECATED: This script bypasses the established heuristics-first extraction pipeline.
+
+USE INSTEAD:
+  - run_simple_extraction.py (uses proper multi-tier heuristics → regex → spaCy)
+  - queue_extraction_prefect.py (orchestrated with Prefect)
+
+ISSUES WITH THIS SCRIPT:
+  1. Loads entire corpus into memory (causes OOM on large datasets)
+  2. Uses vanilla spaCy extraction only (ignores heuristics)
+  3. Applies synthetic confidence scores (0.8 default) instead of tier-based scoring
+  4. Stores shallow entity records without proper source attribution
+  5. Contradicts the established pipeline design in src/flows/extraction_flow.py
+
+This script is preserved for reference but should NOT be used for production extraction.
 """
 import asyncio
 import os
@@ -253,13 +265,40 @@ class GPUExtractionPipeline:
 
 async def main():
     """Main extraction function"""
-    print("BPO GPU Extraction Pipeline")
-    print("==============================")
+    print("=" * 80)
+    print("⚠️  DEPRECATED SCRIPT - DO NOT USE FOR PRODUCTION")
+    print("=" * 80)
+    print("")
+    print("This script bypasses the established heuristics-first extraction pipeline!")
+    print("")
+    print("USE THESE INSTEAD:")
+    print("  1. run_simple_extraction.py --source /data/processed/preprocessed.jsonl")
+    print("     (Uses proper multi-tier: heuristics → regex → spaCy)")
+    print("")
+    print("  2. python queue_extraction_prefect.py")
+    print("     (Orchestrated with Prefect, includes retry/caching)")
+    print("")
+    print("PROBLEMS WITH THIS SCRIPT:")
+    print("  • Loads entire corpus into memory (OOM risk)")
+    print("  • Vanilla spaCy only (ignores heuristics data)")
+    print("  • Synthetic confidence (0.8) vs proper tier-based scoring")
+    print("  • Shallow entity records (missing source attribution)")
+    print("=" * 80)
+    print("")
+    
+    response = input("Do you still want to run this deprecated script? (yes/no): ")
+    if response.lower() not in ['yes', 'y']:
+        print("Aborted. Please use run_simple_extraction.py or queue_extraction_prefect.py")
+        return
+    
+    print("\nBPO GPU Extraction Pipeline (DEPRECATED)")
+    print("========================================")
     print("Bypassing Prefect for direct GPU processing")
     print()
     
-    # Configuration
-    source_path = "data/preprocessed/dataset_45000_converted.jsonl"
+    # Configuration - CANONICAL PRODUCTION DATASET
+    # Use preprocessed JSONL from scripts/preprocess.py output
+    source_path = "data/processed/preprocessed.jsonl"
     batch_size = 100
     
     # Check if source file exists

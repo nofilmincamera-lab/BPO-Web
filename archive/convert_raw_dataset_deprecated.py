@@ -5,8 +5,26 @@ import uuid
 from datetime import datetime
 
 def convert_dataset():
+    print("=" * 60)
+    print("DEPRECATED: This script is deprecated!")
+    print("=" * 60)
+    print("")
+    print("Use scripts/preprocess.py instead for proper preprocessing:")
+    print("  python scripts/preprocess.py \\")
+    print("    --input 'data/raw/dataset_webscrape-bpo_2025-10-13_10-15-17-310 (1).json' \\")
+    print("    --output 'data/processed/preprocessed.jsonl'")
+    print("")
+    print("The scripts/preprocess.py includes:")
+    print("  - Streaming JSON parser (handles large files)")
+    print("  - Deduplication via Bloom filters")
+    print("  - URL canonicalization")
+    print("  - Proper text extraction")
+    print("=" * 60)
+    return
+    
+    # OLD BROKEN CODE BELOW - DO NOT USE
     print("Loading raw dataset...")
-    with open('D:/BPO-Project/data/raw/dataset_webscrape-bpo_2025-10-13_10-15-17-310 (1).json', 'r', encoding='utf-8') as f:
+    with open('data/raw/dataset_webscrape-bpo_2025-10-13_10-15-17-310 (1).json', 'r', encoding='utf-8') as f:
         raw_data = json.load(f)
     
     print(f"Converting {len(raw_data):,} documents...")
@@ -40,7 +58,7 @@ def convert_dataset():
         converted_docs.append(converted_doc)
     
     # Save as JSONL
-    output_file = 'D:/BPO-Project/data/preprocessed/dataset_45000_converted.jsonl'
+    output_file = 'data/processed/preprocessed.jsonl'
     print(f"Saving to {output_file}...")
     
     with open(output_file, 'w', encoding='utf-8') as f:

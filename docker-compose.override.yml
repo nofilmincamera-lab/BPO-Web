@@ -24,9 +24,9 @@ services:
       SSRF_PROTECTION_ENABLED: "false"
     volumes:
       - label_studio_data:/label-studio/data
-      - "D:\\BPO-Project/output:/data/output"
-      - "D:\\BPO-Project/label_config.xml:/label_config.xml:ro"
-      - "D:\\BPO-Project/label_config_ocr.xml:/label_config_ocr.xml:ro"
+      - "./output:/data/output"
+      - "./label_config.xml:/label_config.xml:ro"
+      - "./label_config_ocr.xml:/label_config_ocr.xml:ro"
 
   ls-preproc:
     image: python:3.11-slim
@@ -42,9 +42,9 @@ services:
     environment:
       PYTHONPATH: /app
     volumes:
-      - "D:\\BPO-Project:/app:ro"
-      - "D:\\BPO-Project/input:/data/input:ro"
-      - "D:\\BPO-Project/output:/data/output"
+      - ".:/app:ro"
+      - "./input:/data/input:ro"
+      - "./output:/data/output"
     entrypoint: >
       sh -lc "
         cd /app &&
@@ -66,9 +66,9 @@ services:
     environment:
       PYTHONPATH: /app
     volumes:
-      - "D:\\BPO-Project:/app:ro"
-      - "D:\\BPO-Project/input:/data/input:ro"
-      - "D:\\BPO-Project/output:/data/output"
+      - ".:/app:ro"
+      - "./input:/data/input:ro"
+      - "./output:/data/output"
     entrypoint: >
       sh -lc "
         apt-get update &&

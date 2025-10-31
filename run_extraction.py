@@ -22,8 +22,10 @@ async def main():
     start_time = time.time()
     
     try:
+        # CANONICAL PRODUCTION DATASET - preprocessed from scripts/preprocess.py
+        # Change to test_5000_rich.jsonl for testing only
         result = await extract_documents_flow(
-            source_path="/data/preprocessed/test_5000_rich.jsonl",
+            source_path="/data/processed/preprocessed.jsonl",
             heuristics_version="2.0.0",
             batch_size=100,
             start_offset=0

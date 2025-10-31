@@ -2,6 +2,14 @@
 
 ## What Works
 
+### ✅ Production Extraction Pipeline (Completed 2025-10-31)
+- **Canonical dataset path**: `data/processed/preprocessed.jsonl`
+- **Production scripts**:
+  - `queue_extraction_prefect.py` - Orchestrated with Prefect (recommended)
+  - `run_direct_extraction.py` - Direct execution without Prefect
+- Both use proper heuristics-first multi-tier extraction pipeline
+- **Preprocessing**: `scripts/preprocess.py` with streaming, deduplication, canonicalization
+
 ### ✅ Prefect Migration (Completed 2025-10-25)
 - Removed all Temporal services from docker-compose.yml
 - Added Prefect stack (prefect-db, prefect-redis, prefect-server, prefect-agent)
@@ -38,26 +46,34 @@
 ## What's Left to Build
 
 ### 🔄 Execution & Validation
-- Run direct GPU extraction: `python run_gpu_extraction.py`
-- (Optional) Run via Prefect UI when monitoring is desired
-- Spin up Label Studio for human validation and curation
+- Run production extraction via Prefect: `python queue_extraction_prefect.py`
+- Or direct execution: `python run_direct_extraction.py`
+- Monitor extraction at http://localhost:4200 (Prefect UI)
+- Validate results in Label Studio at http://localhost:8082
 
 ### 📋 Future Enhancements
-- Archive old Temporal code to archive/temporal/
 - Add more comprehensive test coverage
 - Implement automated validation workflows
 - Add monitoring and alerting
 - Performance optimization for large datasets
+- Automated exports from Label Studio to training datasets
+
+### 🗄️ Deprecated/Archived
+- `archive/run_gpu_extraction_deprecated.py` - Bypassed heuristics pipeline
+- `archive/convert_raw_dataset_deprecated.py` - Insufficient preprocessing
+- `archive/context7_temporal_article.txt` - Temporal reference (migrated to Prefect)
+- See `archive/README_DEPRECATED_SCRIPTS.md` for details
 
 ## Current Status
 
-**Infrastructure Status (2025-10-30)**:
-- ✅ Prefect server healthy; UI accessible at http://localhost:4200 (cosmetic 0.0.0.0 banner)
+**Infrastructure Status (2025-10-31)**:
+- ✅ Prefect server healthy; UI accessible at http://localhost:4200
 - ✅ API service healthy
 - ✅ GPU access confirmed (RTX 3060)
-- ⚠️ DB auth error in direct runner (password for postgres); results not persisted
-- ✅ Label Studio running at http://localhost:8082; MCP wired into Cursor
-- 🔜 Prefect MCP to be added to Cursor for monitoring/inspection
+- ✅ Label Studio running at http://localhost:8082; MCP integrated
+- ✅ Prefect MCP configured for monitoring
+- ✅ Canonical dataset paths established across all scripts
+- ✅ Deprecated scripts archived with documentation
 
 ## Known Issues
 
@@ -67,11 +83,13 @@
 
 ## Next Steps
 
-1. Add Prefect MCP to `.cursor/mcp.json`; verify connection to local server
-2. Fix DB auth for direct runner writes; backfill entities/relationships
-3. Decide steady-state orchestration path (Prefect vs direct) per environment
-4. Automate exports from Label Studio to training/validation datasets
-5. Register Docker, Sequential Thinking, Context7 MCP entries when endpoints/packages are finalized
+1. Run production extraction on full 45K document dataset
+   - Preprocess: `python scripts/preprocess.py --input <raw> --output data/processed/preprocessed.jsonl`
+   - Extract: `python queue_extraction_prefect.py` or `python run_direct_extraction.py`
+2. Validate extraction results in Label Studio
+3. Automate exports from Label Studio to training/validation datasets
+4. Implement automated overnight validation workflows
+5. Configure monitoring and alerting for production runs
 
 
 

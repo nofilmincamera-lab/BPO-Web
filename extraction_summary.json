@@ -1,0 +1,10 @@
+{
+  "total_processed": 45403,
+  "total_entities": 3263597,
+  "total_relationships": 334062579,
+  "failed_documents": 0,
+  "success_rate": 1.0,
+  "processing_time": 8542.960824251175,
+  "processing_rate": 5.314667939376832,
+  "gpu_enabled": true
+}

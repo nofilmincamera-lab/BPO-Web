@@ -1,0 +1,456 @@
+# BPO Intelligence Pipeline - Docker Compose Configuration
+# Updated with pinned images, profiles, Windows paths, and proper service configuration
+version: '3.9'
+
+# ============================================================================
+# SECRETS
+# ============================================================================
+secrets:
+  postgres_password:
+    file: ./ops/secrets/postgres_password.txt
+
+# ============================================================================
+# NETWORKS
+# ============================================================================
+networks:
+  # Main BPO network for all services
+  bpo-main-network:
+    external: true
+  
+  # GPU-enabled network for ML/AI containers
+  bpo-gpu-network:
+    external: true
+  
+  # Database network for data services
+  bpo-db-network:
+    external: true
+  
+  # Monitoring network for observability
+  bpo-monitoring-network:
+    external: true
+  
+  # External network for public-facing services
+  bpo-external-network:
+    external: true
+  
+  # Legacy network (for backward compatibility)
+  bpo-network:
+    driver: bridge
+
+# ============================================================================
+# VOLUMES
+# ============================================================================
+volumes:
+  postgres_data:
+  prefect-db-data:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+
+# ============================================================================
+# SERVICES
+# ============================================================================
+services:
+  # ==========================================================================
+  # DATABASE (PostgreSQL with pgvector)
+  # ==========================================================================
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: bpo-postgres
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_DB: ${DB_NAME:-bpo_intel}
+      TZ: ${TZ:-UTC}
+      PGTZ: ${TZ:-UTC}
+    secrets:
+      - postgres_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - "D:\\BPO-Project\\ops\\init-scripts:/docker-entrypoint-initdb.d"
+    networks:
+      - bpo-main-network
+      - bpo-db-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    profiles:
+      - base
+    command:
+      - "postgres"
+      - "-c"
+      - "shared_preload_libraries=vector"
+      - "-c"
+      - "max_connections=200"
+      - "-c"
+      - "shared_buffers=256MB"
+      - "-c"
+      - "work_mem=16MB"
+      - "-c"
+      - "maintenance_work_mem=128MB"
+      - "-c"
+      - "autovacuum=on"
+
+  # ==========================================================================
+  # PGBOUNCER (Connection Pooling)
+  # ==========================================================================
+  pgbouncer:
+    image: pgbouncer/pgbouncer:latest
+    container_name: bpo-pgbouncer
+    environment:
+      DATABASES: "${DB_NAME:-bpo_intel}=host=postgres port=5432 dbname=${DB_NAME:-bpo_intel} user=${DB_USER:-postgres} password_file=/run/secrets/postgres_password"
+      POOL_MODE: transaction
+      MAX_CLIENT_CONN: 1000
+      DEFAULT_POOL_SIZE: 25
+      MIN_POOL_SIZE: 10
+      RESERVE_POOL_SIZE: 5
+      MAX_DB_CONNECTIONS: 50
+      TZ: ${TZ:-UTC}
+    secrets:
+      - postgres_password
+    ports:
+      - "6432:5432"
+    volumes:
+      - "D:\\BPO-Project\\docker\\entrypoints\\run-pgbouncer.sh:/run-pgbouncer.sh:ro"
+    entrypoint: ["/bin/sh", "/run-pgbouncer.sh"]
+    networks:
+      - bpo-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "sh", "-c", "netstat -ln | grep ':6432' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    profiles:
+      - base
+      - dbpool
+
+  # ==========================================================================
+  # PREFECT DATABASE (PostgreSQL)
+  # ==========================================================================
+  prefect-db:
+    image: postgres:15
+    container_name: bpo-prefect-db
+    environment:
+      POSTGRES_USER: prefect
+      POSTGRES_PASSWORD: prefect
+      POSTGRES_DB: prefect
+      TZ: ${TZ:-UTC}
+    volumes:
+      - prefect-db-data:/var/lib/postgresql/data
+    networks:
+      - bpo-main-network
+      - bpo-db-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+      interval: 2s
+      timeout: 5s
+      retries: 15
+    restart: unless-stopped
+    profiles:
+      - base
+
+  # ==========================================================================
+  # PREFECT CACHE (Redis)
+  # ==========================================================================
+  prefect-redis:
+    image: redis:7
+    container_name: bpo-prefect-redis
+    volumes:
+      - redis_data:/data
+    networks:
+      - bpo-main-network
+    restart: unless-stopped
+    profiles:
+      - base
+
+  # ==========================================================================
+  # PREFECT DATABASE MIGRATION
+  # ==========================================================================
+  prefect-migrate:
+    image: prefecthq/prefect:3-python3.11
+    container_name: bpo-prefect-migrate
+    depends_on:
+      prefect-db:
+        condition: service_healthy
+    command: prefect server database upgrade -y
+    environment:
+      PREFECT_API_DATABASE_CONNECTION_URL: postgresql+asyncpg://prefect:prefect@prefect-db:5432/prefect
+    networks:
+      - bpo-main-network
+      - bpo-db-network
+    profiles:
+      - base
+    restart: "no"  # One-time run, don't restart after completion
+
+  # ==========================================================================
+  # PREFECT SERVER (API + UI)
+  # ==========================================================================
+  prefect-server:
+    image: prefecthq/prefect:3-python3.11
+    container_name: bpo-prefect-server
+    depends_on:
+      prefect-migrate:
+        condition: service_completed_successfully
+      prefect-db:
+        condition: service_healthy
+      prefect-redis:
+        condition: service_started
+    command: prefect server start --host 0.0.0.0 --port 4200
+    environment:
+      PREFECT_API_DATABASE_CONNECTION_URL: postgresql+asyncpg://prefect:prefect@prefect-db:5432/prefect
+      PREFECT_API_DATABASE_MIGRATE_ON_START: "false"
+      PREFECT_REDIS_MESSAGING_HOST: prefect-redis
+      PREFECT_REDIS_MESSAGING_PORT: "6379"
+      PREFECT_SERVER_API_HOST: 0.0.0.0
+      PREFECT_SERVER_API_URL: http://localhost:4200/api
+      PREFECT_UI_URL: http://localhost:4200
+      PREFECT_SERVER_API_HOSTNAME: localhost
+      TZ: ${TZ:-UTC}
+    ports:
+      - "4200:4200"
+    networks:
+      - bpo-main-network
+      - bpo-external-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:4200/api/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+    profiles:
+      - base
+
+  # ==========================================================================
+  # PREFECT AGENT (uses existing worker image)
+  # ==========================================================================
+  prefect-agent:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.worker
+    image: bpo-worker:latest
+    container_name: bpo-prefect-agent
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - PREFECT_API_URL=http://prefect-server:4200/api
+      - DB_HOST=${DB_HOST:-postgres}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_NAME=${DB_NAME:-bpo_intel}
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD_FILE=/run/secrets/postgres_password
+      - HEURISTICS_DIR=${HEURISTICS_DIR:-/heuristics}
+      - DATA_DIR=${DATA_DIR:-/data}
+      - HEURISTICS_VERSION=${HEURISTICS_VERSION:-2.0.0}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
+      - TZ=${TZ:-UTC}
+    secrets:
+      - postgres_password
+    volumes:
+      - "D:\\BPO-Project\\data:/data"
+      - "D:\\BPO-Project\\Heuristics:/heuristics"
+      - "D:\\BPO-Project\\src:/app/src"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      prefect-server:
+        condition: service_healthy
+    command: prefect worker start --pool default-pool --type docker
+    restart: unless-stopped
+    profiles:
+      - base
+    networks:
+      - bpo-main-network
+      - bpo-gpu-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  # ==========================================================================
+  # API SERVICE (FastAPI)
+  # ==========================================================================
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    image: bpo-api:latest
+    container_name: bpo-api
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - DB_HOST=${DB_HOST:-postgres}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_NAME=${DB_NAME:-bpo_intel}
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD_FILE=/run/secrets/postgres_password
+      - PREFECT_API_URL=http://prefect-server:4200/api
+      - PREFECT_WORK_QUEUE=default
+      - API_HOST=${API_HOST:-0.0.0.0}
+      - API_PORT=${API_PORT:-8000}
+      - TZ=${TZ:-UTC}
+    secrets:
+      - postgres_password
+    ports:
+      - "8000:8000"
+    volumes:
+      - "D:\\BPO-Project\\data:/data"
+      - "D:\\BPO-Project\\Heuristics:/heuristics"
+      - "D:\\BPO-Project\\src:/app/src"
+    networks:
+      - bpo-main-network
+      - bpo-gpu-network
+      - bpo-external-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      prefect-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+    profiles:
+      - base
+
+
+  # ==========================================================================
+  # OLLAMA (LLM Fallback - Optional)
+  # ==========================================================================
+  ollama:
+    image: ollama/ollama:0.4.0
+    container_name: bpo-ollama
+    environment:
+      - TZ=${TZ:-UTC}
+      - OLLAMA_HOST=0.0.0.0
+    ports:
+      - "11434:11434"
+    volumes:
+      - "D:\\BPO-Project\\data\\ollama:/root/.ollama"
+    networks:
+      - bpo-network
+    restart: unless-stopped
+    profiles:
+      - llm
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  # ==========================================================================
+  # LABEL STUDIO (Human QC - Optional)
+  # ==========================================================================
+  label-studio:
+    image: heartexlabs/label-studio:1.13.1
+    container_name: bpo-label-studio
+    environment:
+      - LABEL_STUDIO_HOST=${LABEL_STUDIO_HOST:-http://localhost:8082}
+      - LABEL_STUDIO_USERNAME=admin@bpo-intel.local
+      - LABEL_STUDIO_PASSWORD=admin123
+      - TZ=${TZ:-UTC}
+    ports:
+      - "8082:8080"
+    volumes:
+      - "D:\\BPO-Project\\data\\label-studio:/label-studio/data"
+    networks:
+      - bpo-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    profiles:
+      - qc
+
+  # ==========================================================================
+  # REDIS (Optional Cache)
+  # ==========================================================================
+  redis:
+    image: redis:7.4-alpine
+    container_name: bpo-redis
+    environment:
+      - TZ=${TZ:-UTC}
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - bpo-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+    profiles:
+      - cache
+    command: redis-server --maxmemory 2gb --maxmemory-policy allkeys-lru
+
+  # ==========================================================================
+  # PROMETHEUS (Metrics - Optional)
+  # ==========================================================================
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: bpo-prometheus
+    environment:
+      - TZ=${TZ:-UTC}
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - "D:\\BPO-Project\\ops\\prometheus.yml:/etc/prometheus/prometheus.yml"
+      - prometheus_data:/prometheus
+    networks:
+      - bpo-network
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+    restart: unless-stopped
+    profiles:
+      - metrics
+
+  # ==========================================================================
+  # GRAFANA (Monitoring - Optional)
+  # ==========================================================================
+  grafana:
+    image: grafana/grafana:11.3.0
+    container_name: bpo-grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD_FILE=/run/secrets/postgres_password
+      - GF_SERVER_ROOT_URL=http://localhost:3000
+      - TZ=${TZ:-UTC}
+    secrets:
+      - postgres_password
+    ports:
+      - "${GRAFANA_PORT:-3000}:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - "D:\\BPO-Project\\ops\\grafana-dashboards:/etc/grafana/provisioning/dashboards"
+    networks:
+      - bpo-network
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    profiles:
+      - metrics

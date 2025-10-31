@@ -1,0 +1,83 @@
+# docker-compose.override.yml
+version: "3.9"
+
+services:
+  label-studio:
+    image: heartexlabs/label-studio:latest
+    container_name: label-studio
+    restart: unless-stopped
+    ports:
+      - "8082:8080"  # host:container
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+      - 1.1.1.1
+    dns_search:
+      - .
+    environment:
+      LABEL_STUDIO_LOCAL_FILES_SERVING_ENABLED: "true"
+      LABEL_STUDIO_LOCAL_FILES_DOCUMENT_ROOT: "/data"
+      LABEL_STUDIO_DISABLE_SIGNUP_WITHOUT_LINK: "false"
+      LOCAL_FILES_SERVING_ENABLED: "true"
+      LOCAL_FILES_DOCUMENT_ROOT: "/data"
+      LABEL_STUDIO_HOST: "http://localhost:8082"
+      SSRF_PROTECTION_ENABLED: "false"
+    volumes:
+      - label_studio_data:/label-studio/data
+      - "D:\\BPO-Project/output:/data/output"
+      - "D:\\BPO-Project/label_config.xml:/label_config.xml:ro"
+      - "D:\\BPO-Project/label_config_ocr.xml:/label_config_ocr.xml:ro"
+
+  ls-preproc:
+    image: python:3.11-slim
+    container_name: ls-preproc
+    restart: on-failure
+    working_dir: /app
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+      - 1.1.1.1
+    dns_search:
+      - .
+    environment:
+      PYTHONPATH: /app
+    volumes:
+      - "D:\\BPO-Project:/app:ro"
+      - "D:\\BPO-Project/input:/data/input:ro"
+      - "D:\\BPO-Project/output:/data/output"
+    entrypoint: >
+      sh -lc "
+        cd /app &&
+        pip install --no-cache-dir -r /app/requirements.txt &&
+        python /app/preprocess.py /data/input /data/output
+      "
+
+  ls-ocr-preproc:
+    image: python:3.11-slim
+    container_name: ls-ocr-preproc
+    restart: on-failure
+    working_dir: /app
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+      - 1.1.1.1
+    dns_search:
+      - .
+    environment:
+      PYTHONPATH: /app
+    volumes:
+      - "D:\\BPO-Project:/app:ro"
+      - "D:\\BPO-Project/input:/data/input:ro"
+      - "D:\\BPO-Project/output:/data/output"
+    entrypoint: >
+      sh -lc "
+        apt-get update &&
+        apt-get install -y --no-install-recommends tesseract-ocr &&
+        rm -rf /var/lib/apt/lists/* &&
+        cd /app &&
+        pip install --no-cache-dir -r /app/requirements.txt &&
+        python /app/preprocess_ocr.py /data/input/docs /data/output
+      "
+
+volumes:
+  label_studio_data:

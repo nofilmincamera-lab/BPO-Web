@@ -1,0 +1,149 @@
+<View>
+  <Header value="Document Information"/>
+  <Text name="doc_info" value="$doc_url"/>
+  
+  <Header value="Full Document Text"/>
+  <Text name="text" value="$text" granularity="word" highlightColor="#ff0000"/>
+  
+  <Header value="Entity Being Validated"/>
+  <View style="box-shadow: 2px 2px 5px #999; padding: 20px; margin-top: 2em; border-radius: 5px;">
+    <Text name="entity_text" value="$entity_text"/>
+    <Text name="entity_label" value="Label: $entity_label"/>
+    <Text name="entity_position" value="Position: $start_pos - $end_pos"/>
+    <Text name="confidence" value="Confidence: $confidence"/>
+  </View>
+  
+  <Header value="1. Is this entity correctly identified?"/>
+  <Choices name="entity_correct" toName="text" choice="single" required="true">
+    <Choice value="Correct" hint="Entity text and boundaries are right"/>
+    <Choice value="Wrong Label" hint="Entity exists but wrong type"/>
+    <Choice value="Wrong Boundary" hint="Entity type correct but boundaries off"/>
+    <Choice value="False Positive" hint="Not an entity at all"/>
+    <Choice value="Missed Context" hint="Should include more/less text"/>
+  </Choices>
+  
+  <Header value="2. If Wrong Label, what should it be?"/>
+  <Choices name="correct_label" toName="text" choice="single" showIf="entity_correct=Wrong Label" required="false">
+    <Choice value="ORG" hint="Organizations, companies, agencies"/>
+    <Choice value="PERSON" hint="People, executives, contacts"/>
+    <Choice value="LOC" hint="Countries, cities, regions"/>
+    <Choice value="PRODUCT" hint="Products, services, offerings"/>
+    <Choice value="TECHNOLOGY" hint="Tech terms, platforms, tools"/>
+    <Choice value="INDUSTRY" hint="Industry sectors, verticals"/>
+    <Choice value="CATEGORY" hint="Service categories, domains"/>
+    <Choice value="DATE" hint="Dates, quarters, timeframes"/>
+    <Choice value="MONEY" hint="Currency amounts, revenue"/>
+    <Choice value="PERCENT" hint="Percentages, metrics"/>
+  </Choices>
+  
+  <Header value="3. Content Type Classification"/>
+  <Text name="current_content_type" value="Current: $content_type"/>
+  <Choices name="content_type_correct" toName="text" choice="single" required="true">
+    <Choice value="Correct"/>
+    <Choice value="Wrong - Should be different"/>
+  </Choices>
+  
+  <Header value="4. If Wrong, what should the content type be?"/>
+  <Choices name="correct_content_type" toName="text" choice="single" showIf="content_type_correct=Wrong - Should be different" required="false">
+    <Choice value="Case Study" hint="Client success story, problem-solution-results"/>
+    <Choice value="Blog Post" hint="Informal, opinion, insights from /blog/"/>
+    <Choice value="News Article" hint="Timely news, announcements, industry updates"/>
+    <Choice value="Press Release" hint="Official company announcement"/>
+    <Choice value="White Paper" hint="Technical, in-depth analysis"/>
+    <Choice value="Research" hint="Study, survey, data analysis"/>
+    <Choice value="Report" hint="Formal business report"/>
+    <Choice value="Interview" hint="Q&amp;A format"/>
+    <Choice value="Opinion" hint="Editorial, perspective piece"/>
+    <Choice value="Analysis" hint="Expert analysis, breakdown"/>
+    <Choice value="Article" hint="General informational content"/>
+    <Choice value="Other"/>
+  </Choices>
+  
+  <Header value="5. Client Industry (if identifiable)"/>
+  <Choices name="industry" toName="text" choice="single" required="false">
+    <Choice value="Financial Services &amp; Insurance"/>
+    <Choice value="Healthcare &amp; Life Sciences"/>
+    <Choice value="Public Sector &amp; Education"/>
+    <Choice value="Industrial, Energy &amp; Manufacturing"/>
+    <Choice value="Retail, Consumer &amp; E-Commerce"/>
+    <Choice value="Travel, Transportation &amp; Logistics"/>
+    <Choice value="Technology, Media &amp; Communications"/>
+    <Choice value="Business &amp; Professional Services"/>
+    <Choice value="Agriculture, Environment &amp; ESG"/>
+    <Choice value="Cross-Sector Emerging Industries"/>
+    <Choice value="Not Identifiable"/>
+  </Choices>
+  
+  <Header value="6. Services (if mentioned - select all that apply)"/>
+  <Choices name="services" toName="text" choice="multiple" required="false">
+    <Choice value="Customer Experience (CX) Operations"/>
+    <Choice value="Collections, Credit &amp; Revenue Recovery"/>
+    <Choice value="Finance &amp; Accounting (F&amp;A)"/>
+    <Choice value="Human Resources (HRO)"/>
+    <Choice value="Risk, Compliance &amp; Trust"/>
+    <Choice value="AI-Enabled CX &amp; Automation"/>
+    <Choice value="Data, Analytics &amp; Insights"/>
+    <Choice value="Back-Office &amp; Process Management"/>
+    <Choice value="Technology Services"/>
+    <Choice value="CX Transformation &amp; Consulting"/>
+    <Choice value="Supply Chain &amp; Logistics Management"/>
+  </Choices>
+  
+  <Header value="7. Technologies (if mentioned - select all that apply)"/>
+  <Choices name="technologies" toName="text" choice="multiple" required="false">
+    <Choice value="Agentic AI"/>
+    <Choice value="Generative AI"/>
+    <Choice value="Conversational AI"/>
+    <Choice value="Predictive AI &amp; ML"/>
+    <Choice value="Analytics &amp; BI"/>
+    <Choice value="RPA &amp; Automation"/>
+    <Choice value="CRM Platforms"/>
+    <Choice value="Contact Center Platforms"/>
+    <Choice value="Cloud Infrastructure"/>
+    <Choice value="Knowledge Management"/>
+  </Choices>
+  
+  <Header value="8. Channels (if applicable)"/>
+  <Choices name="channels" toName="text" choice="multiple" required="false">
+    <Choice value="Voice / Phone"/>
+    <Choice value="Email"/>
+    <Choice value="Chat / Messaging"/>
+    <Choice value="Social Media"/>
+    <Choice value="Video / Co-Browse"/>
+    <Choice value="Self-Service / Portal"/>
+    <Choice value="Mobile App"/>
+    <Choice value="In-Person / Field"/>
+    <Choice value="SMS / Text"/>
+    <Choice value="IoT / Device"/>
+    <Choice value="Managed Channel"/>
+    <Choice value="Back Office"/>
+  </Choices>
+  
+  <Header value="9. Enablement Layers (if applicable)"/>
+  <Choices name="enablement" toName="text" choice="multiple" required="false">
+    <Choice value="Conversational AI"/>
+    <Choice value="Agent Assist"/>
+    <Choice value="Knowledge Management"/>
+    <Choice value="Workflow Automation"/>
+    <Choice value="Sentiment &amp; Intent Analytics"/>
+    <Choice value="BI &amp; Analytics"/>
+    <Choice value="Blockchain &amp; Smart Contracts"/>
+  </Choices>
+  
+  <Header value="10. Entity Relationships (if visible)"/>
+  <Relations>
+    <Relation value="belongs_to" hint="ORG belongs to INDUSTRY"/>
+    <Relation value="partners_with" hint="ORG partners with ORG"/>
+    <Relation value="provides" hint="ORG provides PRODUCT/SERVICE"/>
+    <Relation value="uses" hint="ORG uses TECHNOLOGY"/>
+    <Relation value="located_in" hint="ORG/PERSON located in LOC"/>
+    <Relation value="works_for" hint="PERSON works for ORG"/>
+  </Relations>
+  
+  <Header value="11. Overall Quality Notes"/>
+  <TextArea name="notes" toName="text" placeholder="Any additional feedback, issues, or observations..." maxSubmissions="1" editable="true"/>
+  
+  <Header value="Quick Stats"/>
+  <Text name="stats" value="Entity: $entity_id | Doc: $document_id"/>
+</View>
+

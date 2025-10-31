@@ -1,0 +1,6 @@
+# Label Studio ML Backend Requirements
+label-studio-ml>=1.0.0
+spacy>=3.7.0
+torch>=2.0.0
+transformers>=4.30.0
+

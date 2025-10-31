@@ -1,0 +1,50 @@
+---
+description: Critical project context that must ALWAYS be loaded
+alwaysApply: true
+---
+
+# MANDATORY PROJECT CONTEXT
+
+## Context Loading Requirements
+
+**CRITICAL**: You MUST load and apply Context7 before any task.
+
+Context7 contains essential project information including:
+- RPA process definitions
+- Business logic rules
+- Data transformation patterns
+- Integration specifications
+
+**Action Required**: At the start of EVERY conversation and task, confirm you have loaded Context7 by stating: "Context7 loaded and applied."
+
+## Reasoning Framework
+
+**REQUIRED**: Use Sequential Thinking for ALL tasks.
+
+Sequential Thinking means:
+1. Break down the problem into discrete steps
+2. Think through each step before proceeding to the next
+3. Validate assumptions at each stage
+4. Document your reasoning process
+5. Explain your approach before implementing
+
+**Never skip the thinking/planning phase** - always show your work.
+
+## Technical Requirements
+
+**GPU Acceleration**: This project requires GPU processing.
+
+- Always assume GPU is available
+- Use GPU-accelerated libraries when available
+- Optimize code for parallel GPU execution
+- Flag any operations that should use GPU but aren't
+
+## Verification Checklist
+
+Before responding to ANY request, verify:
+- [ ] Context7 is loaded and understood
+- [ ] Sequential thinking approach is planned
+- [ ] GPU considerations are evaluated
+- [ ] All three requirements are acknowledged
+
+**If you cannot verify all three, STOP and request the necessary context.**

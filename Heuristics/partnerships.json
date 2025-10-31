@@ -1,0 +1,587 @@
+{
+  "version": "1.0.0",
+  "updated_at": "2025-10-25T04:08:31.113617Z",
+  "count": 116,
+  "relationships": [
+    {
+      "relationship_type": "AI/ML Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Customer",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Cloud Infrastructure",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Analytics",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Strategic Partnership",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Customer Support Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Technology Integration",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Communication Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "E-commerce Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Other",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Technology Partner",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Collaboration Tools",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Enterprise Solutions",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "RPA",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "CRM Integration",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Conversational AI",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Security",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Networking Hardware",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Automation Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Payment Processing",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "HRM and Payroll",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Data Integration",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Consulting",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Marketing Automation",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Venture Capital",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Engineering",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Attribution",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "ERP/HCM",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Low-Code Development Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "SI",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "IT Management",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Global Systems Integrator",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Acquisition",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "System Integrator",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "IT Service Management",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Creative Software",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Financial Services",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Cloud Contact Center",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "CRM",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Channel Partner",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Industry Association",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "E-commerce",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Omnichannel Marketing",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Hardware",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Systems Integrator",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Technology Services",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Open Source Solutions",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Customer Support",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Social Media Integration",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Integration Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Cloud/Software",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Social Media Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Management Consulting",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Contact Center",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "AI/ML, Cloud",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "AI/Speech Technology",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Advertising Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Design and Innovation",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "OCR",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Cloud Communications",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "WFM/WFO",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Reseller",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Cybersecurity, AI/ML",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Workflow Automation",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Email Marketing",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Consulting Firm",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Digital Experience",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Development Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Customer Support Software",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "XR/Training",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Automation",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "API Integration",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Quality Management",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Telecom",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Cloud",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Banking",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Analytics/AI",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "E-Commerce",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Mobile Application Development Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Cloud/AI",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "IT Services",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Pharmaceutical",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Customer Data Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Technology",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Event Partnership",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Global System Integrator",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Enterprise Software",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Insurance Software",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Technology Vendor",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Analytics Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Data Analytics",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Telecommunications",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Digital Marketing",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Biometrics/Security",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Procurement",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Cloud, AI/ML, Contact Center",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Solution Partner",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Digital Engineering Services",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Content Management System",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Payment Solutions",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Contact Center, AI",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "AI CX Platform",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "AI/ML",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Project Management",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Government",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Recruitment Automation",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Data Management",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Newsroom System",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Finance and Accounting",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Content Management",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Luxury Goods",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Advertising",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Cloud, AI/ML",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Cloud Storage",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Semiconductors",
+      "description": "null",
+      "confidence": 0.9
+    },
+    {
+      "relationship_type": "Customer Service Platform",
+      "description": "null",
+      "confidence": 0.9
+    }
+  ]
+}

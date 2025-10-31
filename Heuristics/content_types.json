@@ -1,0 +1,481 @@
+{
+  "classification_version": "0.1.0",
+  "description": "Heuristic rules for web content classification across BPO vendor properties. Matches URL/title/body patterns and structural cues.",
+  "rules": [
+    {
+      "label": "Case Study",
+      "url_patterns": [
+        "/case-stud(y|ies)",
+        "/success-stor(y|ies)",
+        "/customer-stor(y|ies)",
+        "/clients?-stories"
+      ],
+      "url_weight": 15,
+      "title_patterns": [
+        "\\bcase study\\b",
+        "\\bsuccess story\\b",
+        "\\bcustomer story\\b",
+        "\\bhow\\s+\\w+\\s+(achieved|improved|reduced|increased)"
+      ],
+      "title_weight": 10,
+      "content_patterns": [
+        "\\b(the\\s+)?(challenge|problem|issue)\\b",
+        "\\b(the\\s+)?(solution|approach)\\b",
+        "\\b(the\\s+)?(results?|outcome|impact)\\b",
+        "\\d+%\\s+(increase|decrease|reduction|improvement|growth)",
+        "(improved|reduced|increased)\\s+by\\s+\\d+%",
+        "(said|stated|explained)\\s+\\w+,?\\s+(ceo|director|manager)"
+      ],
+      "pattern_weight": 2,
+      "min_patterns": 3,
+      "structure_signals": {
+        "has_metrics": true,
+        "has_sections": [
+          "challenge",
+          "solution",
+          "result"
+        ],
+        "has_quotes": true,
+        "min_length": 400
+      },
+      "min_score": 18
+    },
+    {
+      "label": "Blog / Article",
+      "url_patterns": [
+        "/blog/",
+        "/article/",
+        "/insights?/",
+        "/news/",
+        "/\\d{4}/\\d{2}/"
+      ],
+      "url_weight": 12,
+      "title_patterns": [
+        "\\bhow to\\b",
+        "\\b\\d+\\s+(ways|tips|reasons|steps|trends|things)\\b",
+        "\\bguide to\\b",
+        "\\bultimate guide\\b",
+        "\\bwhat is\\b",
+        "\\bwhy\\s+\\w+"
+      ],
+      "title_weight": 8,
+      "content_patterns": [
+        "\\bpublished\\s+(on|by)\\b",
+        "\\bauthor:",
+        "\\bby\\s+\\w+\\s+\\w+\\s*$",
+        "\\bminute read\\b",
+        "\\bshare this\\b",
+        "\\bin this (article|post)\\b",
+        "\\bread more:"
+      ],
+      "pattern_weight": 1.5,
+      "min_patterns": 2,
+      "structure_signals": {
+        "has_date": true,
+        "min_length": 300,
+        "max_length": 5000
+      },
+      "min_score": 12
+    },
+    {
+      "label": "Company Information",
+      "url_patterns": [
+        "/about",
+        "/company",
+        "/who-we-are",
+        "/our-story",
+        "/about-us"
+      ],
+      "url_weight": 15,
+      "title_patterns": [
+        "\\babout\\s+(us|our\\s+company)",
+        "\\bwho we are\\b",
+        "\\bour (story|mission|vision|values)",
+        "\\bcompany overview\\b",
+        "\\bmeet\\s+(the\\s+)?team\\b"
+      ],
+      "title_weight": 10,
+      "content_patterns": [
+        "\\b(founded|established)\\s+(in\\s+)?\\d{4}",
+        "\\bheadquarters?\\b",
+        "\\b\\d+[+\\s]+(employees|team members|staff)",
+        "\\bour (mission|vision|values?)\\b",
+        "\\bwe (believe|are committed|strive)\\b",
+        "\\bleadership team\\b"
+      ],
+      "pattern_weight": 2,
+      "min_patterns": 2,
+      "structure_signals": {
+        "has_founding_year": true,
+        "min_length": 200
+      },
+      "min_score": 14
+    },
+    {
+      "label": "Services / Offerings",
+      "url_patterns": [
+        "/services?/",
+        "/solutions?/",
+        "/offerings?/",
+        "/what-we-do",
+        "/capabilities"
+      ],
+      "url_weight": 12,
+      "title_patterns": [
+        "\\bservices?\\b",
+        "\\bsolutions?\\b",
+        "\\bofferings?\\b",
+        "\\bwhat we (do|offer)\\b",
+        "\\bcapabilities\\b"
+      ],
+      "title_weight": 8,
+      "content_patterns": [
+        "\\bwe (offer|provide|deliver)\\b",
+        "\\bour services include\\b",
+        "\\bcomprehensive\\b",
+        "\\bend-to-end\\b",
+        "\\btailored\\b",
+        "\\bcustomized\\b",
+        "\\bservice portfolio\\b"
+      ],
+      "pattern_weight": 1.5,
+      "min_patterns": 2,
+      "structure_signals": {
+        "has_list": true,
+        "min_length": 300
+      },
+      "min_score": 13
+    },
+    {
+      "label": "Product / Technology",
+      "url_patterns": [
+        "/product/",
+        "/platform/",
+        "/technology/",
+        "/features/",
+        "/software/"
+      ],
+      "url_weight": 12,
+      "title_patterns": [
+        "\\bproducts?\\b",
+        "\\bplatforms?\\b",
+        "\\btechnology\\b",
+        "\\bsoftware\\b",
+        "\\btools?\\b"
+      ],
+      "title_weight": 8,
+      "content_patterns": [
+        "\\bfeatures?\\b",
+        "\\bintegrations?\\b",
+        "\\bapi\\b",
+        "\\bdeployment\\b",
+        "\\bget started\\b",
+        "\\brequest (a )?demo\\b",
+        "\\bfree trial\\b",
+        "\\bsign up\\b"
+      ],
+      "pattern_weight": 1.5,
+      "min_patterns": 2,
+      "structure_signals": {
+        "has_cta": true,
+        "min_length": 200
+      },
+      "min_score": 13
+    },
+    {
+      "label": "Pricing",
+      "url_patterns": [
+        "/pricing",
+        "/plans?/",
+        "/packages",
+        "/cost"
+      ],
+      "url_weight": 15,
+      "title_patterns": [
+        "\\bpricing\\b",
+        "\\bplans?\\b",
+        "\\bpackages\\b",
+        "\\bcost\\b"
+      ],
+      "title_weight": 10,
+      "content_patterns": [
+        "\\$\\d+",
+        "\\bper month\\b",
+        "\\bper year\\b",
+        "\\bannual(ly)?\\b",
+        "\\bmonthly\\b",
+        "\\bfree plan\\b",
+        "\\bstarting at\\b",
+        "\\bpricing tier\\b"
+      ],
+      "pattern_weight": 2,
+      "min_patterns": 3,
+      "structure_signals": {
+        "has_pricing_table": true,
+        "has_currency": true
+      },
+      "min_score": 15
+    },
+    {
+      "label": "Documentation / Knowledge Base",
+      "url_patterns": [
+        "/docs?/",
+        "/documentation/",
+        "/kb/",
+        "/knowledge-?base/",
+        "/help/",
+        "/guide/",
+        "/api/"
+      ],
+      "url_weight": 15,
+      "title_patterns": [
+        "\\bdocumentation\\b",
+        "\\bknowledge base\\b",
+        "\\bhelp center\\b",
+        "\\buser guide\\b",
+        "\\bapi reference\\b"
+      ],
+      "title_weight": 10,
+      "content_patterns": [
+        "\\bstep \\d+",
+        "\\bprerequisites?\\b",
+        "\\brequirements?\\b",
+        "\\bconfiguration\\b",
+        "\\binstallation\\b",
+        "\\bsetup\\b",
+        "\\btable of contents\\b",
+        "\\bsee also\\b",
+        "\\bnote:",
+        "\\bwarning:"
+      ],
+      "pattern_weight": 2,
+      "min_patterns": 3,
+      "structure_signals": {
+        "has_code_blocks": true,
+        "has_steps": true,
+        "min_length": 400
+      },
+      "min_score": 16
+    },
+    {
+      "label": "News / Press Release",
+      "url_patterns": [
+        "/news/",
+        "/press/",
+        "/press-release/",
+        "/newsroom/",
+        "/media/",
+        "/announcements?/"
+      ],
+      "url_weight": 12,
+      "title_patterns": [
+        "\\bannounces?\\b",
+        "\\blaunches\\b",
+        "\\bpress release\\b",
+        "\\bacquires\\b",
+        "\\bpartnerships?\\b",
+        "\\bnews\\b"
+      ],
+      "title_weight": 8,
+      "content_patterns": [
+        "\\btoday announced\\b",
+        "\\bpress release\\b",
+        "\\bfor immediate release\\b",
+        "\\bmedia contact:\\b",
+        "\\bspokesperson\\b",
+        "\\bquoted as saying\\b",
+        "\\baccording to\\b"
+      ],
+      "pattern_weight": 2,
+      "min_patterns": 2,
+      "structure_signals": {
+        "has_date": true,
+        "has_quote": true,
+        "min_length": 200
+      },
+      "min_score": 13
+    },
+    {
+      "label": "Careers / Job Posting",
+      "url_patterns": [
+        "/careers?/",
+        "/jobs?/",
+        "/join-us",
+        "/hiring",
+        "/opportunities",
+        "/openings?/"
+      ],
+      "url_weight": 15,
+      "title_patterns": [
+        "\\bcareers?\\b",
+        "\\bjobs?\\b",
+        "\\bhiring\\b",
+        "\\bjoin (us|our team)\\b",
+        "\\bopenings?\\b",
+        "\\bwe'?re hiring\\b"
+      ],
+      "title_weight": 10,
+      "content_patterns": [
+        "\\bapply now\\b",
+        "\\bapplication\\b",
+        "\\brequirements?:\\b",
+        "\\bqualifications?:\\b",
+        "\\bresponsibilities:\\b",
+        "\\b(full|part)[-\\s]?time\\b",
+        "\\bremote\\b",
+        "\\bsalary\\b",
+        "\\bbenefits\\b"
+      ],
+      "pattern_weight": 2,
+      "min_patterns": 3,
+      "structure_signals": {
+        "has_requirements_list": true,
+        "min_length": 200
+      },
+      "min_score": 16
+    },
+    {
+      "label": "Landing Page / Marketing",
+      "url_patterns": [
+        "/lp/",
+        "/landing",
+        "/get-started",
+        "/signup",
+        "/trial",
+        "/demo"
+      ],
+      "url_weight": 10,
+      "title_patterns": [
+        "\\bget started\\b",
+        "\\btry (it )?free\\b",
+        "\\bfree trial\\b",
+        "\\brequest demo\\b",
+        "\\btransform your\\b"
+      ],
+      "title_weight": 7,
+      "content_patterns": [
+        "\\bsign up\\b",
+        "\\bget started\\b",
+        "\\bfree trial\\b",
+        "\\bno credit card\\b",
+        "\\brequest demo\\b",
+        "\\blimited time\\b",
+        "\\bspecial offer\\b",
+        "\\btrusted by\\b",
+        "\\bjoin thousands\\b"
+      ],
+      "pattern_weight": 1.5,
+      "min_patterns": 2,
+      "structure_signals": {
+        "has_cta": true,
+        "has_form": true,
+        "max_length": 2000
+      },
+      "min_score": 11
+    },
+    {
+      "label": "Event / Webinar / Workshop",
+      "url_patterns": [
+        "/events?/",
+        "/webinars?/",
+        "/workshops?/",
+        "/conference",
+        "/summit"
+      ],
+      "url_weight": 12,
+      "title_patterns": [
+        "\\bevents?\\b",
+        "\\bwebinars?\\b",
+        "\\bworkshops?\\b",
+        "\\bconference\\b",
+        "\\bregister\\b"
+      ],
+      "title_weight": 8,
+      "content_patterns": [
+        "\\bregister (now|today)\\b",
+        "\\bdate:",
+        "\\btime:",
+        "\\blocation:",
+        "\\bspeakers?:",
+        "\\bagenda:",
+        "\\bvirtual event\\b",
+        "\\bjoin us\\b"
+      ],
+      "pattern_weight": 2,
+      "min_patterns": 2,
+      "structure_signals": {
+        "has_date": true,
+        "has_registration": true
+      },
+      "min_score": 12
+    },
+    {
+      "label": "Legal / Compliance",
+      "url_patterns": [
+        "/legal/",
+        "/privacy",
+        "/terms",
+        "/compliance",
+        "/gdpr",
+        "/cookie"
+      ],
+      "url_weight": 15,
+      "title_patterns": [
+        "\\bprivacy policy\\b",
+        "\\bterms (of|and) (service|use)\\b",
+        "\\blegal\\b",
+        "\\bcompliance\\b",
+        "\\bcookie policy\\b"
+      ],
+      "title_weight": 10,
+      "content_patterns": [
+        "\\bthis (policy|agreement)\\b",
+        "\\blast updated:",
+        "\\beffective date:",
+        "\\byou agree to\\b",
+        "\\bpersonal (data|information)\\b",
+        "\\bgdpr\\b",
+        "\\bterms and conditions\\b"
+      ],
+      "pattern_weight": 2,
+      "min_patterns": 2,
+      "structure_signals": {
+        "has_sections": true,
+        "min_length": 300
+      },
+      "min_score": 14
+    },
+    {
+      "label": "Testimonials / Customers",
+      "url_patterns": [
+        "/testimonials?/",
+        "/customers?/",
+        "/reviews?/",
+        "/clients?/"
+      ],
+      "url_weight": 12,
+      "title_patterns": [
+        "\\btestimonials?\\b",
+        "\\bcustomers?\\b",
+        "\\breviews?\\b",
+        "\\bwhat (our )?customers say\\b",
+        "\\bclient feedback\\b"
+      ],
+      "title_weight": 10,
+      "content_patterns": [
+        "\".*?\"",
+        "\\b(ceo|cto|director|manager) at\\b",
+        "\\brated \\d+",
+        "\\b\\d+/\\d+ stars?\\b",
+        "\\btestimonial\\b"
+      ],
+      "pattern_weight": 2,
+      "min_patterns": 2,
+      "structure_signals": {
+        "has_quotes": true,
+        "has_names": true
+      },
+      "min_score": 12
+    }
+  ]
+}

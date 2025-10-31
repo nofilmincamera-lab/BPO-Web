@@ -1,0 +1,685 @@
+relationship_type,relationship_confidence,head_entity_type,head_entity_surface,tail_entity_type,tail_entity_surface,proximity_distance,pattern
+ORL,0.6,TECHNOLOGY,BI,PERSON,Kafka,4,proximity
+ORL,0.6,COMPANY,AMD,COMPANY,SAP,5,proximity
+ORL,0.6,PERSON,Kafka,COMPANY,Slack,7,proximity
+ORL,0.6,COMPANY,Azure,ORG,Kubernetes,7,proximity
+ORL,0.6,PERCENT,44%,ORG,FashionTech,7,proximity
+ORL,0.6,TECHNOLOGY,CI/CD,COMPANY,Linear,7,proximity
+ORL,0.6,COMPANY,IBM,COMPANY,Oracle,8,proximity
+ORL,0.6,COMPANY,Lenovo,COMPANY,Cisco,8,proximity
+ORL,0.6,ORG,PyTorch,PERSON,Kafka,9,proximity
+ORL,0.6,COMPANY,Cisco,DATE,2024-11-19,9,proximity
+ORL,0.6,COMPANY,SAP,COMPANY,Dell,9,proximity
+ORL,0.6,ORG,Android,PERSON,Full Stack,9,proximity
+ORL,0.6,GPE,Amarillo,GPE,Colorado Springs,10,proximity
+ORL,0.6,COMPANY,VMware,GPE,Milwaukee,10,proximity
+ORL,0.6,ORG,CTO,ORG,Lucas Bell,10,proximity
+ORL,0.6,GPE,Columbus,GPE,Bakersfield,10,proximity
+ORL,0.6,COMPANY,Lenovo,MONEY,$984 million,11,proximity
+ORL,0.6,COMPANY,Stripe,COMPANY,VMware,11,proximity
+ORL,0.6,COMPANY,Cisco,PERSON,Palantir,11,proximity
+ORL,0.6,ORG,PyTorch,DATE,2025-02-10,11,proximity
+ORL,0.6,PERSON,Kafka,COMPANY,Slack,11,proximity
+ORL,0.6,GPE,Baltimore,LOCATION,Australia,11,proximity
+ORL,0.6,COMPANY,Slack,TECHNOLOGY,Analytics,12,proximity
+ORL,0.6,ORG,Lucas Bell,PRODUCT,Enterprise,12,proximity
+ORL,0.6,PERSON,Full Stack,GPE,React,12,proximity
+ORL,0.6,GPE,Palantir,COMPANY,Databricks,13,proximity
+ORL,0.6,ORG,Abstract,TECHNOLOGY,Machine Learning,13,proximity
+ORL,0.6,PERSON,Wyatt James,ORG,Business Advisor,13,proximity
+ORL,0.6,GPE,Atlanta,ORG,FashionTech,13,proximity
+ORL,0.6,PERCENT,52%,ORG,FashionTech,14,proximity
+ORL,0.6,COMPANY,AMD,COMPANY,Dell,14,proximity
+ORL,0.6,PERSON,Luke Russell,ORG,Business Advisor,14,proximity
+ORL,0.6,GPE,Milwaukee,LOCATION,Japan,14,proximity
+ORL,0.6,ORG,Elasticsearch,ORG,Android,15,proximity
+ORL,0.6,TECHNOLOGY,BI,COMPANY,Slack,15,proximity
+ORL,0.6,LOCATION,Australia,GPE,Henderson,15,proximity
+ORL,0.6,PERSON,Robert Taylor,ORG,CTO,15,proximity
+ORL,0.6,GPE,Birmingham,GPE,Colorado Springs,15,proximity
+ORL,0.6,ORG,Consulting,NORP,PropTech,15,proximity
+ORL,0.6,COMPANY,Linear,ORG,Elasticsearch,16,proximity
+ORL,0.6,ORG,FashionTech,ORG,Consulting,16,proximity
+ORL,0.6,ORG,PyTorch,COMPANY,Slack,16,proximity
+ORL,0.6,GPE,Henderson,COMPANY,IBM,16,proximity
+ORL,0.6,DATE,2024-11-19,ORG,Compliance,16,proximity
+ORL,0.6,GPE,Bakersfield,GPE,Atlanta,17,proximity
+ORL,0.6,DATE,2024-12-24,PERSON,Luke Russell,17,proximity
+ORL,0.6,MONEY,$984 million,COMPANY,Cisco,17,proximity
+ORL,0.6,COMPANY,IoT Solutions,ORG,Supply Chain Optimization,18,proximity
+ORL,0.6,MONEY,$113 million,COMPANY,Stripe,18,proximity
+ORL,0.6,COMPANY,Lenovo,PERSON,Palantir,19,proximity
+ORL,0.6,PERSON,Kafka,TECHNOLOGY,Analytics,19,proximity
+ORL,0.6,COMPANY,Lenovo,MONEY,$555 million,19,proximity
+ORL,0.6,PERSON,Palantir,ORG,Testing Services,20,proximity
+ORL,0.6,COMPANY,Cisco,ORG,PyTorch,20,proximity
+ORL,0.6,ORG,Business Advisor,COMPANY,Lenovo,20,proximity
+ORL,0.6,LOCATION,Japan,ORG,Performance Optimization,21,proximity
+ORL,0.6,ORG,Testing Services,COMPANY,IoT Solutions,21,proximity
+ORL,0.6,COMPANY,Stripe,GPE,Milwaukee,21,proximity
+ORL,0.6,ORG,Android,GPE,React,21,proximity
+ORL,0.6,ORG,Kubernetes,PERSON,PyTorch,21,proximity
+ORL,0.6,ORG,CTO,PRODUCT,Enterprise,22,proximity
+ORL,0.6,GPE,Colorado Springs,GPE,Detroit,22,proximity
+ORL,0.6,COMPANY,Lenovo,PRODUCT,Compliance,22,proximity
+ORL,0.6,ORG,FashionTech,GPE,Birmingham,22,proximity
+ORL,0.6,TECHNOLOGY,CI/CD,ORG,Elasticsearch,23,proximity
+ORL,0.6,ORG,Customer Experience and,TECHNOLOGY,Business Intelligence,24,proximity
+ORL,0.6,ORG,Consulting,ORG,FashionTech,24,proximity
+ORL,0.6,ORG,Elasticsearch,PERSON,Full Stack,24,proximity
+ORL,0.6,ORG,PyTorch,ORG,FashionTech,24,proximity
+ORL,0.6,GPE,Henderson,COMPANY,Oracle,24,proximity
+ORL,0.6,COMPANY,VMware,LOCATION,Japan,24,proximity
+ORL,0.6,PERSON,Robert Taylor,ORG,Lucas Bell,25,proximity
+ORL,0.6,ORG,FashionTech,DATE,the next two years,25,proximity
+ORL,0.6,CARDINAL,195,ORG,Network Security,25,proximity
+ORL,0.6,COMPANY,Cisco,ORG,Compliance,25,proximity
+ORL,0.6,MONEY,$984 million,DATE,2024-11-19,26,proximity
+ORL,0.6,GPE,Baltimore,GPE,Henderson,26,proximity
+ORL,0.6,ORG,Network Security,COMPANY,Azure,27,proximity
+ORL,0.6,GPE,Columbus,GPE,Atlanta,27,proximity
+ORL,0.6,COMPANY,Azure,PERSON,PyTorch,28,proximity
+ORL,0.6,ORG,PyTorch,TECHNOLOGY,Analytics,28,proximity
+ORL,0.6,COMPANY,Lenovo,COMPANY,Cisco,28,proximity
+ORL,0.6,COMPANY,Lenovo,ORG,FashionTech,28,proximity
+ORL,0.6,PRODUCT,Compliance,ORG,Amarillo,29,proximity
+ORL,0.6,MONEY,an additional $76 million,ORG,PyTorch,29,proximity
+ORL,0.6,ORG,Performance Optimization,PERSON,Cloud Migration,29,proximity
+ORL,0.6,COMPANY,Databricks,COMPANY,IoT Solutions,29,proximity
+ORL,0.6,MONEY,$113 million,COMPANY,VMware,29,proximity
+ORL,0.6,GPE,Bakersfield,ORG,FashionTech,30,proximity
+ORL,0.6,ORG,Business Advisor,ORG,FashionTech,30,proximity
+ORL,0.6,COMPANY,Linear,ORG,Android,31,proximity
+ORL,0.6,COMPANY,Dell,ORG,Abstract,31,proximity
+ORL,0.6,DATE,2024-12-24,ORG,Business Advisor,31,proximity
+ORL,0.6,LOCATION,Australia,COMPANY,IBM,31,proximity
+ORL,0.6,COMPANY,Cisco,ORG,Testing Services,31,proximity
+ORL,0.6,GPE,Amarillo,GPE,Detroit,32,proximity
+ORL,0.6,TECHNOLOGY,Analytics,GPE,Columbus,32,proximity
+ORL,0.6,PERCENT,38%,ORG,Consulting,33,proximity
+ORL,0.6,PERSON,Wyatt James,COMPANY,Lenovo,33,proximity
+ORL,0.6,ORG,Network Security,ORG,Kubernetes,34,proximity
+ORL,0.6,COMPANY,Slack,ORG,Customer Experience and,34,proximity
+ORL,0.6,COMPANY,Lenovo,ORG,Testing Services,35,proximity
+ORL,0.6,GPE,Milwaukee,ORG,Performance Optimization,35,proximity
+ORL,0.6,COMPANY,Stripe,LOCATION,Japan,35,proximity
+ORL,0.6,TECHNOLOGY,Business Intelligence,ORG,Mason Rogers,36,proximity
+ORL,0.6,ORG,Elasticsearch,GPE,React,36,proximity
+ORL,0.6,ORG,PyTorch,DATE,2024-12-24,36,proximity
+ORL,0.6,ORG,FashionTech,ORG,PyTorch,37,proximity
+ORL,0.6,ORG,FashionTech,GPE,Colorado Springs,37,proximity
+ORL,0.6,PERSON,Robert Taylor,PRODUCT,Enterprise,37,proximity
+ORL,0.6,COMPANY,Lenovo,DATE,2024-11-19,37,proximity
+ORL,0.6,TECHNOLOGY,CI/CD,ORG,Android,38,proximity
+ORL,0.6,COMPANY,Lenovo,ORG,Testing Services,39,proximity
+ORL,0.6,PERCENT,52%,DATE,the next two years,39,proximity
+ORL,0.6,MONEY,$113 million,GPE,Milwaukee,39,proximity
+ORL,0.6,LOCATION,Australia,COMPANY,Oracle,39,proximity
+ORL,0.6,MONEY,$963 million,COMPANY,Lenovo,39,proximity
+ORL,0.6,TECHNOLOGY,Analytics,PRODUCT,Compliance,39,proximity
+ORL,0.6,ORG,FashionTech,ORG,FashionTech,40,proximity
+ORL,0.6,COMPANY,Linear,PERSON,Full Stack,40,proximity
+ORL,0.6,COMPANY,SAP,ORG,Abstract,40,proximity
+ORL,0.6,MONEY,$555 million,COMPANY,Cisco,40,proximity
+ORL,0.6,PERSON,Jack Foster,PERSON,Robert Taylor,40,proximity
+ORL,0.6,GPE,Columbus,ORG,FashionTech,40,proximity
+ORL,0.6,GPE,Detroit,PERCENT,52%,40,proximity
+ORL,0.6,PERSON,Palantir,COMPANY,IoT Solutions,41,proximity
+ORL,0.6,COMPANY,Lenovo,ORG,PyTorch,41,proximity
+ORL,0.6,GPE,React,GPE,Palantir,41,proximity
+ORL,0.6,MONEY,$984 million,ORG,Compliance,42,proximity
+ORL,0.6,GPE,Baltimore,COMPANY,IBM,42,proximity
+ORL,0.6,ORG,Business Advisor,PRODUCT,Compliance,42,proximity
+ORL,0.6,GPE,Palantir,COMPANY,IoT Solutions,42,proximity
+ORL,0.6,TECHNOLOGY,Analytics,GPE,Bakersfield,42,proximity
+ORL,0.6,PRODUCT,Compliance,GPE,Amarillo,43,proximity
+ORL,0.6,PRODUCT,Enterprise,TECHNOLOGY,CI/CD,43,proximity
+ORL,0.6,ORG,Amarillo,PERSON,Jack Foster,43,proximity
+ORL,0.6,COMPANY,Dell,TECHNOLOGY,Machine Learning,44,proximity
+ORL,0.6,PERSON,Luke Russell,ORG,FashionTech,44,proximity
+ORL,0.6,COMPANY,Cisco,ORG,FashionTech,44,proximity
+ORL,0.6,COMPANY,Lenovo,ORG,Consulting,44,proximity
+ORL,0.6,PERCENT,44%,ORG,PyTorch,44,proximity
+ORL,0.6,PERSON,Kafka,ORG,Customer Experience and,45,proximity
+ORL,0.6,ORG,Compliance,PERSON,Michael Wilson,45,proximity
+ORL,0.6,COMPANY,Oracle,ORG,FashionTech,45,proximity
+ORL,0.6,COMPANY,AMD,ORG,Abstract,45,proximity
+ORL,0.6,COMPANY,VMware,ORG,Performance Optimization,45,proximity
+ORL,0.6,ORG,Consulting,GPE,Birmingham,46,proximity
+ORL,0.6,ORG,FashionTech,PERSON,Wyatt James,46,proximity
+ORL,0.6,TECHNOLOGY,CI/CD,PERSON,Full Stack,47,proximity
+ORL,0.6,COMPANY,Databricks,ORG,Supply Chain Optimization,47,proximity
+ORL,0.6,ORG,FashionTech,DATE,2025-02-10,48,proximity
+ORL,0.6,ORG,FashionTech,COMPANY,Lenovo,48,proximity
+ORL,0.6,PERCENT,38%,NORP,PropTech,48,proximity
+ORL,0.6,TECHNOLOGY,BI,ORG,Customer Experience and,49,proximity
+ORL,0.6,LOCATION,Japan,PERSON,Cloud Migration,50,proximity
+ORL,0.6,PRODUCT,Enterprise,COMPANY,Linear,50,proximity
+ORL,0.6,MONEY,$963 million,MONEY,$984 million,50,proximity
+ORL,0.6,GPE,Baltimore,COMPANY,Oracle,50,proximity
+ORL,0.6,COMPANY,Slack,PRODUCT,Compliance,51,proximity
+ORL,0.6,COMPANY,Cisco,COMPANY,IoT Solutions,52,proximity
+ORL,0.6,COMPANY,Linear,GPE,React,52,proximity
+ORL,0.6,PERSON,PyTorch,TECHNOLOGY,BI,52,proximity
+ORL,0.6,CARDINAL,195,COMPANY,Azure,52,proximity
+ORL,0.6,PERSON,Full Stack,GPE,Palantir,53,proximity
+ORL,0.6,COMPANY,Lenovo,ORG,Compliance,53,proximity
+ORL,0.6,MONEY,$113 million,LOCATION,Japan,53,proximity
+ORL,0.6,ORG,PyTorch,PERSON,Luke Russell,53,proximity
+ORL,0.6,PRODUCT,Compliance,GPE,Colorado Springs,53,proximity
+ORL,0.6,COMPANY,IoT Solutions,MONEY,an additional $76 million,53,proximity
+ORL,0.6,COMPANY,SAP,TECHNOLOGY,Machine Learning,53,proximity
+ORL,0.6,COMPANY,IBM,ORG,FashionTech,53,proximity
+ORL,0.6,GPE,Detroit,ORG,FashionTech,54,proximity
+ORL,0.6,GPE,React,COMPANY,Databricks,54,proximity
+ORL,0.6,ORG,Lucas Bell,TECHNOLOGY,CI/CD,55,proximity
+ORL,0.6,ORG,Network Security,PERSON,PyTorch,55,proximity
+ORL,0.6,PERSON,Jack Foster,ORG,CTO,55,proximity
+ORL,0.6,PERSON,Wyatt James,PRODUCT,Compliance,55,proximity
+ORL,0.6,PERCENT,44%,DATE,2025-02-10,55,proximity
+ORL,0.6,PERSON,PyTorch,PERSON,Kafka,56,proximity
+ORL,0.6,COMPANY,Stripe,ORG,Performance Optimization,56,proximity
+ORL,0.6,COMPANY,Slack,TECHNOLOGY,Business Intelligence,58,proximity
+ORL,0.6,COMPANY,AMD,TECHNOLOGY,Machine Learning,58,proximity
+ORL,0.6,PERSON,Kafka,PRODUCT,Compliance,58,proximity
+ORL,0.6,CARDINAL,195,ORG,Kubernetes,59,proximity
+ORL,0.6,TECHNOLOGY,Machine Learning,PERCENT,44%,59,proximity
+ORL,0.6,COMPANY,Lenovo,COMPANY,Cisco,59,proximity
+ORL,0.6,ORG,FashionTech,ORG,Business Advisor,59,proximity
+ORL,0.6,TECHNOLOGY,Analytics,GPE,Atlanta,59,proximity
+ORL,0.6,TECHNOLOGY,CI/CD,GPE,React,59,proximity
+ORL,0.6,GPE,Palantir,ORG,Supply Chain Optimization,60,proximity
+ORL,0.6,ORG,FashionTech,COMPANY,Lenovo,60,proximity
+ORL,0.6,MONEY,$555 million,ORG,PyTorch,60,proximity
+ORL,0.6,ORG,Customer Experience and,ORG,Mason Rogers,60,proximity
+ORL,0.6,COMPANY,Lenovo,COMPANY,IoT Solutions,60,proximity
+ORL,0.6,ORG,Consulting,GPE,Colorado Springs,61,proximity
+ORL,0.6,DATE,2024-11-19,PERSON,Michael Wilson,61,proximity
+ORL,0.6,DATE,2024-12-24,ORG,FashionTech,61,proximity
+ORL,0.6,GPE,Atlanta,COMPANY,Lenovo,61,proximity
+ORL,0.6,ORG,Lucas Bell,COMPANY,Linear,62,proximity
+ORL,0.6,GPE,Colorado Springs,PERCENT,52%,62,proximity
+ORL,0.6,ORG,FashionTech,GPE,Birmingham,62,proximity
+ORL,0.6,ORG,Android,GPE,Palantir,62,proximity
+ORL,0.6,PERSON,Cloud Migration,PERCENT,38%,63,proximity
+ORL,0.6,DATE,the next two years,ORG,PyTorch,63,proximity
+ORL,0.6,PERSON,Jacob Gonzalez,TECHNOLOGY,Analytics,63,proximity
+ORL,0.6,GPE,Milwaukee,PERSON,Cloud Migration,64,proximity
+ORL,0.6,PERSON,Jack Foster,ORG,Lucas Bell,65,proximity
+ORL,0.6,ORG,CTO,TECHNOLOGY,CI/CD,65,proximity
+ORL,0.6,COMPANY,Lenovo,GPE,Amarillo,65,proximity
+ORL,0.6,ORG,PyTorch,COMPANY,Lenovo,65,proximity
+ORL,0.6,MONEY,an additional $76 million,DATE,2024-12-24,65,proximity
+ORL,0.6,TECHNOLOGY,Machine Learning,ORG,FashionTech,66,proximity
+ORL,0.6,PRODUCT,Enterprise,ORG,Elasticsearch,66,proximity
+ORL,0.6,PERSON,Full Stack,COMPANY,Databricks,66,proximity
+ORL,0.6,MONEY,$963 million,COMPANY,Cisco,67,proximity
+ORL,0.6,ORG,PyTorch,PRODUCT,Compliance,67,proximity
+ORL,0.6,ORG,PyTorch,ORG,Business Advisor,67,proximity
+ORL,0.6,PERSON,PyTorch,COMPANY,Slack,67,proximity
+ORL,0.6,TECHNOLOGY,Analytics,ORG,Amarillo,68,proximity
+ORL,0.6,COMPANY,Lenovo,ORG,FashionTech,68,proximity
+ORL,0.6,GPE,Henderson,ORG,FashionTech,69,proximity
+ORL,0.6,PERSON,Kafka,TECHNOLOGY,Business Intelligence,69,proximity
+ORL,0.6,COMPANY,Cisco,PERSON,Michael Wilson,70,proximity
+ORL,0.6,ORG,PyTorch,PERSON,Wyatt James,70,proximity
+ORL,0.6,PERSON,Michael Wilson,MONEY,$113 million,71,proximity
+ORL,0.6,GPE,Amarillo,PERCENT,52%,72,proximity
+ORL,0.6,PRODUCT,Compliance,PERSON,Jack Foster,72,proximity
+ORL,0.6,DATE,the next two years,PERSON,Kafka,72,proximity
+ORL,0.6,TECHNOLOGY,Analytics,ORG,FashionTech,72,proximity
+ORL,0.6,ORG,CTO,COMPANY,Linear,72,proximity
+ORL,0.6,ORG,Abstract,PERCENT,44%,72,proximity
+ORL,0.6,ORG,PyTorch,COMPANY,Cisco,73,proximity
+ORL,0.6,ORG,Kubernetes,TECHNOLOGY,BI,73,proximity
+ORL,0.6,TECHNOLOGY,BI,TECHNOLOGY,Business Intelligence,73,proximity
+ORL,0.6,ORG,Testing Services,MONEY,an additional $76 million,74,proximity
+ORL,0.6,MONEY,$113 million,ORG,Performance Optimization,74,proximity
+ORL,0.6,GPE,Colorado Springs,COMPANY,Lenovo,74,proximity
+ORL,0.6,COMPANY,VMware,PERSON,Cloud Migration,74,proximity
+ORL,0.6,ORG,Android,COMPANY,Databricks,75,proximity
+ORL,0.6,NORP,PropTech,CARDINAL,195,75,proximity
+ORL,0.6,COMPANY,Lenovo,GPE,Colorado Springs,75,proximity
+ORL,0.6,PRODUCT,Compliance,GPE,Detroit,75,proximity
+ORL,0.6,MONEY,$963 million,DATE,2024-11-19,76,proximity
+ORL,0.6,GPE,Colorado Springs,ORG,FashionTech,76,proximity
+ORL,0.6,ORG,Elasticsearch,GPE,Palantir,77,proximity
+ORL,0.6,PERSON,Jack Foster,PRODUCT,Enterprise,77,proximity
+ORL,0.6,ORG,Kubernetes,PERSON,Kafka,77,proximity
+ORL,0.6,ORG,FashionTech,GPE,Colorado Springs,77,proximity
+ORL,0.6,ORG,Lucas Bell,ORG,Elasticsearch,78,proximity
+ORL,0.6,GPE,Bakersfield,COMPANY,Lenovo,78,proximity
+ORL,0.6,DATE,2025-02-10,MONEY,$963 million,78,proximity
+ORL,0.6,ORG,FashionTech,COMPANY,Lenovo,79,proximity
+ORL,0.6,ORG,Abstract,ORG,FashionTech,79,proximity
+ORL,0.6,GPE,Detroit,DATE,the next two years,79,proximity
+ORL,0.6,COMPANY,Lenovo,ORG,PyTorch,79,proximity
+ORL,0.6,ORG,FashionTech,COMPANY,AMD,79,proximity
+ORL,0.6,DATE,the next two years,COMPANY,Slack,79,proximity
+ORL,0.6,CARDINAL,195,PERSON,PyTorch,80,proximity
+ORL,0.6,COMPANY,Azure,TECHNOLOGY,BI,80,proximity
+ORL,0.6,COMPANY,Slack,ORG,Amarillo,80,proximity
+ORL,0.6,PERSON,Robert Taylor,TECHNOLOGY,CI/CD,80,proximity
+ORL,0.6,PRODUCT,Enterprise,ORG,Android,81,proximity
+ORL,0.6,ORG,Mason Rogers,PERSON,Jacob Gonzalez,81,proximity
+ORL,0.6,MONEY,an additional $76 million,PERSON,Luke Russell,82,proximity
+ORL,0.6,COMPANY,IoT Solutions,ORG,PyTorch,82,proximity
+ORL,0.6,ORG,PyTorch,ORG,Business Advisor,83,proximity
+ORL,0.6,GPE,React,COMPANY,IoT Solutions,83,proximity
+ORL,0.6,ORG,Amarillo,PERSON,Robert Taylor,83,proximity
+ORL,0.6,MONEY,$555 million,ORG,FashionTech,84,proximity
+ORL,0.6,ORG,PyTorch,PERSON,Palantir,84,proximity
+ORL,0.6,COMPANY,Azure,PERSON,Kafka,84,proximity
+ORL,0.6,ORG,FashionTech,COMPANY,SAP,84,proximity
+ORL,0.6,LOCATION,Australia,ORG,FashionTech,84,proximity
+ORL,0.6,ORG,Business Advisor,GPE,Amarillo,85,proximity
+ORL,0.6,COMPANY,Stripe,PERSON,Cloud Migration,85,proximity
+ORL,0.6,GPE,Amarillo,ORG,FashionTech,86,proximity
+ORL,0.6,MONEY,$984 million,PERSON,Michael Wilson,87,proximity
+ORL,0.6,PERSON,Robert Taylor,COMPANY,Linear,87,proximity
+ORL,0.6,PERSON,Kafka,ORG,Amarillo,87,proximity
+ORL,0.6,ORG,FashionTech,ORG,PyTorch,88,proximity
+ORL,0.6,ORG,Kubernetes,COMPANY,Slack,88,proximity
+ORL,0.6,ORG,FashionTech,ORG,FashionTech,88,proximity
+ORL,0.6,GPE,Columbus,COMPANY,Lenovo,88,proximity
+ORL,0.6,ORG,CTO,ORG,Elasticsearch,88,proximity
+ORL,0.6,ORG,FashionTech,ORG,PyTorch,89,proximity
+ORL,0.6,PERSON,Michael Wilson,COMPANY,Stripe,89,proximity
+ORL,0.6,ORG,PyTorch,MONEY,$963 million,89,proximity
+ORL,0.6,GPE,Birmingham,COMPANY,Lenovo,89,proximity
+ORL,0.6,ORG,Business Advisor,COMPANY,Lenovo,90,proximity
+ORL,0.6,ORG,Elasticsearch,COMPANY,Databricks,90,proximity
+ORL,0.6,COMPANY,Cisco,PERSON,Wyatt James,90,proximity
+ORL,0.6,ORG,Consulting,CARDINAL,195,90,proximity
+ORL,0.6,COMPANY,Lenovo,GPE,Birmingham,90,proximity
+ORL,0.6,PRODUCT,Enterprise,PERSON,Full Stack,90,proximity
+ORL,0.6,DATE,the next two years,TECHNOLOGY,Analytics,91,proximity
+ORL,0.6,ORG,Performance Optimization,PERCENT,38%,92,proximity
+ORL,0.6,MONEY,$963 million,ORG,Compliance,92,proximity
+ORL,0.6,COMPANY,Linear,GPE,Palantir,93,proximity
+ORL,0.6,ORG,Lucas Bell,ORG,Android,93,proximity
+ORL,0.6,ORG,FashionTech,COMPANY,Dell,93,proximity
+ORL,0.6,PERSON,Palantir,MONEY,an additional $76 million,94,proximity
+ORL,0.6,COMPANY,Slack,ORG,Mason Rogers,94,proximity
+ORL,0.6,COMPANY,Azure,COMPANY,Slack,95,proximity
+ORL,0.6,PERSON,Full Stack,COMPANY,IoT Solutions,95,proximity
+ORL,0.6,PERSON,Jacob Gonzalez,GPE,Columbus,95,proximity
+ORL,0.6,GPE,Baltimore,ORG,FashionTech,95,proximity
+ORL,0.6,ORG,Business Advisor,GPE,Colorado Springs,95,proximity
+ORL,0.6,PERSON,Cloud Migration,ORG,Consulting,96,proximity
+ORL,0.6,MONEY,an additional $76 million,ORG,Business Advisor,96,proximity
+ORL,0.6,ORG,PyTorch,ORG,Amarillo,96,proximity
+ORL,0.6,ORG,PyTorch,ORG,FashionTech,97,proximity
+ORL,0.6,COMPANY,Lenovo,GPE,Detroit,97,proximity
+ORL,0.6,ORG,FashionTech,PERSON,Kafka,97,proximity
+ORL,0.6,PERSON,Wyatt James,GPE,Amarillo,98,proximity
+ORL,0.6,COMPANY,Lenovo,PERSON,Michael Wilson,98,proximity
+ORL,0.6,ORG,Amarillo,ORG,CTO,98,proximity
+ORL,0.6,NORP,PropTech,ORG,Network Security,100,proximity
+ORL,0.6,TECHNOLOGY,CI/CD,GPE,Palantir,100,proximity
+ORL,0.6,PERSON,Michael Wilson,COMPANY,VMware,100,proximity
+ORL,0.6,GPE,React,ORG,Supply Chain Optimization,101,proximity
+ORL,0.6,ORG,FashionTech,PRODUCT,Compliance,101,proximity
+ORL,0.6,GPE,Colorado Springs,DATE,the next two years,101,proximity
+ORL,0.6,PERSON,PyTorch,ORG,Customer Experience and,101,proximity
+ORL,0.6,GPE,Atlanta,ORG,PyTorch,102,proximity
+ORL,0.6,ORG,Lucas Bell,PERSON,Full Stack,102,proximity
+ORL,0.6,PERCENT,52%,ORG,PyTorch,102,proximity
+ORL,0.6,PRODUCT,Enterprise,GPE,React,102,proximity
+ORL,0.6,PERSON,Robert Taylor,ORG,Elasticsearch,103,proximity
+ORL,0.6,COMPANY,Lenovo,ORG,FashionTech,103,proximity
+ORL,0.6,COMPANY,Cisco,ORG,Business Advisor,103,proximity
+ORL,0.6,ORG,PyTorch,COMPANY,Lenovo,103,proximity
+ORL,0.6,ORG,CTO,ORG,Android,103,proximity
+ORL,0.6,COMPANY,Dell,PERCENT,44%,103,proximity
+ORL,0.6,TECHNOLOGY,Machine Learning,ORG,PyTorch,103,proximity
+ORL,0.6,MONEY,$113 million,PERSON,Cloud Migration,103,proximity
+ORL,0.6,ORG,Testing Services,ORG,PyTorch,103,proximity
+ORL,0.6,PERSON,Luke Russell,COMPANY,Lenovo,104,proximity
+ORL,0.6,ORG,FashionTech,COMPANY,Slack,104,proximity
+ORL,0.6,ORG,Android,COMPANY,IoT Solutions,104,proximity
+ORL,0.6,ORG,FashionTech,ORG,Consulting,104,proximity
+ORL,0.6,ORG,PyTorch,ORG,Testing Services,104,proximity
+ORL,0.6,PERSON,Kafka,ORG,Mason Rogers,105,proximity
+ORL,0.6,COMPANY,Cisco,MONEY,an additional $76 million,105,proximity
+ORL,0.6,COMPANY,Lenovo,GPE,Colorado Springs,105,proximity
+ORL,0.6,PERSON,Jacob Gonzalez,GPE,Bakersfield,105,proximity
+ORL,0.6,COMPANY,Linear,COMPANY,Databricks,106,proximity
+ORL,0.6,COMPANY,Lenovo,COMPANY,Lenovo,106,proximity
+ORL,0.6,ORG,Network Security,TECHNOLOGY,BI,107,proximity
+ORL,0.6,ORG,Supply Chain Optimization,GPE,Baltimore,107,proximity
+ORL,0.6,PERSON,Wyatt James,GPE,Colorado Springs,108,proximity
+ORL,0.6,ORG,Amarillo,ORG,Lucas Bell,108,proximity
+ORL,0.6,GPE,Colorado Springs,ORG,Testing Services,109,proximity
+ORL,0.6,TECHNOLOGY,BI,ORG,Mason Rogers,109,proximity
+ORL,0.6,PERSON,Michael Wilson,GPE,Milwaukee,110,proximity
+ORL,0.6,COMPANY,Dell,ORG,FashionTech,110,proximity
+ORL,0.6,PERCENT,52%,PERSON,Kafka,111,proximity
+ORL,0.6,GPE,Amarillo,DATE,the next two years,111,proximity
+ORL,0.6,TECHNOLOGY,Analytics,PERSON,Jack Foster,111,proximity
+ORL,0.6,ORG,FashionTech,COMPANY,Lenovo,111,proximity
+ORL,0.6,ORG,Network Security,PERSON,Kafka,111,proximity
+ORL,0.6,PERSON,Cloud Migration,NORP,PropTech,111,proximity
+ORL,0.6,COMPANY,SAP,PERCENT,44%,112,proximity
+ORL,0.6,PRODUCT,Compliance,PERSON,Robert Taylor,112,proximity
+ORL,0.6,ORG,CTO,PERSON,Full Stack,112,proximity
+ORL,0.6,COMPANY,Lenovo,MONEY,an additional $76 million,113,proximity
+ORL,0.6,LOCATION,Japan,PERCENT,38%,113,proximity
+ORL,0.6,PERSON,Full Stack,ORG,Supply Chain Optimization,113,proximity
+ORL,0.6,TECHNOLOGY,CI/CD,COMPANY,Databricks,113,proximity
+ORL,0.6,COMPANY,Lenovo,COMPANY,Cisco,114,proximity
+ORL,0.6,ORG,Lucas Bell,GPE,React,114,proximity
+ORL,0.6,TECHNOLOGY,Machine Learning,DATE,2025-02-10,114,proximity
+ORL,0.6,PRODUCT,Compliance,PERCENT,52%,115,proximity
+ORL,0.6,ORG,Consulting,ORG,Network Security,115,proximity
+ORL,0.6,ORG,FashionTech,TECHNOLOGY,Analytics,116,proximity
+ORL,0.6,ORG,Compliance,MONEY,$113 million,116,proximity
+ORL,0.6,ORG,Abstract,ORG,PyTorch,116,proximity
+ORL,0.6,ORG,Business Advisor,GPE,Detroit,117,proximity
+ORL,0.6,COMPANY,AMD,PERCENT,44%,117,proximity
+ORL,0.6,TECHNOLOGY,Business Intelligence,PERSON,Jacob Gonzalez,117,proximity
+ORL,0.6,DATE,2025-02-10,COMPANY,Lenovo,117,proximity
+ORL,0.6,ORG,Business Advisor,ORG,FashionTech,118,proximity
+ORL,0.6,PERSON,Robert Taylor,ORG,Android,118,proximity
+ORL,0.6,ORG,Supply Chain Optimization,LOCATION,Australia,118,proximity
+ORL,0.6,PERCENT,52%,COMPANY,Slack,118,proximity
+ORL,0.6,COMPANY,IoT Solutions,DATE,2024-12-24,118,proximity
+ORL,0.6,GPE,Bakersfield,ORG,PyTorch,119,proximity
+ORL,0.6,ORG,Elasticsearch,COMPANY,IoT Solutions,119,proximity
+ORL,0.6,COMPANY,SAP,ORG,FashionTech,119,proximity
+ORL,0.6,PERSON,Jack Foster,TECHNOLOGY,CI/CD,120,proximity
+ORL,0.6,TECHNOLOGY,Analytics,COMPANY,Lenovo,120,proximity
+ORL,0.6,ORG,Amarillo,PRODUCT,Enterprise,120,proximity
+ORL,0.6,DATE,2024-12-24,COMPANY,Lenovo,121,proximity
+ORL,0.6,ORG,Network Security,COMPANY,Slack,122,proximity
+ORL,0.6,ORG,Kubernetes,ORG,Customer Experience and,122,proximity
+ORL,0.6,PERSON,Jacob Gonzalez,GPE,Atlanta,122,proximity
+ORL,0.6,ORG,Android,ORG,Supply Chain Optimization,122,proximity
+ORL,0.6,COMPANY,Slack,PERSON,Jack Foster,123,proximity
+ORL,0.6,PERCENT,38%,CARDINAL,195,123,proximity
+ORL,0.6,PERSON,Palantir,ORG,PyTorch,123,proximity
+ORL,0.6,COMPANY,Cisco,COMPANY,Lenovo,123,proximity
+ORL,0.6,ORG,FashionTech,ORG,Abstract,124,proximity
+ORL,0.6,COMPANY,AMD,ORG,FashionTech,124,proximity
+ORL,0.6,GPE,Birmingham,ORG,Testing Services,124,proximity
+ORL,0.6,ORG,CTO,GPE,React,124,proximity
+ORL,0.6,COMPANY,Oracle,COMPANY,AMD,124,proximity
+ORL,0.6,PERSON,Michael Wilson,LOCATION,Japan,124,proximity
+ORL,0.6,ORG,PyTorch,COMPANY,IoT Solutions,125,proximity
+ORL,0.6,COMPANY,Lenovo,PERSON,Palantir,125,proximity
+ORL,0.6,ORG,Performance Optimization,ORG,Consulting,125,proximity
+ORL,0.6,ORG,PyTorch,PRODUCT,Compliance,125,proximity
+ORL,0.6,PERSON,PyTorch,TECHNOLOGY,Business Intelligence,125,proximity
+ORL,0.6,COMPANY,IoT Solutions,GPE,Baltimore,125,proximity
+ORL,0.6,ORG,FashionTech,MONEY,$963 million,126,proximity
+ORL,0.6,MONEY,an additional $76 million,ORG,FashionTech,126,proximity
+ORL,0.6,GPE,Milwaukee,PERCENT,38%,127,proximity
+ORL,0.6,PERSON,Jack Foster,COMPANY,Linear,127,proximity
+ORL,0.6,ORG,Abstract,DATE,2025-02-10,127,proximity
+ORL,0.6,PERSON,Robert Taylor,PERSON,Full Stack,127,proximity
+ORL,0.6,NORP,PropTech,COMPANY,Azure,127,proximity
+ORL,0.6,PRODUCT,Compliance,ORG,CTO,127,proximity
+ORL,0.6,DATE,2025-02-10,MONEY,$984 million,128,proximity
+ORL,0.6,ORG,PyTorch,COMPANY,Lenovo,128,proximity
+ORL,0.6,ORG,FashionTech,ORG,FashionTech,128,proximity
+ORL,0.6,PRODUCT,Compliance,ORG,FashionTech,129,proximity
+ORL,0.6,COMPANY,Azure,ORG,Customer Experience and,129,proximity
+ORL,0.6,GPE,Columbus,ORG,PyTorch,129,proximity
+ORL,0.6,COMPANY,Oracle,COMPANY,SAP,129,proximity
+ORL,0.6,DATE,the next two years,PRODUCT,Compliance,130,proximity
+ORL,0.6,PERSON,Kafka,PERSON,Jack Foster,130,proximity
+ORL,0.6,PERCENT,52%,TECHNOLOGY,Analytics,130,proximity
+ORL,0.6,PERSON,Wyatt James,GPE,Detroit,130,proximity
+ORL,0.6,MONEY,$555 million,PERSON,Wyatt James,130,proximity
+ORL,0.6,PERSON,Luke Russell,ORG,FashionTech,132,proximity
+ORL,0.6,DATE,2024-11-19,MONEY,$113 million,132,proximity
+ORL,0.6,COMPANY,IBM,COMPANY,AMD,132,proximity
+ORL,0.6,CARDINAL,195,TECHNOLOGY,BI,132,proximity
+ORL,0.6,PERCENT,44%,MONEY,$963 million,133,proximity
+ORL,0.6,ORG,Supply Chain Optimization,GPE,Henderson,133,proximity
+ORL,0.6,COMPANY,Cisco,ORG,PyTorch,134,proximity
+ORL,0.6,ORG,Compliance,COMPANY,Stripe,134,proximity
+ORL,0.6,NORP,PropTech,ORG,Kubernetes,134,proximity
+ORL,0.6,ORG,Business Advisor,ORG,Consulting,134,proximity
+ORL,0.6,COMPANY,Linear,COMPANY,IoT Solutions,135,proximity
+ORL,0.6,COMPANY,IoT Solutions,PERSON,Luke Russell,135,proximity
+ORL,0.6,PERSON,Jacob Gonzalez,ORG,FashionTech,135,proximity
+ORL,0.6,ORG,Consulting,COMPANY,Lenovo,135,proximity
+ORL,0.6,COMPANY,IoT Solutions,LOCATION,Australia,136,proximity
+ORL,0.6,CARDINAL,195,PERSON,Kafka,136,proximity
+ORL,0.6,COMPANY,Lenovo,PERCENT,52%,137,proximity
+ORL,0.6,MONEY,$963 million,PERSON,Michael Wilson,137,proximity
+ORL,0.6,COMPANY,VMware,PERCENT,38%,137,proximity
+ORL,0.6,COMPANY,IBM,COMPANY,SAP,137,proximity
+ORL,0.6,ORG,FashionTech,TECHNOLOGY,Machine Learning,137,proximity
+ORL,0.6,PRODUCT,Compliance,ORG,Lucas Bell,137,proximity
+ORL,0.6,ORG,Elasticsearch,ORG,Supply Chain Optimization,137,proximity
+ORL,0.6,COMPANY,Oracle,COMPANY,Dell,138,proximity
+ORL,0.6,ORG,PyTorch,MONEY,$984 million,139,proximity
+ORL,0.6,ORG,PyTorch,PERSON,Jack Foster,139,proximity
+ORL,0.6,ORG,Testing Services,DATE,2024-12-24,139,proximity
+ORL,0.6,PERSON,Robert Taylor,GPE,React,139,proximity
+ORL,0.6,ORG,Performance Optimization,NORP,PropTech,140,proximity
+ORL,0.6,ORG,Customer Experience and,PERSON,Jacob Gonzalez,141,proximity
+ORL,0.6,COMPANY,Cisco,MONEY,$113 million,141,proximity
+ORL,0.6,GPE,Detroit,ORG,PyTorch,142,proximity
+ORL,0.6,TECHNOLOGY,CI/CD,COMPANY,IoT Solutions,142,proximity
+ORL,0.6,COMPANY,Lenovo,ORG,PyTorch,142,proximity
+ORL,0.6,ORG,Consulting,COMPANY,Azure,142,proximity
+ORL,0.6,PRODUCT,Enterprise,GPE,Palantir,143,proximity
+ORL,0.6,MONEY,$555 million,ORG,Business Advisor,143,proximity
+ORL,0.6,PERSON,Jack Foster,ORG,Elasticsearch,143,proximity
+ORL,0.6,ORG,Mason Rogers,TECHNOLOGY,Analytics,144,proximity
+ORL,0.6,ORG,FashionTech,GPE,Amarillo,144,proximity
+ORL,0.6,COMPANY,Cisco,PRODUCT,Compliance,145,proximity
+ORL,0.6,DATE,2025-02-10,COMPANY,Cisco,145,proximity
+ORL,0.6,ORG,Compliance,COMPANY,VMware,145,proximity
+ORL,0.6,PERSON,Michael Wilson,ORG,Performance Optimization,145,proximity
+ORL,0.6,COMPANY,Lenovo,ORG,Testing Services,145,proximity
+ORL,0.6,ORG,Kubernetes,TECHNOLOGY,Business Intelligence,146,proximity
+ORL,0.6,COMPANY,IBM,COMPANY,Dell,146,proximity
+ORL,0.6,ORG,FashionTech,ORG,Testing Services,146,proximity
+ORL,0.6,LOCATION,Japan,ORG,Consulting,146,proximity
+ORL,0.6,CARDINAL,195,COMPANY,Slack,147,proximity
+ORL,0.6,COMPANY,Dell,ORG,PyTorch,147,proximity
+ORL,0.6,COMPANY,Stripe,PERCENT,38%,148,proximity
+ORL,0.6,PERSON,Luke Russell,ORG,Consulting,148,proximity
+ORL,0.6,PERCENT,38%,ORG,Network Security,148,proximity
+ORL,0.6,GPE,Henderson,COMPANY,AMD,148,proximity
+ORL,0.6,COMPANY,IoT Solutions,ORG,Business Advisor,149,proximity
+ORL,0.6,ORG,Supply Chain Optimization,COMPANY,IBM,149,proximity
+ORL,0.6,COMPANY,Lenovo,PERSON,Wyatt James,149,proximity
+ORL,0.6,DATE,2024-12-24,ORG,FashionTech,149,proximity
+ORL,0.6,ORG,Consulting,ORG,Kubernetes,149,proximity
+ORL,0.6,PRODUCT,Compliance,PRODUCT,Enterprise,149,proximity
+ORL,0.6,DATE,2024-11-19,COMPANY,Stripe,150,proximity
+ORL,0.6,ORG,FashionTech,GPE,Birmingham,150,proximity
+ORL,0.6,ORG,FashionTech,COMPANY,Lenovo,151,proximity
+ORL,0.6,GPE,Detroit,PERSON,Kafka,151,proximity
+ORL,0.6,COMPANY,Lenovo,ORG,FashionTech,151,proximity
+ORL,0.6,COMPANY,IoT Solutions,GPE,Henderson,151,proximity
+ORL,0.6,TECHNOLOGY,Analytics,PERSON,Robert Taylor,151,proximity
+ORL,0.6,COMPANY,Linear,ORG,Supply Chain Optimization,153,proximity
+ORL,0.6,COMPANY,Azure,TECHNOLOGY,Business Intelligence,153,proximity
+ORL,0.6,GPE,Henderson,COMPANY,SAP,153,proximity
+ORL,0.6,ORG,FashionTech,GPE,Colorado Springs,154,proximity
+ORL,0.6,PRODUCT,Compliance,DATE,the next two years,154,proximity
+ORL,0.6,ORG,FashionTech,COMPANY,Lenovo,154,proximity
+ORL,0.6,DATE,2025-02-10,DATE,2024-11-19,154,proximity
+ORL,0.6,COMPANY,Databricks,GPE,Baltimore,154,proximity
+ORL,0.6,NORP,PropTech,PERSON,PyTorch,155,proximity
+ORL,0.6,ORG,Lucas Bell,GPE,Palantir,155,proximity
+ORL,0.6,ORG,FashionTech,PRODUCT,Compliance,155,proximity
+ORL,0.6,ORG,Compliance,GPE,Milwaukee,155,proximity
+ORL,0.6,ORG,PyTorch,COMPANY,Cisco,156,proximity
+ORL,0.6,PRODUCT,Enterprise,COMPANY,Databricks,156,proximity
+ORL,0.6,COMPANY,SAP,ORG,PyTorch,156,proximity
+ORL,0.6,ORG,Network Security,ORG,Customer Experience and,156,proximity
+ORL,0.6,ORG,Testing Services,PERSON,Luke Russell,156,proximity
+ORL,0.6,ORG,Business Advisor,PERCENT,52%,157,proximity
+ORL,0.6,ORG,Supply Chain Optimization,COMPANY,Oracle,157,proximity
+ORL,0.6,ORG,PyTorch,COMPANY,Lenovo,157,proximity
+ORL,0.6,ORG,Business Advisor,ORG,FashionTech,158,proximity
+ORL,0.6,PERSON,Jack Foster,ORG,Android,158,proximity
+ORL,0.6,COMPANY,Dell,DATE,2025-02-10,158,proximity
+ORL,0.6,GPE,Detroit,COMPANY,Slack,158,proximity
+ORL,0.6,MONEY,$984 million,MONEY,$113 million,158,proximity
+ORL,0.6,PERSON,Palantir,DATE,2024-12-24,159,proximity
+ORL,0.6,DATE,the next two years,ORG,Amarillo,159,proximity
+ORL,0.6,COMPANY,Cisco,COMPANY,Stripe,159,proximity
+ORL,0.6,GPE,Milwaukee,ORG,Consulting,160,proximity
+ORL,0.6,TECHNOLOGY,CI/CD,ORG,Supply Chain Optimization,160,proximity
+ORL,0.6,PERSON,PyTorch,ORG,Mason Rogers,161,proximity
+ORL,0.6,COMPANY,AMD,ORG,PyTorch,161,proximity
+ORL,0.6,DATE,2024-11-19,COMPANY,VMware,161,proximity
+ORL,0.6,LOCATION,Japan,NORP,PropTech,161,proximity
+ORL,0.6,TECHNOLOGY,Analytics,ORG,PyTorch,161,proximity
+ORL,0.6,ORG,FashionTech,COMPANY,Cisco,162,proximity
+ORL,0.6,GPE,Henderson,COMPANY,Dell,162,proximity
+ORL,0.6,COMPANY,Lenovo,ORG,Business Advisor,162,proximity
+ORL,0.6,COMPANY,Slack,PERSON,Robert Taylor,163,proximity
+ORL,0.6,LOCATION,Australia,COMPANY,AMD,163,proximity
+ORL,0.6,ORG,Amarillo,TECHNOLOGY,CI/CD,163,proximity
+ORL,0.6,MONEY,$555 million,COMPANY,Lenovo,163,proximity
+ORL,0.6,GPE,Colorado Springs,ORG,PyTorch,164,proximity
+ORL,0.6,COMPANY,Databricks,LOCATION,Australia,165,proximity
+ORL,0.6,ORG,FashionTech,COMPANY,Lenovo,165,proximity
+ORL,0.6,ORG,FashionTech,GPE,Colorado Springs,165,proximity
+ORL,0.6,ORG,CTO,GPE,Palantir,165,proximity
+ORL,0.6,ORG,PyTorch,DATE,2024-11-19,165,proximity
+ORL,0.6,DATE,2024-12-24,ORG,Consulting,165,proximity
+ORL,0.6,TECHNOLOGY,Analytics,ORG,CTO,166,proximity
+ORL,0.6,COMPANY,Lenovo,COMPANY,IoT Solutions,166,proximity
+ORL,0.6,MONEY,$113 million,PERCENT,38%,166,proximity
+ORL,0.6,COMPANY,SAP,DATE,2025-02-10,167,proximity
+ORL,0.6,PERSON,Jack Foster,PERSON,Full Stack,167,proximity
+ORL,0.6,GPE,Atlanta,COMPANY,Lenovo,167,proximity
+ORL,0.6,COMPANY,IoT Solutions,COMPANY,IBM,167,proximity
+ORL,0.6,GPE,Palantir,GPE,Baltimore,167,proximity
+ORL,0.6,ORG,Lucas Bell,COMPANY,Databricks,168,proximity
+ORL,0.6,LOCATION,Australia,COMPANY,SAP,168,proximity
+ORL,0.6,ORG,PyTorch,GPE,Amarillo,168,proximity
+ORL,0.6,ORG,Compliance,LOCATION,Japan,169,proximity
+ORL,0.6,COMPANY,Oracle,ORG,Abstract,169,proximity
+ORL,0.6,PERCENT,52%,PRODUCT,Compliance,169,proximity
+ORL,0.6,COMPANY,Lenovo,MONEY,$113 million,169,proximity
+ORL,0.6,GPE,Detroit,TECHNOLOGY,Analytics,170,proximity
+ORL,0.6,DATE,2025-02-10,ORG,Compliance,170,proximity
+ORL,0.6,ORG,Testing Services,ORG,Business Advisor,170,proximity
+ORL,0.6,COMPANY,Cisco,DATE,2024-12-24,170,proximity
+ORL,0.6,ORG,Consulting,PERSON,PyTorch,170,proximity
+ORL,0.6,COMPANY,VMware,ORG,Consulting,170,proximity
+ORL,0.6,ORG,Consulting,ORG,Testing Services,170,proximity
+ORL,0.6,ORG,Amarillo,COMPANY,Linear,170,proximity
+ORL,0.6,PERSON,Kafka,PERSON,Robert Taylor,170,proximity
+ORL,0.6,PERSON,Wyatt James,PERCENT,52%,170,proximity
+ORL,0.6,COMPANY,Cisco,COMPANY,VMware,170,proximity
+ORL,0.6,DATE,2024-11-19,GPE,Milwaukee,171,proximity
+ORL,0.6,ORG,Business Advisor,ORG,FashionTech,171,proximity
+ORL,0.6,PERSON,Luke Russell,ORG,FashionTech,172,proximity
+ORL,0.6,COMPANY,AMD,DATE,2025-02-10,172,proximity
+ORL,0.6,PERCENT,44%,COMPANY,Lenovo,172,proximity
+ORL,0.6,ORG,FashionTech,PERSON,Palantir,173,proximity
+ORL,0.6,GPE,Colorado Springs,PERSON,Kafka,173,proximity
+ORL,0.6,GPE,Amarillo,ORG,PyTorch,174,proximity
+ORL,0.6,GPE,Baltimore,COMPANY,AMD,174,proximity
+ORL,0.6,PERSON,Michael Wilson,PERSON,Cloud Migration,174,proximity
+ORL,0.6,GPE,Milwaukee,NORP,PropTech,175,proximity
+ORL,0.6,COMPANY,IoT Solutions,COMPANY,Oracle,175,proximity
+ORL,0.6,PERCENT,38%,COMPANY,Azure,175,proximity
+ORL,0.6,COMPANY,Slack,PERSON,Jacob Gonzalez,175,proximity
+ORL,0.6,GPE,Atlanta,COMPANY,Cisco,175,proximity
+ORL,0.6,COMPANY,Lenovo,DATE,the next two years,176,proximity
+ORL,0.6,ORG,FashionTech,MONEY,$984 million,176,proximity
+ORL,0.6,MONEY,$984 million,COMPANY,Stripe,176,proximity
+ORL,0.6,PERSON,Palantir,PERSON,Luke Russell,176,proximity
+ORL,0.6,ORG,FashionTech,GPE,Detroit,176,proximity
+ORL,0.6,TECHNOLOGY,Analytics,ORG,Lucas Bell,176,proximity
+ORL,0.6,ORG,Mason Rogers,GPE,Columbus,176,proximity
+ORL,0.6,LOCATION,Australia,COMPANY,Dell,177,proximity
+ORL,0.6,COMPANY,IBM,ORG,Abstract,177,proximity
+ORL,0.6,ORG,PyTorch,GPE,Colorado Springs,178,proximity
+ORL,0.6,COMPANY,Slack,ORG,CTO,178,proximity
+ORL,0.6,ORG,CTO,COMPANY,Databricks,178,proximity
+ORL,0.6,ORG,PyTorch,MONEY,an additional $76 million,178,proximity
+ORL,0.6,COMPANY,Lenovo,DATE,2024-12-24,178,proximity
+ORL,0.6,GPE,Palantir,LOCATION,Australia,178,proximity
+ORL,0.6,PERSON,Jack Foster,GPE,React,179,proximity
+ORL,0.6,ORG,PyTorch,PERSON,Robert Taylor,179,proximity
+ORL,0.6,COMPANY,Lenovo,COMPANY,Lenovo,179,proximity
+ORL,0.6,GPE,Baltimore,COMPANY,SAP,179,proximity
+ORL,0.6,COMPANY,IoT Solutions,ORG,FashionTech,179,proximity
+ORL,0.6,TECHNOLOGY,Business Intelligence,TECHNOLOGY,Analytics,180,proximity
+ORL,0.6,COMPANY,Databricks,GPE,Henderson,180,proximity
+ORL,0.6,GPE,Colorado Springs,COMPANY,Slack,180,proximity
+ORL,0.6,ORG,Business Advisor,GPE,Birmingham,180,proximity
+ORL,0.6,ORG,Network Security,TECHNOLOGY,Business Intelligence,180,proximity
+ORL,0.6,PERSON,Robert Taylor,GPE,Palantir,180,proximity
+ORL,0.6,COMPANY,Cisco,GPE,Milwaukee,180,proximity
+ORL,0.6,ORG,PyTorch,ORG,Compliance,181,proximity
+ORL,0.6,COMPANY,Stripe,ORG,Consulting,181,proximity
+ORL,0.6,CARDINAL,195,ORG,Customer Experience and,181,proximity
+ORL,0.6,COMPANY,Lenovo,COMPANY,Lenovo,182,proximity
+ORL,0.6,ORG,Kubernetes,ORG,Mason Rogers,182,proximity
+ORL,0.6,COMPANY,Oracle,TECHNOLOGY,Machine Learning,182,proximity
+ORL,0.6,PERCENT,38%,ORG,Kubernetes,182,proximity
+ORL,0.6,PERCENT,44%,MONEY,$984 million,183,proximity
+ORL,0.6,GPE,Amarillo,PERSON,Kafka,183,proximity
+ORL,0.6,PERSON,Jacob Gonzalez,COMPANY,Lenovo,183,proximity
+ORL,0.6,PERSON,Wyatt James,ORG,FashionTech,184,proximity
+ORL,0.6,GPE,Bakersfield,COMPANY,Lenovo,184,proximity
+ORL,0.6,ORG,FashionTech,ORG,Amarillo,184,proximity
+ORL,0.6,PERSON,Kafka,ORG,CTO,185,proximity
+ORL,0.6,COMPANY,VMware,NORP,PropTech,185,proximity
+ORL,0.6,DATE,2024-11-19,LOCATION,Japan,185,proximity
+ORL,0.6,PRODUCT,Enterprise,COMPANY,IoT Solutions,185,proximity
+ORL,0.6,MONEY,$555 million,PRODUCT,Compliance,185,proximity
+ORL,0.6,ORG,PyTorch,ORG,FashionTech,185,proximity
+ORL,0.6,PERSON,Kafka,PERSON,Jacob Gonzalez,186,proximity
+ORL,0.6,PERSON,Cloud Migration,CARDINAL,195,186,proximity
+ORL,0.6,MONEY,an additional $76 million,COMPANY,Lenovo,186,proximity
+ORL,0.6,ORG,Mason Rogers,GPE,Bakersfield,186,proximity
+ORL,0.6,GPE,Atlanta,PERSON,Palantir,186,proximity
+ORL,0.6,ORG,Amarillo,ORG,Elasticsearch,186,proximity
+ORL,0.6,ORG,FashionTech,ORG,Testing Services,186,proximity
+ORL,0.6,COMPANY,Lenovo,COMPANY,Stripe,187,proximity
+ORL,0.6,COMPANY,Cisco,PERSON,Luke Russell,187,proximity
+ORL,0.6,MONEY,$984 million,COMPANY,VMware,187,proximity
+ORL,0.6,COMPANY,Slack,ORG,Lucas Bell,188,proximity
+ORL,0.6,GPE,Baltimore,COMPANY,Dell,188,proximity
+ORL,0.6,TECHNOLOGY,Analytics,PRODUCT,Enterprise,188,proximity
+ORL,0.6,COMPANY,Cisco,GPE,Amarillo,188,proximity
+ORL,0.6,COMPANY,Azure,ORG,Mason Rogers,189,proximity
+ORL,0.6,DATE,2024-12-24,ORG,FashionTech,189,proximity
+ORL,0.6,COMPANY,IBM,TECHNOLOGY,Machine Learning,190,proximity
+ORL,0.6,ORG,Compliance,ORG,Performance Optimization,190,proximity
+ORL,0.6,PERSON,Palantir,ORG,Business Advisor,190,proximity
+ORL,0.6,GPE,Amarillo,COMPANY,Slack,190,proximity
+ORL,0.6,TECHNOLOGY,BI,PERSON,Jacob Gonzalez,190,proximity
+ORL,0.6,PRODUCT,Compliance,TECHNOLOGY,CI/CD,192,proximity
+ORL,0.6,TECHNOLOGY,Machine Learning,MONEY,$963 million,192,proximity
+ORL,0.6,GPE,Colorado Springs,TECHNOLOGY,Analytics,192,proximity
+ORL,0.6,GPE,Bakersfield,COMPANY,Cisco,192,proximity
+ORL,0.6,ORG,FashionTech,ORG,Testing Services,193,proximity
+ORL,0.6,PERSON,Robert Taylor,COMPANY,Databricks,193,proximity
+ORL,0.6,GPE,Palantir,GPE,Henderson,193,proximity
+ORL,0.6,GPE,Henderson,ORG,Abstract,193,proximity
+ORL,0.6,ORG,FashionTech,COMPANY,Cisco,193,proximity
+ORL,0.6,GPE,Columbus,COMPANY,Lenovo,194,proximity
+ORL,0.6,PERSON,Luke Russell,GPE,Birmingham,194,proximity
+ORL,0.6,COMPANY,Cisco,LOCATION,Japan,194,proximity
+ORL,0.6,ORG,PyTorch,ORG,CTO,194,proximity
+ORL,0.6,ORG,Business Advisor,GPE,Colorado Springs,195,proximity
+ORL,0.6,COMPANY,Lenovo,PERSON,Luke Russell,195,proximity
+ORL,0.6,PERSON,Kafka,ORG,Lucas Bell,195,proximity
+ORL,0.6,ORG,FashionTech,PERCENT,44%,196,proximity
+ORL,0.6,ORG,Business Advisor,DATE,the next two years,196,proximity
+ORL,0.6,COMPANY,Stripe,NORP,PropTech,196,proximity
+ORL,0.6,COMPANY,Databricks,COMPANY,IBM,196,proximity
+ORL,0.6,MONEY,$984 million,GPE,Milwaukee,197,proximity
+ORL,0.6,ORG,Lucas Bell,COMPANY,IoT Solutions,197,proximity
+ORL,0.6,COMPANY,Cisco,GPE,Colorado Springs,198,proximity
+ORL,0.6,PERCENT,52%,ORG,Amarillo,198,proximity
+ORL,0.6,COMPANY,Lenovo,COMPANY,VMware,198,proximity
+ORL,0.6,MONEY,$113 million,ORG,Consulting,199,proximity
+ORL,0.6,PRODUCT,Compliance,COMPANY,Linear,199,proximity

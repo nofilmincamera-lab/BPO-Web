@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  metabase:
+    image: metabase/metabase:v0.49.13
+    container_name: bpo-metabase
+    depends_on:
+      - postgres
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+      MB_DB_TYPE: postgres
+      MB_DB_HOST: postgres
+      MB_DB_PORT: 5432
+      MB_DB_USER: ${DB_USER:-postgres}
+      MB_DB_PASSWORD_FILE: /run/secrets/postgres_password
+      MB_DB_DBNAME: ${DB_NAME:-bpo_intel}
+      MB_SITE_LOCALE: en
+      MB_SITE_NAME: "BPO Intelligence Analytics"
+      MB_SITE_URL: http://localhost:3001
+      MB_JETTY_PORT: 3001
+      TZ: ${TZ:-UTC}
+    secrets:
+      - postgres_password
+    ports:
+      - "3001:3001"
+    volumes:
+      - metabase-data:/metabase-data
+    networks:
+      - bpo-network
+    restart: unless-stopped
+
+networks:
+  bpo-network:
+    external: true
+
+volumes:
+  metabase-data:
+    driver: local
+
+secrets:
+  postgres_password:
+    external: true

@@ -1,0 +1,35 @@
+# Prefect Compose Configuration
+# WARNING: SQLite is not recommended for production with remote agents
+# Migrate to Postgres for concurrent writes and production workloads
+# Usage: docker compose -f docker-compose.prefect.yml up -d
+version: '3.8'
+
+services:
+  prefect-server:
+    image: prefecthq/prefect:3-python3.11
+    container_name: bpo-prefect-server
+    ports:
+      - "4200:4200"
+    environment:
+      - PREFECT_SERVER_API_HOST=0.0.0.0
+      - PREFECT_API_DATABASE_CONNECTION_URL=sqlite+aiosqlite:////root/.prefect/prefect.db
+      - PREFECT_UI_ENABLED=true
+      - PREFECT_LOGGING_LEVEL=INFO
+    volumes:
+      - prefect-data:/root/.prefect
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:4200/api/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - bpo-network
+    restart: unless-stopped
+
+volumes:
+  prefect-data:
+
+networks:
+  bpo-network:
+    name: bpo-network
+    external: false

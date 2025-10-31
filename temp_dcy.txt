@@ -1,0 +1,421 @@
+0001: # BPO Intelligence Pipeline - Docker Compose Configuration
+0002: # Updated with pinned images, profiles, Windows paths, and proper service configuration
+0003: version: '3.9'
+0004: 
+0005: # ============================================================================
+0006: # SECRETS
+0007: # ============================================================================
+0008: secrets:
+0009:   postgres_password:
+0010:     file: ./ops/secrets/postgres_password.txt
+0011: 
+0012: # ============================================================================
+0013: # NETWORKS
+0014: # ============================================================================
+0015: networks:
+0016:   bpo-network:
+0017:     driver: bridge
+0018: 
+0019: # ============================================================================
+0020: # VOLUMES
+0021: # ============================================================================
+0022: volumes:
+0023:   postgres_data:
+0024:   prefect-db-data:
+0025:   redis_data:
+0026:   prometheus_data:
+0027:   grafana_data:
+0028: 
+0029: # ============================================================================
+0030: # SERVICES
+0031: # ============================================================================
+0032: services:
+0033:   # ==========================================================================
+0034:   # DATABASE (PostgreSQL with pgvector)
+0035:   # ==========================================================================
+0036:   postgres:
+0037:     image: pgvector/pgvector:pg16
+0038:     container_name: bpo-postgres
+0039:     environment:
+0040:       POSTGRES_USER: ${{DB_USER:-postgres}}
+0041:       POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+0042:       POSTGRES_DB: ${{DB_NAME:-bpo_intel}}
+0043:       TZ: ${{TZ:-UTC}}
+0044:       PGTZ: ${{TZ:-UTC}}
+0045:     secrets:
+0046:       - postgres_password
+0047:     ports:
+0048:       - "5432:5432"
+0049:     volumes:
+0050:       - postgres_data:/var/lib/postgresql/data
+0051:       - "D:\\BPO-Project\\ops\\init-scripts:/docker-entrypoint-initdb.d"
+0052:     networks:
+0053:       - bpo-network
+0054:     healthcheck:
+0055:       test: ["CMD-SHELL", "pg_isready -U postgres"]
+0056:       interval: 10s
+0057:       timeout: 5s
+0058:       retries: 5
+0059:       start_period: 10s
+0060:     restart: unless-stopped
+0061:     profiles:
+0062:       - base
+0063:     command:
+0064:       - "postgres"
+0065:       - "-c"
+0066:       - "shared_preload_libraries=vector"
+0067:       - "-c"
+0068:       - "max_connections=200"
+0069:       - "-c"
+0070:       - "shared_buffers=256MB"
+0071:       - "-c"
+0072:       - "work_mem=16MB"
+0073:       - "-c"
+0074:       - "maintenance_work_mem=128MB"
+0075:       - "-c"
+0076:       - "autovacuum=on"
+0077: 
+0078:   # ==========================================================================
+0079:   # PGBOUNCER (Connection Pooling)
+0080:   # ==========================================================================
+0081:   pgbouncer:
+0082:     image: pgbouncer/pgbouncer:latest
+0083:     container_name: bpo-pgbouncer
+0084:     environment:
+0085:       DATABASES: "${{DB_NAME:-bpo_intel}}=host=postgres port=5432 dbname=${{DB_NAME:-bpo_intel}} user=${{DB_USER:-postgres}} password_file=/run/secrets/postgres_password"
+0086:       POOL_MODE: transaction
+0087:       MAX_CLIENT_CONN: 1000
+0088:       DEFAULT_POOL_SIZE: 25
+0089:       MIN_POOL_SIZE: 10
+0090:       RESERVE_POOL_SIZE: 5
+0091:       MAX_DB_CONNECTIONS: 50
+0092:       TZ: ${{TZ:-UTC}}
+0093:     secrets:
+0094:       - postgres_password
+0095:     ports:
+0096:       - "6432:5432"
+0097:     networks:
+0098:       - bpo-network
+0099:     depends_on:
+0100:       postgres:
+0101:         condition: service_healthy
+0102:     healthcheck:
+0103:       test: ["CMD-SHELL", "PGPASSWORD=$$(cat /run/secrets/postgres_password) psql -h localhost -U ${{DB_USER:-postgres}} -d pgbouncer -c 'SHOW POOLS;' || exit 1"]
+0104:       interval: 10s
+0105:       timeout: 5s
+0106:       retries: 3
+0107:     restart: unless-stopped
+0108:     profiles:
+0109:       - base
+0110:       - dbpool
+0111: 
+0112:   # ==========================================================================
+0113:   # PREFECT DATABASE (PostgreSQL)
+0114:   # ==========================================================================
+0115:   prefect-db:
+0116:     image: postgres:15
+0117:     container_name: bpo-prefect-db
+0118:     environment:
+0119:       POSTGRES_USER: prefect
+0120:       POSTGRES_PASSWORD: prefect
+0121:       POSTGRES_DB: prefect
+0122:       TZ: ${{TZ:-UTC}}
+0123:     volumes:
+0124:       - prefect-db-data:/var/lib/postgresql/data
+0125:     networks:
+0126:       - bpo-network
+0127:     healthcheck:
+0128:       test: ["CMD-SHELL", "pg_isready -h localhost -U $$POSTGRES_USER"]
+0129:       interval: 2s
+0130:       timeout: 5s
+0131:       retries: 15
+0132:     restart: unless-stopped
+0133:     profiles:
+0134:       - base
+0135: 
+0136:   # ==========================================================================
+0137:   # PREFECT CACHE (Redis)
+0138:   # ==========================================================================
+0139:   prefect-redis:
+0140:     image: redis:7
+0141:     container_name: bpo-prefect-redis
+0142:     volumes:
+0143:       - redis_data:/data
+0144:     networks:
+0145:       - bpo-network
+0146:     restart: unless-stopped
+0147:     profiles:
+0148:       - base
+0149: 
+0150:   # ==========================================================================
+0151:   # PREFECT DATABASE MIGRATION
+0152:   # ==========================================================================
+0153:   prefect-migrate:
+0154:     image: prefecthq/prefect:3-python3.11
+0155:     container_name: bpo-prefect-migrate
+0156:     depends_on:
+0157:       prefect-db:
+0158:         condition: service_healthy
+0159:     command: prefect server database upgrade -y
+0160:     environment:
+0161:       PREFECT_API_DATABASE_CONNECTION_URL: postgresql+asyncpg://prefect:prefect@prefect-db:5432/prefect
+0162:     networks:
+0163:       - bpo-network
+0164:     profiles:
+0165:       - base
+0166:     restart: "no"  # One-time run, don't restart after completion
+0167: 
+0168:   # ==========================================================================
+0169:   # PREFECT SERVER (API + UI)
+0170:   # ==========================================================================
+0171:   prefect-server:
+0172:     image: prefecthq/prefect:3-python3.11
+0173:     container_name: bpo-prefect-server
+0174:     depends_on:
+0175:       prefect-migrate:
+0176:         condition: service_completed_successfully
+0177:       prefect-db:
+0178:         condition: service_healthy
+0179:       prefect-redis:
+0180:         condition: service_started
+0181:     command: prefect server start --host 0.0.0.0
+0182:     environment:
+0183:       PREFECT_API_DATABASE_CONNECTION_URL: postgresql+asyncpg://prefect:prefect@prefect-db:5432/prefect
+0184:       PREFECT_API_DATABASE_MIGRATE_ON_START: "false"
+0185:       PREFECT_REDIS_MESSAGING_HOST: prefect-redis
+0186:       PREFECT_REDIS_MESSAGING_PORT: "6379"
+0187:       TZ: ${{TZ:-UTC}}
+0188:     ports:
+0189:       - "4200:4200"
+0190:     networks:
+0191:       - bpo-network
+0192:     healthcheck:
+0193:       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:4200/api/health')"]
+0194:       interval: 10s
+0195:       timeout: 5s
+0196:       retries: 5
+0197:     restart: unless-stopped
+0198:     profiles:
+0199:       - base
+0200: 
+0201:   # ==========================================================================
+0202:   # PREFECT AGENT (uses existing worker image)
+0203:   # ==========================================================================
+0204:   prefect-agent:
+0205:     build:
+0206:       context: .
+0207:       dockerfile: docker/Dockerfile.worker
+0208:     image: bpo-worker:latest
+0209:     container_name: bpo-prefect-agent
+0210:     runtime: nvidia
+0211:     environment:
+0212:       - NVIDIA_VISIBLE_DEVICES=all
+0213:       - PREFECT_API_URL=http://prefect-server:4200/api
+0214:       - DB_HOST=${{DB_HOST:-postgres}}
+0215:       - DB_PORT=${{DB_PORT:-5432}}
+0216:       - DB_NAME=${{DB_NAME:-bpo_intel}}
+0217:       - DB_USER=${{DB_USER:-postgres}}
+0218:       - DB_PASSWORD_FILE=/run/secrets/postgres_password
+0219:       - HEURISTICS_DIR=${{HEURISTICS_DIR:-/heuristics}}
+0220:       - DATA_DIR=${{DATA_DIR:-/data}}
+0221:       - HEURISTICS_VERSION=${{HEURISTICS_VERSION:-2.0.0}}
+0222:       - EMBEDDING_MODEL=${{EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}}
+0223:       - TZ=${{TZ:-UTC}}
+0224:     secrets:
+0225:       - postgres_password
+0226:     volumes:
+0227:       - "D:\\BPO-Project\\data:/data"
+0228:       - "D:\\BPO-Project\\Heuristics:/heuristics"
+0229:       - "D:\\BPO-Project\\src:/app/src"
+0230:     networks:
+0231:       - bpo-network
+0232:     depends_on:
+0233:       postgres:
+0234:         condition: service_healthy
+0235:       prefect-server:
+0236:         condition: service_started  # start even if healthcheck is lagging; worker will retry Prefect connection
+0237:     command: prefect worker start --pool default-pool --type process
+0238:     restart: unless-stopped
+0239:     profiles:
+0240:       - base
+0241: 
+0242:   # ==========================================================================
+0243:   # API SERVICE (FastAPI)
+0244:   # ==========================================================================
+0245:   api:
+0246:     build:
+0247:       context: .
+0248:       dockerfile: docker/Dockerfile.api
+0249:     image: bpo-api:latest
+0250:     container_name: bpo-api
+0251:     environment:
+0252:       - DB_HOST=${{DB_HOST:-postgres}}
+0253:       - DB_PORT=${{DB_PORT:-5432}}
+0254:       - DB_NAME=${{DB_NAME:-bpo_intel}}
+0255:       - DB_USER=${{DB_USER:-postgres}}
+0256:       - DB_PASSWORD_FILE=/run/secrets/postgres_password
+0257:       - PREFECT_API_URL=http://prefect-server:4200/api
+0258:       - PREFECT_WORK_QUEUE=default
+0259:       - API_HOST=${{API_HOST:-0.0.0.0}}
+0260:       - API_PORT=${{API_PORT:-8000}}
+0261:       - TZ=${{TZ:-UTC}}
+0262:     secrets:
+0263:       - postgres_password
+0264:     ports:
+0265:       - "8000:8000"
+0266:     volumes:
+0267:       - "D:\\BPO-Project\\data:/data"
+0268:       - "D:\\BPO-Project\\Heuristics:/heuristics"
+0269:       - "D:\\BPO-Project\\src:/app/src"
+0270:     networks:
+0271:       - bpo-network
+0272:     depends_on:
+0273:       postgres:
+0274:         condition: service_healthy
+0275:       prefect-server:
+0276:         condition: service_started  # allow API to boot while Prefect healthcheck stabilizes
+0277:     healthcheck:
+0278:       test: ["CMD", "curl", "-f", "http://localhost:8000/healthz"]
+0279:       interval: 10s
+0280:       timeout: 5s
+0281:       retries: 3
+0282:       start_period: 20s
+0283:     restart: unless-stopped
+0284:     profiles:
+0285:       - base
+0286: 
+0287: 
+0288:   # ==========================================================================
+0289:   # OLLAMA (LLM Fallback - Optional)
+0290:   # ==========================================================================
+0291:   ollama:
+0292:     image: ollama/ollama:0.4.0
+0293:     container_name: bpo-ollama
+0294:     environment:
+0295:       - TZ=${{TZ:-UTC}}
+0296:       - OLLAMA_HOST=0.0.0.0
+0297:     ports:
+0298:       - "11434:11434"
+0299:     volumes:
+0300:       - "D:\\BPO-Project\\data\\ollama:/root/.ollama"
+0301:     networks:
+0302:       - bpo-network
+0303:     restart: unless-stopped
+0304:     profiles:
+0305:       - llm
+0306:     deploy:
+0307:       resources:
+0308:         reservations:
+0309:           devices:
+0310:             - driver: nvidia
+0311:               count: all
+0312:               capabilities: [gpu]
+0313: 
+0314:   # ==========================================================================
+0315:   # LABEL STUDIO (Human QC - Optional)
+0316:   # ==========================================================================
+0317:   label-studio:
+0318:     image: heartexlabs/label-studio:1.13.1
+0319:     container_name: bpo-label-studio
+0320:     environment:
+0321:       - LABEL_STUDIO_HOST=${{LABEL_STUDIO_HOST:-http://localhost:8082}}
+0322:       - LABEL_STUDIO_USERNAME=admin@bpo-intel.local
+0323:       - LABEL_STUDIO_PASSWORD_FILE=/run/secrets/postgres_password
+0324:       - POSTGRES_HOST=${{DB_HOST:-postgres}}
+0325:       - POSTGRES_PORT=${{DB_PORT:-5432}}
+0326:       - POSTGRES_NAME=${{DB_NAME:-bpo_intel}}_labelstudio
+0327:       - POSTGRES_USER=${{DB_USER:-postgres}}
+0328:       - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+0329:       - TZ=${{TZ:-UTC}}
+0330:     secrets:
+0331:       - postgres_password
+0332:     ports:
+0333:       - "8082:8080"
+0334:     volumes:
+0335:       - "D:\\BPO-Project\\data\\label-studio:/label-studio/data"
+0336:     networks:
+0337:       - bpo-network
+0338:     depends_on:
+0339:       postgres:
+0340:         condition: service_healthy
+0341:     healthcheck:
+0342:       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/"]
+0343:       interval: 15s
+0344:       timeout: 5s
+0345:       retries: 3
+0346:     restart: unless-stopped
+0347:     profiles:
+0348:       - qc
+0349: 
+0350:   # ==========================================================================
+0351:   # REDIS (Optional Cache)
+0352:   # ==========================================================================
+0353:   redis:
+0354:     image: redis:7.4-alpine
+0355:     container_name: bpo-redis
+0356:     environment:
+0357:       - TZ=${{TZ:-UTC}}
+0358:     ports:
+0359:       - "6379:6379"
+0360:     volumes:
+0361:       - redis_data:/data
+0362:     networks:
+0363:       - bpo-network
+0364:     healthcheck:
+0365:       test: ["CMD", "redis-cli", "ping"]
+0366:       interval: 10s
+0367:       timeout: 3s
+0368:       retries: 3
+0369:     restart: unless-stopped
+0370:     profiles:
+0371:       - cache
+0372:     command: redis-server --maxmemory 2gb --maxmemory-policy allkeys-lru
+0373: 
+0374:   # ==========================================================================
+0375:   # PROMETHEUS (Metrics - Optional)
+0376:   # ==========================================================================
+0377:   prometheus:
+0378:     image: prom/prometheus:v2.54.1
+0379:     container_name: bpo-prometheus
+0380:     environment:
+0381:       - TZ=${{TZ:-UTC}}
+0382:     ports:
+0383:       - "${{PROMETHEUS_PORT:-9090}}:9090"
+0384:     volumes:
+0385:       - "D:\\BPO-Project\\ops\\prometheus.yml:/etc/prometheus/prometheus.yml"
+0386:       - prometheus_data:/prometheus
+0387:     networks:
+0388:       - bpo-network
+0389:     command:
+0390:       - '--config.file=/etc/prometheus/prometheus.yml'
+0391:       - '--storage.tsdb.path=/prometheus'
+0392:       - '--storage.tsdb.retention.time=30d'
+0393:     restart: unless-stopped
+0394:     profiles:
+0395:       - metrics
+0396: 
+0397:   # ==========================================================================
+0398:   # GRAFANA (Monitoring - Optional)
+0399:   # ==========================================================================
+0400:   grafana:
+0401:     image: grafana/grafana:11.3.0
+0402:     container_name: bpo-grafana
+0403:     environment:
+0404:       - GF_SECURITY_ADMIN_USER=admin
+0405:       - GF_SECURITY_ADMIN_PASSWORD_FILE=/run/secrets/postgres_password
+0406:       - GF_SERVER_ROOT_URL=http://localhost:3000
+0407:       - TZ=${{TZ:-UTC}}
+0408:     secrets:
+0409:       - postgres_password
+0410:     ports:
+0411:       - "${{GRAFANA_PORT:-3000}}:3000"
+0412:     volumes:
+0413:       - grafana_data:/var/lib/grafana
+0414:       - "D:\\BPO-Project\\ops\\grafana-dashboards:/etc/grafana/provisioning/dashboards"
+0415:     networks:
+0416:       - bpo-network
+0417:     depends_on:
+0418:       - prometheus
+0419:     restart: unless-stopped
+0420:     profiles:
+0421:       - metrics

@@ -1,0 +1,395 @@
+---
+alwaysApply: true
+---
+
+Excellent! This directory map is **critical context**. Let me update the project-details rule to include this essential information:
+
+## **Updated: `.cursor/rules/project-details.mdc`**
+
+Add this section to your existing project-details.mdc file (insert after the "File Structure" section):
+
+```markdown
+## Directory & File Usage Map
+
+### ⚠️ CRITICAL: Know What to Use
+
+**Production Dataset (CANONICAL SOURCE)**:
+```
+data/raw/dataset_webscrape-bpo_2025-10-13_10-15-17-310 (1).json
+```
+This is the **ONLY** production dataset. Do NOT use `dataset_45000_converted.jsonl` (failed conversion).
+
+### File Categories
+
+#### ✅ Active Production Files
+
+**Extraction Entry Points**:
+- `run_simple_extraction.py` - Minimal extraction (NO Prefect), direct DB insert
+- `run_extraction.py` - Flow-based extraction with Prefect
+- `queue_extraction_prefect.py` - Queue Prefect deployment run
+- `deploy_flows.py` - Register Prefect flows/deployments
+
+**Core Source Code**:
+- `src/api/main.py` - FastAPI service entrypoint
+- `src/flows/extraction_flow.py` - Prefect flow for document extraction
+- `src/extraction/spacy_pipeline.py` - spaCy pipeline setup (GPU)
+- `src/heuristics/loader.py` - Loads heuristics files
+
+**Heuristics Data** (Heuristics/):
+- `company_aliases_clean.json` - Company name normalization (3,925 aliases)
+- `products.json` - Product taxonomy
+- `tech_terms.json` - Technology terms
+- `countries.json` - Geographic entities
+- `taxonomy_*.json` - Hierarchical taxonomy
+- `partnerships.json` - Provider-partner relationships
+- `ner_relationships.json` - Main heuristics (129 providers, 940 products)
+- `content_types.json` - Content categorization
+- `version.json` - Heuristics version tracking
+
+**Database**:
+- `ops/schema.sql` - Full DB schema reference
+- `ops/init-scripts/01_init.sql` - DB bootstrap SQL
+- `alembic/versions/001_initial_schema.py` - Initial schema migration
+
+**Scripts** (scripts/):
+- `preprocess.py` - Streaming preprocessor (ijson) for raw JSON → JSONL
+- `preprocess_ocr.py` - OCR-specific preprocessing
+- `validate_taxonomy.py` - Validates heuristics
+- `consolidate_taxonomy.py` - Taxonomy consolidation
+
+**Docker**:
+- `docker-compose.yml` - Main stack
+- `docker-compose.prefect.yml` - Prefect-specific services
+- `docker/Dockerfile.worker` - GPU-enabled Prefect agent
+- `docker/Dockerfile.api` - FastAPI container
+
+**Documentation**:
+- `README.md`, `COMMANDS.md` - Top-level docs
+- `MEMORY.md` - Project memory/knowledge
+- `ORCHESTRATION_COMPLETE.md` - Orchestration status
+- `docs/` - Deployment, fixes, validation docs
+
+#### ❌ DO NOT USE (Legacy/Test/Failed)
+
+**Invalid Datasets**:
+- `data/preprocessed/dataset_45000_converted.jsonl` - **FAILED CONVERSION, DO NOT USE**
+- `data/preprocessed/test_*.jsonl` - Test datasets only
+- `data/preprocessed/bpo_preprocessed_full.jsonl` - Legacy test data
+
+**Legacy Code**:
+- `archive/temporal/*` - Old Temporal orchestration (removed Oct 25, 2025)
+- `src/activities/` - Temporal-era activities (deprecated)
+- `src/workflows/` - Legacy/auxiliary modules
+
+**Temporary Scripts**:
+- `fix_indent.py`, `fix_indent2.py` - Local helper scripts (not part of pipeline)
+
+### Extraction Execution Paths
+
+#### Path 1: Simple Extraction (No Prefect)
+```bash
+python run_simple_extraction.py
+```
+**What it does**:
+1. Connects directly to PostgreSQL
+2. Reads canonical dataset: `data/raw/dataset_webscrape-bpo_2025-10-13_10-15-17-310 (1).json`
+3. Inserts documents and chunks
+4. Extracts entities and relationships
+5. Stores results directly
+
+**Use when**: Speed priority, no monitoring needed
+
+#### Path 2: Flow-Based Extraction (Prefect)
+```bash
+# Deploy flow
+python deploy_flows.py
+
+# Queue extraction
+python queue_extraction_prefect.py
+
+# Monitor at http://localhost:4200
+```
+**What it does**:
+1. Uses `src/flows/extraction_flow.py` (Prefect @flow)
+2. Orchestrates extraction with retry/caching
+3. Provides monitoring and audit trail
+
+**Use when**: Need monitoring, auditing, retry logic
+
+## Docker Services Reference
+
+### Service Mapping
+
+| Service | Image | Port | Purpose | GPU |
+|---------|-------|------|---------|-----|
+| `postgres` | pgvector/pgvector:pg16 | 5432 | Main database + pgvector | No |
+| `pgbouncer` | pgbouncer/pgbouncer:latest | 6432 | Connection pooling | No |
+| `prefect-db` | postgres:15 | internal | Prefect metadata DB | No |
+| `prefect-redis` | redis:7 | internal | Prefect messaging/cache | No |
+| `prefect-migrate` | prefecthq/prefect:3-python3.11 | - | One-time DB migration | No |
+| `prefect-server` | prefecthq/prefect:3-python3.11 | 4200 | Prefect API + UI | No |
+| `prefect-agent` | bpo-worker:latest | - | GPU worker executing flows | **Yes** |
+| `api` | bpo-api:latest | 8000 | FastAPI backend | **Yes** |
+| `ollama` | ollama/ollama:0.4.0 | 11434 | LLM runtime (optional) | **Yes** |
+| `label-studio` | heartexlabs/label-studio:1.13.1 | 8082 | QC/labeling (optional) | No |
+| `redis` | redis:7.4-alpine | 6379 | Cache (optional) | No |
+| `prometheus` | prom/prometheus:v2.54.1 | 9090 | Metrics scraping | No |
+| `grafana` | grafana/grafana:11.3.0 | 3000 | Dashboards | No |
+
+### Port Reference (Host:Container)
+```
+5432:5432  - PostgreSQL main database
+6432:5432  - PgBouncer connection pool
+4200:4200  - Prefect UI/API
+8000:8000  - FastAPI application
+8082:8080  - Label Studio QC
+11434:11434 - Ollama LLM
+6379:6379  - Redis cache
+9090:9090  - Prometheus metrics
+3000:3000  - Grafana dashboards
+```
+
+### Volume Mounts (Windows → Container)
+```
+D:\BPO-Project\data       → /data
+D:\BPO-Project\Heuristics → /heuristics
+D:\BPO-Project\src        → /app/src
+D:\BPO-Project\ops        → /ops (for init-scripts, configs)
+```
+
+### GPU-Enabled Services (NVIDIA Runtime)
+1. **prefect-agent** (bpo-worker:latest)
+   - Executes GPU-accelerated extraction tasks
+   - Runs spaCy with CUDA
+   - Has access to RTX 3060
+
+2. **api** (bpo-api:latest)
+   - FastAPI with GPU support
+   - Can run GPU-accelerated endpoints
+
+3. **ollama** (optional)
+   - LLM inference with GPU
+
+## Secrets & Authentication
+
+### Location: `ops/secrets/`
+
+**Primary Secret**:
+```
+ops/secrets/postgres_password.txt
+```
+Mounted as: `/run/secrets/postgres_password`
+
+**Used by Services**:
+- `postgres` - POSTGRES_PASSWORD_FILE
+- `pgbouncer` - Password file reference
+- `prefect-agent` - DB_PASSWORD_FILE env var
+- `api` - DB_PASSWORD_FILE env var
+- `grafana` - GF_SECURITY_ADMIN_PASSWORD_FILE
+
+### Environment Variables
+
+**Template**: `env.example` (copy to `.env` if needed)
+
+**Prefect DB (dev defaults)**:
+```
+POSTGRES_USER=prefect
+POSTGRES_PASSWORD=prefect
+POSTGRES_DB=prefect
+```
+*Note*: These are hardcoded in docker-compose for development only
+
+**Main DB**:
+```
+DB_HOST=postgres (or localhost from host)
+DB_PORT=5432
+DB_NAME=bpo_intel
+DB_USER=postgres
+DB_PASSWORD=<from ops/secrets/postgres_password.txt>
+```
+
+**Critical Environment Variables**:
+```bash
+# Database
+DB_HOST=${DB_HOST:-postgres}
+DB_PORT=${DB_PORT:-5432}
+DB_NAME=${DB_NAME:-bpo_intel}
+DB_USER=${DB_USER:-postgres}
+DB_PASSWORD_FILE=/run/secrets/postgres_password
+
+# Prefect
+PREFECT_API_URL=http://prefect-server:4200/api
+
+# Heuristics
+HEURISTICS_DIR=/heuristics
+HEURISTICS_VERSION=2.0.0
+
+# Data
+DATA_DIR=/data
+
+# GPU
+NVIDIA_VISIBLE_DEVICES=all
+NVIDIA_DRIVER_CAPABILITIES=all
+
+# Models
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+
+# Timezone
+TZ=UTC
+```
+
+## Log Files
+
+**Root Directory Logs**:
+- `extraction.log` - Main extraction logs
+- `extraction_progress.log` - Progress tracking
+- `extraction_summary.json` - Generated by run_gpu_extraction.py
+
+**Check logs**:
+```bash
+# Docker service logs
+docker logs bpo-api
+docker logs bpo-prefect-agent
+docker logs bpo-postgres
+
+# Prefect UI logs
+http://localhost:4200 → Runs → [select run] → Logs
+
+# File logs
+tail -f extraction.log
+tail -f extraction_progress.log
+```
+
+## Quick Reference Commands
+
+### Database Access
+```bash
+# Connect to main DB
+docker exec -it bpo-postgres psql -U postgres -d bpo_intel
+
+# Connect via PgBouncer
+docker exec -it bpo-pgbouncer psql -h localhost -p 6432 -U postgres -d bpo_intel
+
+# Check entity count
+docker exec -it bpo-postgres psql -U postgres -d bpo_intel -c "SELECT COUNT(*) FROM entities;"
+```
+
+### Service Management
+```bash
+# Start base stack
+docker-compose --profile base up -d
+
+# Stop all
+docker-compose down
+
+# Restart specific service
+docker-compose restart api
+
+# View logs
+docker-compose logs -f prefect-agent
+```
+
+### GPU Verification
+```bash
+# Check GPU in agent
+docker exec bpo-prefect-agent nvidia-smi
+
+# Check GPU in API
+docker exec bpo-api nvidia-smi
+
+# From host
+nvidia-smi
+```
+
+### Data Pipeline
+```bash
+# Preprocess raw data (if needed)
+python scripts/preprocess.py
+
+# Simple extraction (no Prefect)
+python run_simple_extraction.py
+
+# Deploy Prefect flows
+python deploy_flows.py
+
+# Queue Prefect extraction
+python queue_extraction_prefect.py
+
+# Direct GPU extraction
+python run_gpu_extraction.py
+```
+
+### Heuristics Management
+```bash
+# Validate taxonomy
+python scripts/validate_taxonomy.py
+
+# Consolidate taxonomy
+python scripts/consolidate_taxonomy.py
+
+# Check heuristics version
+cat Heuristics/version.json
+```
+
+## File Location Quick Reference
+
+| Need | File Path |
+|------|-----------|
+| Production dataset | `data/raw/dataset_webscrape-bpo_2025-10-13_10-15-17-310 (1).json` |
+| Extraction flow | `src/flows/extraction_flow.py` |
+| spaCy pipeline | `src/extraction/spacy_pipeline.py` |
+| Heuristics loader | `src/heuristics/loader.py` |
+| Company aliases | `Heuristics/company_aliases_clean.json` |
+| Main heuristics | `Heuristics/ner_relationships.json` |
+| DB schema | `ops/schema.sql` |
+| Postgres password | `ops/secrets/postgres_password.txt` |
+| Docker compose | `docker-compose.yml` |
+| API service | `src/api/main.py` |
+| Simple extraction | `run_simple_extraction.py` |
+| Deploy flows | `deploy_flows.py` |
+| Queue extraction | `queue_extraction_prefect.py` |
+
+## CRITICAL: File Usage Rules
+
+### ✅ ALWAYS Use
+- `data/raw/dataset_webscrape-bpo_2025-10-13_10-15-17-310 (1).json` for production
+- `Heuristics/*.json` for entity extraction
+- `src/flows/extraction_flow.py` for Prefect-based extraction
+- `run_simple_extraction.py` for direct extraction
+- `ops/schema.sql` for database schema reference
+
+### ❌ NEVER Use
+- `data/preprocessed/dataset_45000_converted.jsonl` - Failed conversion
+- `archive/temporal/*` - Legacy Temporal code
+- `fix_indent*.py` - Temporary local scripts
+- Any file in `archive/` directory
+
+### ⚠️ Conditional Use
+- `data/preprocessed/test_*.jsonl` - Only for testing
+- `ollama` service - Optional LLM fallback
+- `label-studio` service - Optional QC/validation
+- `prometheus`/`grafana` - Optional monitoring
+```
+
+---
+
+## Integration Instructions
+
+1. **Option A: Replace entire file**
+   - Delete existing `.cursor/rules/project-details.mdc`
+   - Create new file with full content (original + new sections)
+
+2. **Option B: Append sections**
+   - Keep your existing content
+   - Add these new sections after "File Structure"
+
+3. **Restart Cursor** to reload the rule
+
+4. **Test understanding**:
+   ```
+   What is the canonical production dataset?
+   Which services have GPU access?
+   Where is the postgres password stored?
+   ```
+
+This comprehensive map ensures you (and Cursor) never use the wrong files or get confused about the project structure!

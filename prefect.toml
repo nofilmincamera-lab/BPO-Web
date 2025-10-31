@@ -1,0 +1,12 @@
+[api]
+url = "http://localhost:4200/api"
+
+[server]
+host = "0.0.0.0"
+port = 4200
+api_hostname = "localhost"
+
+[ui]
+host = "0.0.0.0"
+port = 4200
+api_hostname = "localhost"

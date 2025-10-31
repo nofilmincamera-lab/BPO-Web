@@ -1,0 +1,64 @@
+{
+  "version": "2.0.0",
+  "updated_at": "2025-10-25T04:08:31.127217Z",
+  "description": "Consolidated taxonomy backup data from Taxonomy folder",
+  "components": {
+    "company_aliases": {
+      "file": "company_aliases_clean.json",
+      "count": 3361,
+      "last_updated": "2025-10-25T04:08:31.127251Z"
+    },
+    "countries": {
+      "file": "countries.json",
+      "count": 52,
+      "last_updated": "2025-10-24T00:00:00Z"
+    },
+    "ner_relationships": {
+      "file": "ner_relationships.json",
+      "count": 4,
+      "last_updated": "2025-10-24T00:00:00Z"
+    },
+    "tech_terms": {
+      "file": "tech_terms.json",
+      "count": 20,
+      "last_updated": "2025-10-25T04:08:31.127269Z"
+    },
+    "taxonomy_industries": {
+      "file": "taxonomy_industries.json",
+      "count": 67,
+      "last_updated": "2025-10-25T04:08:31.127283Z"
+    },
+    "taxonomy_services": {
+      "file": "taxonomy_services.json",
+      "count": 50,
+      "last_updated": "2025-10-25T04:08:31.127297Z"
+    },
+    "products": {
+      "file": "products.json",
+      "count": 1072,
+      "last_updated": "2025-10-25T04:08:31.127311Z"
+    },
+    "partnerships": {
+      "file": "partnerships.json",
+      "count": 116,
+      "last_updated": "2025-10-25T04:08:31.127323Z"
+    }
+  },
+  "changelog": [
+    {
+      "version": "2.0.0",
+      "date": "2025-10-25",
+      "changes": "Consolidated taxonomy backup: industries (67), services (50), products (1072), partnerships (116), providers merged into company_aliases"
+    },
+    {
+      "version": "2.0.0",
+      "date": "2025-10-25",
+      "changes": "Consolidated taxonomy backup: industries (67), services (50), products (1), partnerships (1), providers merged into company_aliases"
+    },
+    {
+      "version": "2.0.0",
+      "date": "2025-10-25",
+      "changes": "Consolidated taxonomy backup: industries (67), services (50), products (1073), partnerships (117), providers merged into company_aliases"
+    }
+  ]
+}

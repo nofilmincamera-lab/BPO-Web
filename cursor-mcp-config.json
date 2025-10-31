@@ -1,0 +1,16 @@
+{
+    "mcpServers": {
+        "label-studio": {
+            "command": "python",
+            "args": [
+                "-m",
+                "label_studio_mcp"
+            ],
+            "env": {
+                "LABEL_STUDIO_API_KEY": "131a97106e49f9f2ed0db70d24f85092570753f3",
+                "LABEL_STUDIO_URL": "http://localhost:8082"
+            }
+        }
+    }
+}
+

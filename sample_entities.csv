@@ -1,0 +1,111 @@
+type,surface,norm_value,conf,source,source_version,confidence_method,span_start,span_end,span_text
+COMPANY,Lenovo,"{""canonical"": ""Lenovo""}",0.9,heuristics,taxonomy,entity_ruler,0,6,Lenovo
+MONEY,$555 million,"{""canonical"": ""$555 million""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,19,31,$555 million
+COMPANY,Cisco,"{""canonical"": ""Cisco""}",0.9,heuristics,taxonomy,entity_ruler,59,64,Cisco
+ORG,PyTorch,"{""canonical"": ""PyTorch""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,79,86,PyTorch
+ORG,FashionTech,"{""canonical"": ""FashionTech""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,103,114,FashionTech
+PERSON,Wyatt James,"{""canonical"": ""Wyatt James""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,149,160,Wyatt James
+ORG,Business Advisor,"{""canonical"": ""Business Advisor""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,162,178,Business Advisor
+COMPANY,Lenovo,"{""canonical"": ""Lenovo""}",0.9,heuristics,taxonomy,entity_ruler,182,188,Lenovo
+PRODUCT,Compliance,"{""canonical"": ""Compliance""}",0.9,heuristics,taxonomy,entity_ruler,204,214,Compliance
+GPE,Amarillo,"{""canonical"": ""Amarillo""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,247,255,Amarillo
+GPE,Colorado Springs,"{""canonical"": ""Colorado Springs""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,257,273,Colorado Springs
+GPE,Detroit,"{""canonical"": ""Detroit""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,279,286,Detroit
+PERCENT,52%,"{""canonical"": ""52%""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,319,322,52%
+ORG,FashionTech,"{""canonical"": ""FashionTech""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,333,344,FashionTech
+DATE,the next two years,"{""canonical"": ""the next two years""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,358,376,the next two years
+ORG,PyTorch,"{""canonical"": ""PyTorch""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,421,428,PyTorch
+PERSON,Kafka,"{""canonical"": ""Kafka""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,430,435,Kafka
+COMPANY,Slack,"{""canonical"": ""Slack""}",0.9,heuristics,taxonomy,entity_ruler,437,442,Slack
+TECHNOLOGY,Analytics,"{""canonical"": ""Analytics""}",0.9,heuristics,taxonomy,entity_ruler,449,458,Analytics
+PRODUCT,Compliance,"{""canonical"": ""Compliance""}",0.9,heuristics,taxonomy,entity_ruler,488,498,Compliance
+ORG,Amarillo,"{""canonical"": ""Amarillo""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,517,525,Amarillo
+PERSON,Jack Foster,"{""canonical"": ""Jack Foster""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,560,571,Jack Foster
+BUSINESS_TITLE,Chief Technology Officer,"{""canonical"": ""Chief Technology Officer""}",0.85,pattern,business_title_v1,pattern_match,573,597,Chief Technology Officer
+INDUSTRY,Technology,"{""id"": ""technology"", ""name"": ""Technology"", ""path"": [""tmt"", ""technology""], ""level"": 2}",0.88,heuristics,taxonomy_industries_2.0.0,taxonomy_match,579,589,Technology
+PERSON,Robert Taylor,"{""canonical"": ""Robert Taylor""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,600,613,Robert Taylor
+ORG,CTO,"{""canonical"": ""CTO""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,615,618,CTO
+ORG,Lucas Bell,"{""canonical"": ""Lucas Bell""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,625,635,Lucas Bell
+PRODUCT,Enterprise,"{""canonical"": ""Analytics Platform""}",0.9,heuristics,taxonomy,entity_ruler,637,647,Enterprise
+TECHNOLOGY,CI/CD,"{""canonical"": ""DevOps""}",0.9,heuristics,taxonomy,entity_ruler,680,685,CI/CD
+COMPANY,Linear,"{""canonical"": ""Linear""}",0.9,heuristics,taxonomy,entity_ruler,687,693,Linear
+ORG,Elasticsearch,"{""canonical"": ""Elasticsearch""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,703,716,Elasticsearch
+ORG,Android,"{""canonical"": ""Android""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,718,725,Android
+PERSON,Full Stack,"{""canonical"": ""Full Stack""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,727,737,Full Stack
+GPE,React,"{""canonical"": ""React""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,739,744,React
+GPE,Palantir,"{""canonical"": ""Palantir""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,780,788,Palantir
+COMPANY,Databricks,"{""canonical"": ""Databricks""}",0.9,heuristics,taxonomy,entity_ruler,793,803,Databricks
+COMPANY,IoT Solutions,"{""canonical"": ""IoT Solutions""}",0.9,heuristics,taxonomy,entity_ruler,822,835,IoT Solutions
+ORG,Supply Chain Optimization,"{""canonical"": ""Supply Chain Optimization""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,840,865,Supply Chain Optimization
+GPE,Baltimore,"{""canonical"": ""Baltimore""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,947,956,Baltimore
+LOCATION,Australia,"{""canonical"": ""AU""}",0.9,heuristics,taxonomy,entity_ruler,958,967,Australia
+GPE,Henderson,"{""canonical"": ""Henderson""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,973,982,Henderson
+COMPANY,IBM,"{""canonical"": ""IBM""}",0.9,heuristics,taxonomy,entity_ruler,989,992,IBM
+COMPANY,Oracle,"{""canonical"": ""Oracle""}",0.9,heuristics,taxonomy,entity_ruler,997,1003,Oracle
+ORG,FashionTech,"{""canonical"": ""FashionTech""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1042,1053,FashionTech
+COMPANY,AMD,"{""canonical"": ""AMD""}",0.9,heuristics,taxonomy,entity_ruler,1121,1124,AMD
+COMPANY,SAP,"{""canonical"": ""SAP""}",0.9,heuristics,taxonomy,entity_ruler,1126,1129,SAP
+COMPANY,Dell,"{""canonical"": ""Dell""}",0.9,heuristics,taxonomy,entity_ruler,1135,1139,Dell
+ORG,Abstract,"{""canonical"": ""Abstract""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1166,1174,Abstract
+TECHNOLOGY,Machine Learning,"{""canonical"": ""Machine Learning""}",0.9,heuristics,taxonomy,entity_ruler,1179,1195,Machine Learning
+PERCENT,44%,"{""canonical"": ""44%""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1238,1241,44%
+ORG,FashionTech,"{""canonical"": ""FashionTech""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1245,1256,FashionTech
+ORG,PyTorch,"{""canonical"": ""PyTorch""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1282,1289,PyTorch
+DATE,2025-02-10,"{""canonical"": ""2025-02-10""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1293,1303,2025-02-10
+MONEY,$963 million,"{""canonical"": ""$963 million""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1371,1383,$963 million
+COMPANY,Lenovo,"{""canonical"": ""Lenovo""}",0.9,heuristics,taxonomy,entity_ruler,1410,1416,Lenovo
+MONEY,$984 million,"{""canonical"": ""$984 million""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1421,1433,$984 million
+COMPANY,Cisco,"{""canonical"": ""Cisco""}",0.9,heuristics,taxonomy,entity_ruler,1438,1443,Cisco
+DATE,2024-11-19,"{""canonical"": ""2024-11-19""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1447,1457,2024-11-19
+ORG,Compliance,"{""canonical"": ""Compliance""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1463,1473,Compliance
+PERSON,Michael Wilson,"{""canonical"": ""Michael Wilson""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1508,1522,Michael Wilson
+MONEY,$113 million,"{""canonical"": ""$113 million""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1579,1591,$113 million
+COMPANY,Stripe,"{""canonical"": ""Stripe""}",0.9,heuristics,taxonomy,entity_ruler,1597,1603,Stripe
+COMPANY,VMware,"{""canonical"": ""VMware""}",0.9,heuristics,taxonomy,entity_ruler,1608,1614,VMware
+GPE,Milwaukee,"{""canonical"": ""Milwaukee""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1618,1627,Milwaukee
+LOCATION,Japan,"{""canonical"": ""JP""}",0.9,heuristics,taxonomy,entity_ruler,1632,1637,Japan
+ORG,Performance Optimization,"{""canonical"": ""Performance Optimization""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1653,1677,Performance Optimization
+PERSON,Cloud Migration,"{""canonical"": ""Cloud Migration""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1682,1697,Cloud Migration
+PERCENT,38%,"{""canonical"": ""38%""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1745,1748,38%
+ORG,Consulting,"{""canonical"": ""Consulting""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1778,1788,Consulting
+NORP,PropTech,"{""canonical"": ""PropTech""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1793,1801,PropTech
+INDUSTRY,Technology,"{""id"": ""technology"", ""name"": ""Technology"", ""path"": [""tmt"", ""technology""], ""level"": 2}",0.88,heuristics,taxonomy_industries_2.0.0,taxonomy_match,1811,1821,Technology
+CARDINAL,195,"{""canonical"": ""195""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1868,1871,195
+ORG,Network Security,"{""canonical"": ""Network Security""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1893,1909,Network Security
+COMPANY,Azure,"{""canonical"": ""Azure""}",0.9,heuristics,taxonomy,entity_ruler,1920,1925,Azure
+ORG,Kubernetes,"{""canonical"": ""Kubernetes""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1927,1937,Kubernetes
+PERSON,PyTorch,"{""canonical"": ""PyTorch""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,1948,1955,PyTorch
+TECHNOLOGY,BI,"{""canonical"": ""Analytics""}",0.9,heuristics,taxonomy,entity_ruler,2000,2002,BI
+PERSON,Kafka,"{""canonical"": ""Kafka""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2004,2009,Kafka
+COMPANY,Slack,"{""canonical"": ""Slack""}",0.9,heuristics,taxonomy,entity_ruler,2015,2020,Slack
+ORG,Customer Experience and,"{""canonical"": ""Customer Experience and""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2049,2072,Customer Experience and
+TECHNOLOGY,Business Intelligence,"{""canonical"": ""Business Intelligence""}",0.9,heuristics,taxonomy,entity_ruler,2073,2094,Business Intelligence
+ORG,Mason Rogers,"{""canonical"": ""Mason Rogers""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2109,2121,Mason Rogers
+PERSON,Jacob Gonzalez,"{""canonical"": ""Jacob Gonzalez""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2190,2204,Jacob Gonzalez
+BUSINESS_TITLE,Chief Technology Officer,"{""canonical"": ""Chief Technology Officer""}",0.85,pattern,business_title_v1,pattern_match,2206,2230,Chief Technology Officer
+TECHNOLOGY,Analytics,"{""canonical"": ""Analytics""}",0.9,heuristics,taxonomy,entity_ruler,2253,2262,Analytics
+GPE,Columbus,"{""canonical"": ""Columbus""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2285,2293,Columbus
+GPE,Bakersfield,"{""canonical"": ""Bakersfield""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2295,2306,Bakersfield
+GPE,Atlanta,"{""canonical"": ""Atlanta""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2312,2319,Atlanta
+ORG,FashionTech,"{""canonical"": ""FashionTech""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2325,2336,FashionTech
+COMPANY,Lenovo,"{""canonical"": ""Lenovo""}",0.9,heuristics,taxonomy,entity_ruler,2373,2379,Lenovo
+ORG,PyTorch,"{""canonical"": ""PyTorch""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2414,2421,PyTorch
+COMPANY,Lenovo,"{""canonical"": ""Lenovo""}",0.9,heuristics,taxonomy,entity_ruler,2479,2485,Lenovo
+COMPANY,Cisco,"{""canonical"": ""Cisco""}",0.9,heuristics,taxonomy,entity_ruler,2487,2492,Cisco
+PERSON,Palantir,"{""canonical"": ""Palantir""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2498,2506,Palantir
+ORG,Testing Services,"{""canonical"": ""Testing Services""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2518,2534,Testing Services
+COMPANY,IoT Solutions,"{""canonical"": ""IoT Solutions""}",0.9,heuristics,taxonomy,entity_ruler,2539,2552,IoT Solutions
+MONEY,an additional $76 million,"{""canonical"": ""an additional $76 million""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2592,2617,an additional $76 million
+ORG,PyTorch,"{""canonical"": ""PyTorch""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2621,2628,PyTorch
+DATE,2024-12-24,"{""canonical"": ""2024-12-24""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2657,2667,2024-12-24
+PERSON,Luke Russell,"{""canonical"": ""Luke Russell""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2674,2686,Luke Russell
+ORG,Business Advisor,"{""canonical"": ""Business Advisor""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2688,2704,Business Advisor
+ORG,FashionTech,"{""canonical"": ""FashionTech""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2718,2729,FashionTech
+COMPANY,Lenovo,"{""canonical"": ""Lenovo""}",0.9,heuristics,taxonomy,entity_ruler,2778,2784,Lenovo
+ORG,FashionTech,"{""canonical"": ""FashionTech""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2806,2817,FashionTech
+ORG,Consulting,"{""canonical"": ""Consulting""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2822,2832,Consulting
+ORG,FashionTech,"{""canonical"": ""FashionTech""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2846,2857,FashionTech
+GPE,Birmingham,"{""canonical"": ""Birmingham""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2868,2878,Birmingham
+GPE,Colorado Springs,"{""canonical"": ""Colorado Springs""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2883,2899,Colorado Springs
+COMPANY,Lenovo,"{""canonical"": ""Lenovo""}",0.9,heuristics,taxonomy,entity_ruler,2957,2963,Lenovo
+ORG,Testing Services,"{""canonical"": ""Testing Services""}",0.7,spacy,en_core_web_sm_3.8.0,spacy_ner,2992,3008,Testing Services

@@ -1,0 +1,88 @@
+# BPO Intelligence Pipeline - Prefect worker image (CUDA)
+
+FROM nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu22.04 AS python-base
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PYTHONPATH=/app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.11 \
+    python3.11-dev \
+    python3.11-venv \
+    python3-pip \
+    build-essential \
+    pkg-config \
+    git \
+    curl \
+    wget \
+    ca-certificates \
+    libpq-dev \
+    libmagic1 \
+    libffi-dev \
+    libssl-dev \
+    libxml2 \
+    libxslt1.1 \
+    libxslt1-dev \
+    libjpeg-dev \
+    zlib1g-dev \
+    libtiff-dev \
+    poppler-utils \
+    poppler-data \
+    tesseract-ocr \
+    libgl1 \
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -sf /usr/bin/python3.11 /usr/bin/python \
+    && ln -sf /usr/bin/python3.11 /usr/bin/python3
+
+RUN python3.11 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:${PATH}"
+
+WORKDIR /app
+COPY requirements.txt requirements.txt
+RUN pip install --upgrade pip setuptools wheel \
+    && pip install --no-cache-dir -r requirements.txt \
+    && python -m spacy download en_core_web_sm
+
+FROM nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu22.04 AS runtime
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PYTHONPATH=/app \
+    PATH="/opt/venv/bin:${PATH}"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.11 \
+    python3-venv \
+    ca-certificates \
+    libpq5 \
+    libmagic1 \
+    poppler-utils \
+    tesseract-ocr \
+    libgl1 \
+    libjpeg-dev \
+    zlib1g-dev \
+    libtiff-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -sf /usr/bin/python3.11 /usr/bin/python \
+    && ln -sf /usr/bin/python3.11 /usr/bin/python3
+
+COPY --from=python-base /opt/venv /opt/venv
+
+WORKDIR /app
+COPY src/ ./src/
+COPY scripts/ ./scripts/
+COPY alembic.ini .
+COPY alembic/ ./alembic/
+COPY docker/entrypoints/run-worker.sh /usr/local/bin/run-worker.sh
+RUN chmod +x /usr/local/bin/run-worker.sh && \
+    useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+ENTRYPOINT ["/usr/local/bin/run-worker.sh"]
+CMD ["prefect", "worker", "start", "--pool", "default-pool", "--type", "process"]
+

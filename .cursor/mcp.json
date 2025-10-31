@@ -1,0 +1,50 @@
+{
+  "mcpServers": {
+    "label-studio": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/HumanSignal/label-studio-mcp-server",
+        "mcp-label-studio"
+      ],
+      "env": {
+        "LABEL_STUDIO_API_KEY": "131a97106e49f9f2ed0db70d24f85092570753f3",
+        "LABEL_STUDIO_URL": "http://localhost:8082"
+      }
+    },
+    "prefect": {
+      "command": "uvx",
+      "args": ["--from", "prefect-mcp", "prefect-mcp-server"],
+      "env": {
+        "PREFECT_API_URL": "http://localhost:4200/api"
+      }
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "docker": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "-v",
+        "//var/run/docker.sock:/var/run/docker.sock",
+        "mcp/docker:latest"
+      ]
+    },
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "context7-mcp-server"
+      ],
+      "env": {}
+    }
+  }
+}
+

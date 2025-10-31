@@ -1,0 +1,24 @@
+# Dedicated image for Label Studio preprocessing helpers.
+FROM python:3.11-slim
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    tesseract-ocr \
+    poppler-utils \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY requirements.txt /app/requirements.txt
+RUN pip install --upgrade pip && pip install --no-cache-dir -r /app/requirements.txt
+
+# Clean out legacy directories from previous image versions so COPY writes files
+RUN rm -rf preprocess.py preprocess_ocr.py cleaning.py scripts
+
+COPY preprocess.py preprocess.py
+COPY preprocess_ocr.py preprocess_ocr.py
+COPY scripts/ scripts/
+COPY Heuristics/ Heuristics/

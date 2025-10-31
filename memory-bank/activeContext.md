@@ -5,22 +5,27 @@
 1) Production extraction pipeline stabilized
 - Prefect 3.1.9 running; UI accessible at http://localhost:4200
 - Canonical dataset path established: `data/processed/preprocessed.jsonl`
-- Production extraction via `queue_extraction_prefect.py` (orchestrated) or `run_direct_extraction.py` (direct)
-- Both use proper heuristics-first multi-tier extraction pipeline
+- Production extraction via `queue_extraction_prefect.py` (Prefect-orchestrated, RECOMMENDED)
+- Alternative paths: `run_extraction.py`, `run_standalone_extraction.py`, `run_simple_extraction.py`
+- All use proper heuristics-first multi-tier extraction pipeline
 
-2) Codebase cleanup completed
-- Deprecated scripts archived: `run_gpu_extraction.py`, `convert_raw_dataset.py`
-- All extraction scripts now use canonical dataset paths
-- Memory-bank updated to reflect Oct 31, 2025 state
+2) Codebase cleanup completed (Oct 31, 2025)
+- Removed deprecated scripts: `run_gpu_extraction.py`, `convert_raw_dataset.py`
+- All extraction scripts now use canonical dataset: `data/processed/preprocessed.jsonl`
+- Removed 79% of bloated dependencies (58 → 12 packages)
+- Platform-neutralized Docker configuration (relative paths, LF line endings)
+- Created `CANONICAL_PATHS.md` as single source of truth
 
 ## Recent Changes (Oct 29-31, 2025)
 
 ### Codebase Cleanup (Oct 31, 2025) ✅
-- Archived deprecated scripts that bypassed heuristics pipeline
-- Established canonical dataset paths across all scripts
-- Updated memory-bank to reflect current state
+- Removed deprecated scripts that bypassed heuristics pipeline
+- Established canonical dataset paths across all scripts: `data/processed/preprocessed.jsonl`
+- Ultra-minimal dependencies: 58 → 12 packages (79% reduction)
+- Platform-neutralized Docker: relative paths, LF line endings, `.gitattributes`
 - Created `CANONICAL_PATHS.md` for single source of truth
-- Removed Context7/Temporal references (migrated to Prefect Oct 25)
+- Created `PLATFORM_NEUTRALIZATION.md` for cross-platform compatibility
+- Created `DEPENDENCIES_AUDIT.md` documenting all package decisions
 
 ### Prefect Migration ✅
 - Removed Temporal (fragile 5-service stack with health check issues)
@@ -56,12 +61,11 @@
   - BPO Project (ID: 2) with comprehensive entity schema
   - Tools: projects, tasks, annotations, imports
   - Automation script: `bpo_mcp_automation.py`
-- Prefect MCP: to enable monitoring/inspection of flows and deployments
-  - Local profile by default; env override via `PREFECT_API_URL` (+ `PREFECT_API_KEY` for Cloud)
-  - Intended URL (self-hosted): http://localhost:4200/api
-- Docker MCP: register to interact with Docker engine (container listing/health) [pending config]
-- Sequential Thinking MCP: register for structured chain-of-thought tool use [pending config]
-- Cursor configuration consolidated in `.cursor/mcp.json`
+- Prefect MCP: monitoring/inspection of flows and deployments
+  - URL: http://localhost:4200/api
+  - Tools: flows, flow runs, deployments, work pools, task runs, events
+- Sequential Thinking MCP: structured chain-of-thought reasoning
+- Cursor configuration in `.cursor/mcp.json`
 
 ## Next Steps
 
@@ -74,9 +78,15 @@
    - Pre-annotated tasks available in `data/label-studio/tasks_with_predictions_5k.json`
 
 2. Run production extraction
-   - Preprocess canonical dataset: `python scripts/preprocess.py --input <raw> --output data/processed/preprocessed.jsonl`
-   - Execute extraction: `python queue_extraction_prefect.py` (with Prefect) or `python run_direct_extraction.py` (direct)
-   - Monitor at http://localhost:4200 if using Prefect
+   - Preprocess canonical dataset: `python scripts/preprocess.py`
+     - Input: `data/raw/dataset_webscrape-bpo_2025-10-13_10-15-17-310 (1).json`
+     - Output: `data/processed/preprocessed.jsonl`
+   - Execute extraction (RECOMMENDED): `python queue_extraction_prefect.py`
+   - Alternative extraction paths:
+     - `python run_extraction.py` (direct flow)
+     - `python run_standalone_extraction.py` (no Prefect)
+     - `python run_simple_extraction.py` (minimal)
+   - Monitor at http://localhost:4200 for Prefect-orchestrated runs
 
 3. Production deployment considerations
    - Validate extraction results in Label Studio
@@ -86,13 +96,15 @@
 ## Active Decisions
 
 - **Prefect orchestration** (replaced Temporal Oct 25, 2025)
-- **Canonical dataset path**: `data/processed/preprocessed.jsonl` (preprocessed via `scripts/preprocess.py`)
-- **Production extraction**: `queue_extraction_prefect.py` or `run_direct_extraction.py`
+- **Canonical dataset**: `data/processed/preprocessed.jsonl` (from `scripts/preprocess.py`)
+- **Raw dataset**: `data/raw/dataset_webscrape-bpo_2025-10-13_10-15-17-310 (1).json`
+- **Production extraction**: `queue_extraction_prefect.py` (RECOMMENDED)
 - **Heuristics-first multi-tier pipeline**: heuristics (0.90) → regex (0.92) → spaCy (0.70)
 - **PostgreSQL + Redis** for Prefect backend
 - **Single agent** with GPU support for extraction tasks (RTX 3060, CUDA 13.0)
 - **Python-first flows** with @flow/@task decorators
 - **Docker-based deployment** with prefect-docker blocks
+- **Ultra-minimal dependencies**: 12 packages (down from 58)
+- **Platform-neutral**: Relative paths, LF line endings, cross-platform Docker
 - Streaming JSON parsing for large files (ijson via `scripts/preprocess.py`)
-- Manual schema creation due to Alembic mount issues
 

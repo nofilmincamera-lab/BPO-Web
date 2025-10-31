@@ -3,12 +3,15 @@
 ## What Works
 
 ### ✅ Production Extraction Pipeline (Completed 2025-10-31)
-- **Canonical dataset path**: `data/processed/preprocessed.jsonl`
-- **Production scripts**:
-  - `queue_extraction_prefect.py` - Orchestrated with Prefect (recommended)
-  - `run_direct_extraction.py` - Direct execution without Prefect
-- Both use proper heuristics-first multi-tier extraction pipeline
-- **Preprocessing**: `scripts/preprocess.py` with streaming, deduplication, canonicalization
+- **Raw dataset**: `data/raw/dataset_webscrape-bpo_2025-10-13_10-15-17-310 (1).json` (45K documents)
+- **Canonical preprocessed dataset**: `data/processed/preprocessed.jsonl`
+- **Production scripts** (RECOMMENDED → alternatives):
+  - `queue_extraction_prefect.py` - Prefect-orchestrated (RECOMMENDED)
+  - `run_extraction.py` - Direct Prefect flow execution
+  - `run_standalone_extraction.py` - No Prefect, direct asyncpg
+  - `run_simple_extraction.py` - Minimal/testing only
+- All use proper heuristics-first multi-tier extraction pipeline
+- **Preprocessing**: `scripts/preprocess.py` with streaming (ijson), deduplication, canonicalization
 
 ### ✅ Prefect Migration (Completed 2025-10-25)
 - Removed all Temporal services from docker-compose.yml
@@ -38,16 +41,22 @@
 - Prefect flow now streams JSONL input (no memory blow-ups) and writes checkpoints compatible with DB schema
 
 ### ✅ Infrastructure
-- Database: 8 tables + pgvector 0.8.1
-- GPU: CUDA available (RTX 3060)
-- Test data: test_10.jsonl with 5 synthetic documents
-- Docker: NVIDIA runtime enabled
+- Database: 8 tables + pgvector 0.8.1 (PostgreSQL 16)
+- GPU: CUDA available (RTX 3060, CUDA 13.0)
+- Docker: NVIDIA runtime enabled, platform-neutral configuration
+- Dependencies: Ultra-minimal (12 packages, 79% reduction from 58)
+- Platform: Cross-platform compatible (Linux, macOS, Windows WSL2)
 
 ## What's Left to Build
 
 ### 🔄 Execution & Validation
-- Run production extraction via Prefect: `python queue_extraction_prefect.py`
-- Or direct execution: `python run_direct_extraction.py`
+- **Preprocess raw data**: `python scripts/preprocess.py`
+  - Input: `data/raw/dataset_webscrape-bpo_2025-10-13_10-15-17-310 (1).json`
+  - Output: `data/processed/preprocessed.jsonl`
+- **Run production extraction** (choose one):
+  - `python queue_extraction_prefect.py` (RECOMMENDED - Prefect-orchestrated)
+  - `python run_extraction.py` (direct Prefect flow)
+  - `python run_standalone_extraction.py` (no Prefect)
 - Monitor extraction at http://localhost:4200 (Prefect UI)
 - Validate results in Label Studio at http://localhost:8082
 
@@ -58,22 +67,26 @@
 - Performance optimization for large datasets
 - Automated exports from Label Studio to training datasets
 
-### 🗄️ Deprecated/Archived
-- `archive/run_gpu_extraction_deprecated.py` - Bypassed heuristics pipeline
-- `archive/convert_raw_dataset_deprecated.py` - Insufficient preprocessing
-- `archive/context7_temporal_article.txt` - Temporal reference (migrated to Prefect)
-- See `archive/README_DEPRECATED_SCRIPTS.md` for details
+### 🗄️ Deprecated/Removed
+- ❌ `run_gpu_extraction.py` - DELETED (bypassed heuristics, used wrong dataset)
+- ❌ `convert_raw_dataset.py` - DELETED (use `scripts/preprocess.py` instead)
+- ❌ `data/preprocessed/dataset_45000_converted.jsonl` - INVALID (failed conversion)
+- ❌ Temporal orchestration - REMOVED (migrated to Prefect Oct 25, 2025)
+- See `CANONICAL_PATHS.md` for full deprecated assets list
 
 ## Current Status
 
 **Infrastructure Status (2025-10-31)**:
 - ✅ Prefect server healthy; UI accessible at http://localhost:4200
 - ✅ API service healthy
-- ✅ GPU access confirmed (RTX 3060)
+- ✅ GPU access confirmed (RTX 3060, CUDA 13.0)
 - ✅ Label Studio running at http://localhost:8082; MCP integrated
 - ✅ Prefect MCP configured for monitoring
-- ✅ Canonical dataset paths established across all scripts
-- ✅ Deprecated scripts archived with documentation
+- ✅ Canonical dataset paths established: see `CANONICAL_PATHS.md`
+- ✅ Deprecated scripts removed, invalid datasets documented
+- ✅ Ultra-minimal dependencies: 12 packages (down from 58)
+- ✅ Platform-neutral Docker configuration
+- ✅ Documentation: `CANONICAL_PATHS.md`, `PLATFORM_NEUTRALIZATION.md`, `DEPENDENCIES_AUDIT.md`
 
 ## Known Issues
 
@@ -84,9 +97,13 @@
 ## Next Steps
 
 1. Run production extraction on full 45K document dataset
-   - Preprocess: `python scripts/preprocess.py --input <raw> --output data/processed/preprocessed.jsonl`
-   - Extract: `python queue_extraction_prefect.py` or `python run_direct_extraction.py`
-2. Validate extraction results in Label Studio
+   - Preprocess: `python scripts/preprocess.py`
+     - Input: `data/raw/dataset_webscrape-bpo_2025-10-13_10-15-17-310 (1).json`
+     - Output: `data/processed/preprocessed.jsonl`
+   - Extract: `python queue_extraction_prefect.py` (RECOMMENDED)
+     - Alternative: `python run_extraction.py`, `run_standalone_extraction.py`
+   - Monitor: http://localhost:4200 (Prefect UI)
+2. Validate extraction results in Label Studio (http://localhost:8082)
 3. Automate exports from Label Studio to training/validation datasets
 4. Implement automated overnight validation workflows
 5. Configure monitoring and alerting for production runs

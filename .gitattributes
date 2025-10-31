@@ -1,2 +1,46 @@
-# Auto detect text files and perform LF normalization
+# BPO Intelligence Pipeline - Git Attributes
+# Ensures consistent line endings across platforms
+
+# Auto-detect text files
 * text=auto
+
+# Force LF for Unix scripts (critical for Docker)
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Force LF for Docker/Docker Compose files
+Dockerfile* text eol=lf
+docker-compose*.yml text eol=lf
+*.dockerignore text eol=lf
+
+# Force LF for Python
+*.py text eol=lf
+*.pyi text eol=lf
+
+# Force LF for Config files
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+*.ini text eol=lf
+*.cfg text eol=lf
+*.sql text eol=lf
+
+# Force LF for Markdown and Documentation
+*.md text eol=lf
+*.txt text eol=lf
+
+# Binary files (no conversion)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.pyc binary
+*.pyd binary
+*.so binary
+*.dll binary
+*.exe binary
+*.whl binary
+*.egg binary

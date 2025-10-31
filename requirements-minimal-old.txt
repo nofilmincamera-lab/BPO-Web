@@ -1,0 +1,67 @@
+# BPO Intelligence Pipeline - Minimal Dependencies
+# ONLY packages that are actually imported in active source code
+# Python 3.11+ required
+
+# ============================================================================
+# CORE FRAMEWORK
+# ============================================================================
+fastapi==0.115.0
+uvicorn[standard]==0.31.1
+pydantic==2.9.2
+pydantic-settings==2.5.2
+python-dotenv==1.0.1
+
+# ============================================================================
+# PREFECT WORKFLOW ORCHESTRATION
+# ============================================================================
+prefect==3.1.9
+prefect-docker==0.6.0
+
+# ============================================================================
+# DOCKER OPERATIONS
+# ============================================================================
+# Required by prefect-docker for work pool operations
+docker==7.1.0
+
+# ============================================================================
+# DATABASE
+# ============================================================================
+# Direct PostgreSQL access (used in all flows)
+asyncpg==0.29.0
+
+# ============================================================================
+# NLP & NER
+# ============================================================================
+# GPU-enabled spaCy for CUDA acceleration (RTX 3060, CUDA 12.1)
+spacy[cuda121]==3.8.2
+# Run after install: python -m spacy download en_core_web_sm
+
+# ============================================================================
+# EMBEDDINGS & VECTOR SIMILARITY
+# ============================================================================
+# GPU-enabled PyTorch for CUDA acceleration
+# Install with: pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cu121
+torch==2.5.1
+transformers==4.46.0
+tokenizers==0.20.1
+numpy==1.26.4
+
+# ============================================================================
+# TEXT PROCESSING & UTILITIES (scripts/preprocess.py)
+# ============================================================================
+# URL parsing and canonicalization
+tldextract==5.1.2
+# Bloom filter for large-scale dedupe
+pybloom-live==4.0.0
+# Streaming JSON parser for large files
+ijson==3.4.0
+# Progress bar for long operations
+tqdm==4.67.1
+
+# ============================================================================
+# NOTES
+# ============================================================================
+# Removed 30+ packages that were never imported in active source code
+# See DEPENDENCIES_AUDIT.md for full analysis
+# To restore full requirements: pip install -r requirements-full.txt
+

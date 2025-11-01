@@ -28,6 +28,9 @@ spacy[cuda121]==3.8.2
 # Install with: pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cu121
 torch==2.5.1
 
+# Embeddings (src/extraction/gpu_embeddings.py for GPU-accelerated embeddings)
+sentence-transformers==3.0.0
+
 # Text Processing (scripts/preprocess.py)
 tldextract==5.1.2
 pybloom-live==4.0.0

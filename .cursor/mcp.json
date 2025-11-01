@@ -36,14 +36,6 @@
         "//var/run/docker.sock:/var/run/docker.sock",
         "mcp/docker:latest"
       ]
-    },
-    "context7": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "context7-mcp-server"
-      ],
-      "env": {}
     }
   }
 }

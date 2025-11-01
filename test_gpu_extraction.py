@@ -636,7 +636,7 @@ def print_test_report(results: Dict[str, Any]):
     
     # Stress Test
     stress = results.get("stress", {})
-    if stress.get("documents_processed") > 0:
+    if stress and stress.get("documents_processed", 0) > 0:
         print(f"[OK] Stress Test: {stress.get('documents_processed')} docs @ "
               f"{stress.get('throughput'):.2f} docs/sec")
         if stress.get("memory_leak_detected"):

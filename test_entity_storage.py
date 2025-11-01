@@ -4,12 +4,26 @@ import asyncio
 import sys
 import os
 import json
-sys.path.append("/app")
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.append(str(REPO_ROOT))
+
 from run_simple_extraction import insert_documents_simple, extract_entities_simple, store_entities_simple
 
 async def test():
     # Test with one document
-    with open("/data/preprocessed/test_5000_rich.jsonl", "r") as f:
+    default_path = REPO_ROOT / "data" / "preprocessed" / "preprocessed_full.jsonl"
+    sample_path = Path(os.getenv("TEST_DOCUMENT_PATH", default_path))
+
+    if not sample_path.exists():
+        raise FileNotFoundError(
+            f"Sample document file not found at {sample_path}. "
+            "Set TEST_DOCUMENT_PATH to point to a JSONL file with documents."
+        )
+
+    with sample_path.open("r", encoding="utf-8") as f:
         line = f.readline()
         doc = json.loads(line)
     

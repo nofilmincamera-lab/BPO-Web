@@ -3,6 +3,7 @@ from prefect import flow, task, get_run_logger
 from prefect.context import get_run_context
 from prefect.task_runners import ConcurrentTaskRunner
 from typing import List, Dict, Any, Iterable, Tuple, Optional, Set
+import asyncio
 import asyncpg
 import hashlib
 import json
@@ -11,6 +12,29 @@ import re
 
 from src.heuristics import get_heuristics_loader
 import uuid
+
+
+_DB_POOL: Optional[asyncpg.Pool] = None
+_DB_POOL_LOCK = asyncio.Lock()
+
+
+async def get_db_pool() -> asyncpg.Pool:
+    """Return a shared asyncpg pool for task operations."""
+
+    global _DB_POOL
+    if _DB_POOL is None:
+        async with _DB_POOL_LOCK:
+            if _DB_POOL is None:
+                _DB_POOL = await asyncpg.create_pool(
+                    host=os.getenv("DB_HOST", "localhost"),
+                    port=int(os.getenv("DB_PORT", 5432)),
+                    database=os.getenv("DB_NAME", "bpo_intel"),
+                    user=os.getenv("DB_USER", "postgres"),
+                    password=os.getenv("DB_PASSWORD", "postgres"),
+                    min_size=int(os.getenv("DB_POOL_MIN_SIZE", 1)),
+                    max_size=int(os.getenv("DB_POOL_MAX_SIZE", 10)),
+                )
+    return _DB_POOL
 
 
 def _resolve_document_uuid(doc: Dict[str, Any]) -> uuid.UUID:
@@ -343,20 +367,14 @@ async def load_checkpoint(workflow_id: str) -> Dict[str, Any]:
         LIMIT 1
     """
     try:
-        async with asyncpg.create_pool(
-            host=os.getenv("DB_HOST", "localhost"),
-            port=int(os.getenv("DB_PORT", 5432)),
-            database=os.getenv("DB_NAME", "bpo_intel"),
-            user=os.getenv("DB_USER", "postgres"),
-            password=os.getenv("DB_PASSWORD", "postgres"),
-        ) as pool:
-            async with pool.acquire() as conn:
-                result = await conn.fetchrow(query, workflow_id)
-                if not result:
-                    return {}
-                state = result["state"] or {}
-                state["offset"] = result["doc_offset"]
-                return state
+        pool = await get_db_pool()
+        async with pool.acquire() as conn:
+            result = await conn.fetchrow(query, workflow_id)
+            if not result:
+                return {}
+            state = result["state"] or {}
+            state["offset"] = result["doc_offset"]
+            return state
     except Exception as e:
         get_run_logger().warning(f"Failed to load checkpoint: {e}")
         return {}
@@ -378,25 +396,11 @@ async def insert_documents(batch: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     heuristics_data = heuristics_loader.data if heuristics_loader else None
     content_rules = heuristics_data.content_types if heuristics_data else []
 
-    db_host = os.getenv("DB_HOST", "postgres")
-    db_port = int(os.getenv("DB_PORT", 5432))
-    db_name = os.getenv("DB_NAME", "bpo_intel")
-    db_user = os.getenv("DB_USER", "postgres")
-    db_password = os.getenv("DB_PASSWORD", "postgres")
-
     normalized_docs: List[Dict[str, Any]] = []
 
-    async with asyncpg.create_pool(
-        host=db_host,
-        port=db_port,
-        database=db_name,
-        user=db_user,
-        password=db_password,
-        min_size=1,
-        max_size=5,
-    ) as pool:
-        async with pool.acquire() as conn:
-            for raw_doc in batch:
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        for raw_doc in batch:
                 doc_uuid = _resolve_document_uuid(raw_doc)
                 url = raw_doc.get("url") or raw_doc.get("metadata", {}).get("url") or f"synthetic://{doc_uuid}"
                 title = raw_doc.get("title") or raw_doc.get("metadata", {}).get("title")
@@ -1060,68 +1064,62 @@ async def store_entities(extraction_result: Dict[str, Any]) -> Dict[str, int]:
     logger = get_run_logger()
     result_heuristics_version = extraction_result.get("heuristics_version")
     
-    async with asyncpg.create_pool(
-        host=os.getenv("DB_HOST", "localhost"),
-        port=int(os.getenv("DB_PORT", 5432)),
-        database=os.getenv("DB_NAME", "bpo_intel"),
-        user=os.getenv("DB_USER", "postgres"),
-        password=os.getenv("DB_PASSWORD", "postgres")
-    ) as pool:
-        async with pool.acquire() as conn:
-            # Insert entities
-            entity_count = 0
-            for entity in extraction_result["entities"]:
-                try:
-                    await conn.execute(
-                        """
-                        INSERT INTO entities (doc_id, type, surface, norm_value, span, conf, source, source_version, heuristics_version, confidence_method)
-                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-                        ON CONFLICT (doc_id, type, span_hash) DO NOTHING
-                        """,
-                        entity["doc_id"],
-                        entity["type"],
-                        entity["surface"],
-                        entity["norm_value"],
-                        entity["span"],
-                        entity["conf"],
-                        entity["source"],
-                        entity["source_version"],
-                        entity["heuristics_version"],
-                        entity["confidence_method"]
-                    )
-                    entity_count += 1
-                except Exception as e:
-                    logger.warning(f"Failed to insert entity: {e}")
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        # Insert entities
+        entity_count = 0
+        for entity in extraction_result["entities"]:
+            try:
+                await conn.execute(
+                    """
+                    INSERT INTO entities (doc_id, type, surface, norm_value, span, conf, source, source_version, heuristics_version, confidence_method)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+                    ON CONFLICT (doc_id, type, span_hash) DO NOTHING
+                    """,
+                    entity["doc_id"],
+                    entity["type"],
+                    entity["surface"],
+                    entity["norm_value"],
+                    entity["span"],
+                    entity["conf"],
+                    entity["source"],
+                    entity["source_version"],
+                    entity["heuristics_version"],
+                    entity["confidence_method"]
+                )
+                entity_count += 1
+            except Exception as e:
+                logger.warning(f"Failed to insert entity: {e}")
+                continue
+
+        relationship_count = 0
+        for rel in extraction_result.get("relationships", []):
+            try:
+                head_id = await _lookup_entity_id(conn, rel["doc_id"], rel["head_span"])
+                tail_id = await _lookup_entity_id(conn, rel["doc_id"], rel["tail_span"])
+                if not head_id or not tail_id:
                     continue
-            
-            relationship_count = 0
-            for rel in extraction_result.get("relationships", []):
-                try:
-                    head_id = await _lookup_entity_id(conn, rel["doc_id"], rel["head_span"])
-                    tail_id = await _lookup_entity_id(conn, rel["doc_id"], rel["tail_span"])
-                    if not head_id or not tail_id:
-                        continue
-                    await conn.execute(
-                        """
-                        INSERT INTO relationships (doc_id, head_entity, tail_entity, type, conf, evidence, heuristics_version)
-                        VALUES ($1, $2, $3, $4, $5, $6, $7)
-                        ON CONFLICT DO NOTHING
-                        """,
-                        rel["doc_id"],
-                        head_id,
-                        tail_id,
-                        rel["type"],
-                        rel["conf"],
-                        rel["evidence"],
-                        rel.get("heuristics_version", result_heuristics_version),
-                    )
-                    relationship_count += 1
-                except Exception as e:
-                    logger.warning(f"Failed to insert relationship: {e}")
-                    continue
-            
-            logger.info(f"Stored {entity_count} entities and {relationship_count} relationships in database")
-            return {"entities": entity_count, "relationships": relationship_count}
+                await conn.execute(
+                    """
+                    INSERT INTO relationships (doc_id, head_entity, tail_entity, type, conf, evidence, heuristics_version)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7)
+                    ON CONFLICT DO NOTHING
+                    """,
+                    rel["doc_id"],
+                    head_id,
+                    tail_id,
+                    rel["type"],
+                    rel["conf"],
+                    rel["evidence"],
+                    rel.get("heuristics_version", result_heuristics_version),
+                )
+                relationship_count += 1
+            except Exception as e:
+                logger.warning(f"Failed to insert relationship: {e}")
+                continue
+
+        logger.info(f"Stored {entity_count} entities and {relationship_count} relationships in database")
+        return {"entities": entity_count, "relationships": relationship_count}
 
 
 @task(
@@ -1133,29 +1131,23 @@ async def save_checkpoint(workflow_id: str, run_id: str, checkpoint_data: Dict) 
     """Save checkpoint to database."""
     logger = get_run_logger()
     
-    async with asyncpg.create_pool(
-        host=os.getenv("DB_HOST", "localhost"),
-        port=int(os.getenv("DB_PORT", 5432)),
-        database=os.getenv("DB_NAME", "bpo_intel"),
-        user=os.getenv("DB_USER", "postgres"),
-        password=os.getenv("DB_PASSWORD", "postgres")
-    ) as pool:
-        async with pool.acquire() as conn:
-            await conn.execute(
-                """
-                INSERT INTO pipeline_checkpoints (workflow_id, run_id, phase, doc_offset, state, created_at, updated_at)
-                VALUES ($1, $2, 'extraction', $3, $4, NOW(), NOW())
-                ON CONFLICT (workflow_id, run_id, phase) DO UPDATE 
-                SET doc_offset = EXCLUDED.doc_offset,
-                    state = EXCLUDED.state,
-                    updated_at = NOW()
-                """,
-                workflow_id,
-                run_id,
-                checkpoint_data.get("offset", 0),
-                json.dumps(checkpoint_data),
-            )
-    
+    pool = await get_db_pool()
+    async with pool.acquire() as conn:
+        await conn.execute(
+            """
+            INSERT INTO pipeline_checkpoints (workflow_id, run_id, phase, doc_offset, state, created_at, updated_at)
+            VALUES ($1, $2, 'extraction', $3, $4, NOW(), NOW())
+            ON CONFLICT (workflow_id, run_id, phase) DO UPDATE
+            SET doc_offset = EXCLUDED.doc_offset,
+                state = EXCLUDED.state,
+                updated_at = NOW()
+            """,
+            workflow_id,
+            run_id,
+            checkpoint_data.get("offset", 0),
+            json.dumps(checkpoint_data),
+        )
+
     logger.info(f"Checkpoint saved at offset {checkpoint_data.get('offset', 0)}")
 
 

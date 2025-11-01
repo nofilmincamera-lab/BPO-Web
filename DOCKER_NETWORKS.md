@@ -23,21 +23,27 @@ This document describes the Docker network architecture for the BPO Intelligence
 - **Prefect Server**: `bpo-main-network`, `bpo-external-network`
 - **Prefect Agent**: `bpo-main-network`, `bpo-gpu-network`
 - **API Service**: `bpo-main-network`, `bpo-gpu-network`, `bpo-external-network`
+- **PgBouncer**: `bpo-main-network`, `bpo-db-network`
 
 #### Database Services
-- **PostgreSQL**: `bpo-db-network`
-- **Prefect DB**: `bpo-db-network`
+- **PostgreSQL**: `bpo-main-network`, `bpo-db-network`
+- **Prefect DB**: `bpo-main-network`, `bpo-db-network`
 - **Redis**: `bpo-main-network`
 
 #### GPU Services
 - **Prefect Agent**: `bpo-gpu-network`
 - **API Service**: `bpo-gpu-network`
-- **Ollama**: `bpo-gpu-network`
+- **Ollama**: `bpo-main-network`, `bpo-gpu-network`
 
 #### External Services
 - **Prefect Server**: `bpo-external-network`
 - **API Service**: `bpo-external-network`
-- **Label Studio**: `bpo-external-network`
+- **Label Studio**: `bpo-main-network`, `bpo-external-network`
+- **Grafana**: `bpo-main-network`, `bpo-monitoring-network`
+
+#### Monitoring Services
+- **Prometheus**: `bpo-main-network`, `bpo-monitoring-network`
+- **Grafana**: `bpo-main-network`, `bpo-monitoring-network`
 
 ## Network Management
 

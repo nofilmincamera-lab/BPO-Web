@@ -33,10 +33,6 @@ networks:
   bpo-external-network:
     external: true
   
-  # Legacy network (for backward compatibility)
-  bpo-network:
-    driver: bridge
-
 # ============================================================================
 # VOLUMES
 # ============================================================================
@@ -120,7 +116,8 @@ services:
       - "./docker/entrypoints/run-pgbouncer.sh:/run-pgbouncer.sh:ro"
     entrypoint: ["/bin/sh", "/run-pgbouncer.sh"]
     networks:
-      - bpo-network
+      - bpo-main-network
+      - bpo-db-network
     depends_on:
       postgres:
         condition: service_healthy
@@ -292,6 +289,7 @@ services:
     runtime: nvidia
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
       - DB_HOST=${DB_HOST:-postgres}
       - DB_PORT=${DB_PORT:-5432}
       - DB_NAME=${DB_NAME:-bpo_intel}
@@ -314,6 +312,13 @@ services:
       - bpo-main-network
       - bpo-gpu-network
       - bpo-external-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
     depends_on:
       postgres:
         condition: service_healthy
@@ -336,15 +341,19 @@ services:
   ollama:
     image: ollama/ollama:0.4.0
     container_name: bpo-ollama
+    runtime: nvidia
     environment:
       - TZ=${TZ:-UTC}
       - OLLAMA_HOST=0.0.0.0
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
     ports:
       - "11434:11434"
     volumes:
       - "./data/ollama:/root/.ollama"
     networks:
-      - bpo-network
+      - bpo-main-network
+      - bpo-gpu-network
     restart: unless-stopped
     profiles:
       - llm
@@ -372,7 +381,8 @@ services:
     volumes:
       - "./data/label-studio:/label-studio/data"
     networks:
-      - bpo-network
+      - bpo-main-network
+      - bpo-external-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/"]
       interval: 15s
@@ -395,7 +405,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - bpo-network
+      - bpo-main-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -420,7 +430,8 @@ services:
       - "./ops/prometheus.yml:/etc/prometheus/prometheus.yml"
       - prometheus_data:/prometheus
     networks:
-      - bpo-network
+      - bpo-main-network
+      - bpo-monitoring-network
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -448,7 +459,8 @@ services:
       - grafana_data:/var/lib/grafana
       - "./ops/grafana-dashboards:/etc/grafana/provisioning/dashboards"
     networks:
-      - bpo-network
+      - bpo-main-network
+      - bpo-monitoring-network
     depends_on:
       - prometheus
     restart: unless-stopped

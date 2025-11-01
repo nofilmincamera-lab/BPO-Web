@@ -2,7 +2,6 @@
 import os
 from typing import Dict, Any
 from fastapi import FastAPI, HTTPException
-from prefect.client.orchestration import get_client
 from prefect.deployments import run_deployment
 
 app = FastAPI(title="BPO Intelligence API")

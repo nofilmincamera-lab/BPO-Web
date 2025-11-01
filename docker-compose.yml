@@ -33,10 +33,6 @@ networks:
   bpo-external-network:
     external: true
   
-  # Legacy network (for backward compatibility)
-  bpo-network:
-    driver: bridge
-
 # ============================================================================
 # VOLUMES
 # ============================================================================
@@ -120,7 +116,8 @@ services:
       - "./docker/entrypoints/run-pgbouncer.sh:/run-pgbouncer.sh:ro"
     entrypoint: ["/bin/sh", "/run-pgbouncer.sh"]
     networks:
-      - bpo-network
+      - bpo-main-network
+      - bpo-db-network
     depends_on:
       postgres:
         condition: service_healthy
@@ -355,7 +352,8 @@ services:
     volumes:
       - "./data/ollama:/root/.ollama"
     networks:
-      - bpo-network
+      - bpo-main-network
+      - bpo-gpu-network
     restart: unless-stopped
     profiles:
       - llm
@@ -383,7 +381,8 @@ services:
     volumes:
       - "./data/label-studio:/label-studio/data"
     networks:
-      - bpo-network
+      - bpo-main-network
+      - bpo-external-network
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/"]
       interval: 15s
@@ -406,7 +405,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - bpo-network
+      - bpo-main-network
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -431,7 +430,8 @@ services:
       - "./ops/prometheus.yml:/etc/prometheus/prometheus.yml"
       - prometheus_data:/prometheus
     networks:
-      - bpo-network
+      - bpo-main-network
+      - bpo-monitoring-network
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -459,7 +459,8 @@ services:
       - grafana_data:/var/lib/grafana
       - "./ops/grafana-dashboards:/etc/grafana/provisioning/dashboards"
     networks:
-      - bpo-network
+      - bpo-main-network
+      - bpo-monitoring-network
     depends_on:
       - prometheus
     restart: unless-stopped

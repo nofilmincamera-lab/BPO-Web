@@ -18,6 +18,12 @@ from src.extraction.patterns import (
     METRIC_PATTERN, DURATION_PATTERN, TIME_RANGE_PATTERN as TIME_RANGE_REGEX,
     TEMPORAL_PATTERN as TEMPORAL_REGEX
 )
+from src.extraction.mwe_matcher import (
+    build_industry_mwe_index,
+    extract_industry_mwes,
+    span_overlaps as mwe_span_overlaps,
+    iter_phrase_matches_mwe
+)
 import uuid
 
 
@@ -51,16 +57,13 @@ def _batched_documents(
 
 
 def _span_overlaps(start: int, end: int, existing: list[Tuple[int, int]]) -> bool:
-    return any(not (end <= s or start >= e) for s, e in existing)
+    """Check if span overlaps with existing spans - uses MWE-aware function."""
+    return mwe_span_overlaps(start, end, existing)
 
 
 def _iter_phrase_matches(text: str, phrase: str) -> Iterable[Tuple[int, int]]:
-    """Yield start/end offsets for case-insensitive whole-phrase matches."""
-    if not phrase:
-        return
-    pattern = re.compile(r'(?<!\w){}(?!\w)'.format(re.escape(phrase)), re.IGNORECASE)
-    for match in pattern.finditer(text):
-        yield match.start(), match.end()
+    """Yield start/end offsets for case-insensitive whole-phrase matches (MWE-aware)."""
+    yield from iter_phrase_matches_mwe(text, phrase, case_sensitive=False)
 
 
 def _score_structure_signals(signals: Dict[str, Any], raw_text: str, lower_text: str, markdown: str) -> float:
@@ -634,65 +637,103 @@ async def extract_entities_batch(
                 })
                 existing_spans.append((match.start(), match.end()))
 
+            # Extract industries using MWE-aware matching (prioritizes longer, more specific terms)
             if industry_lookup:
-                seen_industry_spans: Set[Tuple[str, int, int]] = set()
-                for _, (industry, surface) in industry_lookup.items():
-                    for start, end in _iter_phrase_matches(text, surface):
-                        if _span_overlaps(start, end, existing_spans):
-                            continue
-                        key = (industry.get("id", surface.lower()), start, end)
-                        if key in seen_industry_spans:
-                            continue
-                        seen_industry_spans.add(key)
-                        surface_text = text[start:end]
-                        entities.append({
-                            "doc_id": doc_id,
-                            "type": "MISC",  # Map to Label Studio MISC
-                            "surface": surface_text,
-                            "norm_value": json.dumps({
-                                "id": industry.get("id"),
-                                "name": industry.get("name"),
-                                "level": industry.get("level"),
-                                "path": industry.get("path"),
-                            }),
-                            "span": json.dumps({"start": start, "end": end, "text": surface_text}),
-                            "conf": 0.88,
-                            "source": "heuristics",
-                            "source_version": f"taxonomy_industries_{taxonomy_version}",
-                            "heuristics_version": heuristics_version,
-                            "confidence_method": "taxonomy_match",
-                        })
-                        existing_spans.append((start, end))
+                # Convert lookup dict to list format for MWE index
+                industry_list = []
+                seen_industry_ids = set()
+                for surface, (industry, _) in industry_lookup.items():
+                    industry_id = industry.get("id")
+                    if industry_id and industry_id not in seen_industry_ids:
+                        seen_industry_ids.add(industry_id)
+                        # Add industry with name and aliases
+                        industry_entry = dict(industry)
+                        # Collect all surface forms as aliases
+                        aliases = industry_entry.get("aliases", [])
+                        if not isinstance(aliases, list):
+                            aliases = []
+                        # Add surface form if it's different from name
+                        if surface != industry.get("name", ""):
+                            aliases.append(surface)
+                        industry_entry["aliases"] = aliases
+                        industry_list.append(industry_entry)
+                
+                # Build MWE index and extract
+                industry_index = build_industry_mwe_index(industry_list)
+                mwe_industry_matches = extract_industry_mwes(text, industry_index, existing_spans)
+                
+                for match in mwe_industry_matches:
+                    industry = match["industry"]
+                    start, end = match["start"], match["end"]
+                    surface_text = match["surface"]
+                    
+                    entities.append({
+                        "doc_id": doc_id,
+                        "type": "MISC",  # Map to Label Studio MISC
+                        "surface": surface_text,
+                        "norm_value": json.dumps({
+                            "id": industry.get("id"),
+                            "name": industry.get("name"),
+                            "level": industry.get("level"),
+                            "path": industry.get("path"),
+                        }),
+                        "span": json.dumps({"start": start, "end": end, "text": surface_text}),
+                        "conf": 0.88,
+                        "source": "heuristics",
+                        "source_version": f"taxonomy_industries_{taxonomy_version}",
+                        "heuristics_version": heuristics_version,
+                        "confidence_method": "taxonomy_match_mwe",
+                    })
+                    existing_spans.append((start, end))
 
+            # Extract services using MWE-aware matching (prioritizes longer, more specific terms)
             if service_lookup:
-                seen_service_spans: Set[Tuple[str, int, int]] = set()
-                for _, (service, surface) in service_lookup.items():
-                    for start, end in _iter_phrase_matches(text, surface):
-                        if _span_overlaps(start, end, existing_spans):
-                            continue
-                        key = (service.get("id", surface.lower()), start, end)
-                        if key in seen_service_spans:
-                            continue
-                        seen_service_spans.add(key)
-                        surface_text = text[start:end]
-                        entities.append({
-                            "doc_id": doc_id,
-                            "type": "MISC",  # Map to Label Studio MISC
-                            "surface": surface_text,
-                            "norm_value": json.dumps({
-                                "id": service.get("id"),
-                                "name": service.get("name"),
-                                "level": service.get("level"),
-                                "path": service.get("path"),
-                            }),
-                            "span": json.dumps({"start": start, "end": end, "text": surface_text}),
-                            "conf": 0.86,
-                            "source": "heuristics",
-                            "source_version": f"taxonomy_services_{taxonomy_version}",
-                            "heuristics_version": heuristics_version,
-                            "confidence_method": "taxonomy_match",
-                        })
-                        existing_spans.append((start, end))
+                # Convert lookup dict to list format for MWE index
+                service_list = []
+                seen_service_ids = set()
+                for surface, (service, _) in service_lookup.items():
+                    service_id = service.get("id")
+                    if service_id and service_id not in seen_service_ids:
+                        seen_service_ids.add(service_id)
+                        # Add service with name and aliases
+                        service_entry = dict(service)
+                        # Collect all surface forms as aliases
+                        aliases = service_entry.get("aliases", [])
+                        if not isinstance(aliases, list):
+                            aliases = []
+                        # Add surface form if it's different from name
+                        if surface != service.get("name", ""):
+                            aliases.append(surface)
+                        service_entry["aliases"] = aliases
+                        service_list.append(service_entry)
+                
+                # Build MWE index and extract
+                service_index = build_industry_mwe_index(service_list)  # Reuse same function structure
+                mwe_service_matches = extract_industry_mwes(text, service_index, existing_spans)
+                
+                for match in mwe_service_matches:
+                    service = match["industry"]  # Function returns "industry" key, but it's actually service data
+                    start, end = match["start"], match["end"]
+                    surface_text = match["surface"]
+                    
+                    entities.append({
+                        "doc_id": doc_id,
+                        "type": "MISC",  # Map to Label Studio MISC
+                        "surface": surface_text,
+                        "norm_value": json.dumps({
+                            "id": service.get("id"),
+                            "name": service.get("name"),
+                            "level": service.get("level"),
+                            "path": service.get("path"),
+                        }),
+                        "span": json.dumps({"start": start, "end": end, "text": surface_text}),
+                        "conf": 0.86,
+                        "source": "heuristics",
+                        "source_version": f"taxonomy_services_{taxonomy_version}",
+                        "heuristics_version": heuristics_version,
+                        "confidence_method": "taxonomy_match_mwe",
+                    })
+                    existing_spans.append((start, end))
 
             # Extract products with aliases from heuristics (comprehensive)
             if products:

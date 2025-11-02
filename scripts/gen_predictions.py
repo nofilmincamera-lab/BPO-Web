@@ -34,19 +34,25 @@ sys.path.append(str(PROJECT_ROOT))
 from src.extraction.spacy_pipeline import get_extraction_nlp
 from src.heuristics import get_heuristics_loader
 
-# All labels from Label Studio config (project ID 2)
-# 10 entity types: ORG, PERSON, LOC, PRODUCT, TECHNOLOGY, INDUSTRY, CATEGORY, DATE, MONEY, PERCENT
+# All labels from expanded Label Studio config (project ID 2)
+# 13 core entity types + supporting variants
 ALLOWED_LABELS = {
     "ORG",
     "PERSON",
     "LOC",
     "PRODUCT",
+    "COMPUTING_PRODUCT",
     "TECHNOLOGY",
     "INDUSTRY",
     "CATEGORY",
     "DATE",
     "MONEY",
     "PERCENT",
+    "BUSINESS_TITLE",
+    "SKILL",
+    "TIME_RANGE",
+    "TEMPORAL",
+    "ORL",
 }
 
 # Map extraction labels to Label Studio labels (matching project config)
@@ -66,8 +72,12 @@ LABEL_MAPPING = {
     "COMPANY": "ORG",  # Internal COMPANY maps to Label Studio ORG
     "LOCATION": "LOC",  # Internal LOCATION maps to Label Studio LOC
     "GPE": "LOC",  # spaCy GPE -> LOC
-    # Skip these (not in Label Studio config)
-    # "BUSINESS_TITLE", "TIME_RANGE", "TEMPORAL", "SKILL", "COMPUTING_PRODUCT"
+    "BUSINESS_TITLE": "BUSINESS_TITLE",
+    "SKILL": "SKILL",
+    "TIME_RANGE": "TIME_RANGE",
+    "TEMPORAL": "TEMPORAL",
+    "ORL": "ORL",
+    "COMPUTING_PRODUCT": "COMPUTING_PRODUCT",
 }
 
 # Constants from extraction_flow.py
@@ -394,8 +404,6 @@ def extract_spacy_ner_tier(text: str, existing_spans: List[Tuple[int, int]], nlp
                 "source": "spacy",
             })
             existing_spans.append((ent.start_char, ent.end_char))
-    
-    # Note: BUSINESS_TITLE and SKILL not in Label Studio config, skip them
     
     return entities
 

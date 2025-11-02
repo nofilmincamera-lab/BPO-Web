@@ -70,8 +70,16 @@ class HeuristicsLoader:
         """
         logger.info(f"Loading heuristics from {self.heuristics_dir}")
         
-        # Load version first
-        version_data = self._load_json("version.json")
+        # Load version first (tolerate missing/invalid metadata for robustness)
+        try:
+            version_data = self._load_json("version.json")
+        except FileNotFoundError:
+            logger.warning("version.json not found in heuristics bundle; defaulting to unknown version")
+            version_data = {"version": "unknown"}
+        except ValueError as exc:
+            logger.warning("Failed to parse version.json (%s); defaulting to unknown version", exc)
+            version_data = {"version": "unknown"}
+
         version = version_data.get("version", "unknown")
         
         # Load company aliases

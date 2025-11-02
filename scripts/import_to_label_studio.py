@@ -7,6 +7,25 @@ import sys
 from pathlib import Path
 from typing import List, Dict, Any
 
+SUPPORTED_LABELS = {
+    "ORG",
+    "PERSON",
+    "LOC",
+    "PRODUCT",
+    "COMPUTING_PRODUCT",
+    "TECHNOLOGY",
+    "INDUSTRY",
+    "CATEGORY",
+    "DATE",
+    "MONEY",
+    "PERCENT",
+    "BUSINESS_TITLE",
+    "SKILL",
+    "TIME_RANGE",
+    "TEMPORAL",
+    "ORL",
+}
+
 # Add project root to path
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(PROJECT_ROOT))
@@ -49,8 +68,7 @@ def format_task_for_label_studio(doc: Dict[str, Any], extraction_result: Dict[st
         # Format entity predictions
         for ent in entities:
             label = ent.get('label', '')
-            if label in ['ORG', 'PERSON', 'LOC', 'PRODUCT', 'TECHNOLOGY', 'INDUSTRY', 
-                        'CATEGORY', 'DATE', 'MONEY', 'PERCENT']:
+            if label in SUPPORTED_LABELS:
                 result.append({
                     "from_name": "ner_labels",
                     "to_name": "text",

@@ -31,21 +31,12 @@ import hashlib
 # Add the src directory to the path
 sys.path.append("/app")
 
+from src.utils.document_resolver import resolve_document_uuid
+from src.infrastructure.database.connection import get_db_connection
+
 async def _resolve_document_uuid(doc):
-    """Resolve document UUID from various sources"""
-    if "id" in doc:
-        doc_id = doc["id"]
-        try:
-            # Try to parse as UUID
-            from uuid import UUID
-            return str(UUID(doc_id))
-        except (ValueError, TypeError):
-            # Generate deterministic UUID from string
-            return str(uuid5(NAMESPACE_DNS, doc_id))
-    
-    # Fallback to URL-based UUID
-    url = doc.get("url", "unknown")
-    return str(uuid5(NAMESPACE_DNS, url))
+    """Resolve document UUID from various sources - wrapper for compatibility"""
+    return str(resolve_document_uuid(doc))
 
 def _span_overlaps(start, end, existing_spans):
     """Check if a span overlaps with existing spans"""
@@ -56,13 +47,7 @@ def _span_overlaps(start, end, existing_spans):
 
 async def insert_documents_simple(batch):
     """Insert documents directly"""
-    conn = await asyncpg.connect(
-        host="bpo-postgres",
-        port=5432,
-        user="postgres",
-        password=os.getenv("DB_PASSWORD"),
-        database="bpo_intel"
-    )
+    conn = await get_db_connection()
     
     try:
         normalized_batch = []
@@ -181,13 +166,7 @@ async def extract_entities_simple(batch, heuristics_version):
     all_relationships = []
 
     # Connect to database to get document text
-    conn = await asyncpg.connect(
-        host="bpo-postgres",
-        port=5432,
-        user="postgres",
-        password=os.getenv("DB_PASSWORD"),
-        database="bpo_intel"
-    )
+    conn = await get_db_connection()
 
     try:
         for doc in batch:
@@ -350,13 +329,7 @@ async def extract_entities_simple(batch, heuristics_version):
 
 async def store_entities_simple(result):
     """Store entities and relationships directly"""
-    conn = await asyncpg.connect(
-        host="bpo-postgres",
-        port=5432,
-        user="postgres",
-        password=os.getenv("DB_PASSWORD"),
-        database="bpo_intel"
-    )
+    conn = await get_db_connection()
     
     try:
         entities_stored = 0

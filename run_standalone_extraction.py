@@ -21,32 +21,16 @@ from src.heuristics.extractor import extract_entities_heuristics
 from src.spacy_extractor import extract_entities_spacy
 from src.regex_extractor import extract_entities_regex
 from src.flows.extraction_flow import _score_structure_signals, classify_content_type
+from src.utils.document_resolver import resolve_document_uuid
+from src.infrastructure.database.connection import get_db_connection
 
 async def _resolve_document_uuid(doc):
-    """Resolve document UUID from various sources"""
-    if "id" in doc:
-        doc_id = doc["id"]
-        try:
-            # Try to parse as UUID
-            from uuid import UUID
-            return str(UUID(doc_id))
-        except (ValueError, TypeError):
-            # Generate deterministic UUID from string
-            return str(uuid5(NAMESPACE_DNS, doc_id))
-    
-    # Fallback to URL-based UUID
-    url = doc.get("url", "unknown")
-    return str(uuid5(NAMESPACE_DNS, url))
+    """Resolve document UUID from various sources - wrapper for compatibility"""
+    return str(resolve_document_uuid(doc))
 
 async def insert_documents_standalone(batch):
     """Insert documents directly without Prefect"""
-    conn = await asyncpg.connect(
-        host="bpo-postgres",
-        port=5432,
-        user="postgres",
-        password=os.getenv("DB_PASSWORD"),
-        database="bpo_intel"
-    )
+    conn = await get_db_connection()
     
     try:
         normalized_batch = []
@@ -228,13 +212,7 @@ async def extract_entities_standalone(batch, heuristics_version):
 
 async def store_entities_standalone(result):
     """Store entities and relationships directly"""
-    conn = await asyncpg.connect(
-        host="bpo-postgres",
-        port=5432,
-        user="postgres",
-        password=os.getenv("DB_PASSWORD"),
-        database="bpo_intel"
-    )
+    conn = await get_db_connection()
     
     try:
         entities_stored = 0
@@ -357,30 +335,30 @@ async def main():
             try:
                 # Insert documents
                 normalized_batch = await insert_documents_standalone(batch)
-                print(f"  ✓ Documents inserted: {len(normalized_batch)}")
+                print(f"  ? Documents inserted: {len(normalized_batch)}")
                 
                 # Extract entities
                 result = await extract_entities_standalone(normalized_batch, heuristics_version)
                 entities_count = len(result["entities"])
                 relationships_count = len(result["relationships"])
-                print(f"  ✓ Entities extracted: {entities_count}")
-                print(f"  ✓ Relationships extracted: {relationships_count}")
+                print(f"  ? Entities extracted: {entities_count}")
+                print(f"  ? Relationships extracted: {relationships_count}")
                 
                 # Store entities and relationships
                 stored_counts = await store_entities_standalone(result)
                 entities_stored = stored_counts["entities"]
                 relationships_stored = stored_counts["relationships"]
-                print(f"  ✓ Stored: {entities_stored} entities, {relationships_stored} relationships")
+                print(f"  ? Stored: {entities_stored} entities, {relationships_stored} relationships")
                 
                 total_documents += len(normalized_batch)
                 total_entities += entities_stored
                 total_relationships += relationships_stored
                 
-                print(f"  ✓ Batch {batch_count} completed successfully!")
+                print(f"  ? Batch {batch_count} completed successfully!")
                 print()
                 
             except Exception as e:
-                print(f"  ❌ Batch {batch_count} failed: {e}")
+                print(f"  ? Batch {batch_count} failed: {e}")
                 failed_documents.extend([doc.get("id", "unknown") for doc in batch])
                 continue
         
@@ -414,7 +392,7 @@ async def main():
         }
         
     except Exception as e:
-        print(f"\n❌ EXTRACTION FAILED: {e}")
+        print(f"\n? EXTRACTION FAILED: {e}")
         print(f"Duration before failure: {time.time() - start_time:.1f} seconds")
         import traceback
         traceback.print_exc()

@@ -11,77 +11,14 @@ import os
 import re
 
 from src.heuristics import get_heuristics_loader
+from src.utils.document_resolver import resolve_document_uuid as _resolve_document_uuid, get_doc_id as _get_doc_id
+from src.infrastructure.database.connection import get_db_pool, get_db_connection
+from src.extraction.patterns import (
+    MONEY_PATTERN, PERCENT_PATTERN, NUMBER_PATTERN, QUANTITY_PATTERN,
+    METRIC_PATTERN, DURATION_PATTERN, TIME_RANGE_PATTERN as TIME_RANGE_REGEX,
+    TEMPORAL_PATTERN as TEMPORAL_REGEX
+)
 import uuid
-
-
-_DB_POOL: Optional[asyncpg.Pool] = None
-_DB_POOL_LOCK = asyncio.Lock()
-
-
-async def get_db_pool() -> asyncpg.Pool:
-    """Return a shared asyncpg pool for task operations."""
-
-    global _DB_POOL
-    if _DB_POOL is None:
-        async with _DB_POOL_LOCK:
-            if _DB_POOL is None:
-                _DB_POOL = await asyncpg.create_pool(
-                    host=os.getenv("DB_HOST", "localhost"),
-                    port=int(os.getenv("DB_PORT", 5432)),
-                    database=os.getenv("DB_NAME", "bpo_intel"),
-                    user=os.getenv("DB_USER", "postgres"),
-                    password=os.getenv("DB_PASSWORD", "postgres"),
-                    min_size=int(os.getenv("DB_POOL_MIN_SIZE", 1)),
-                    max_size=int(os.getenv("DB_POOL_MAX_SIZE", 10)),
-                )
-    return _DB_POOL
-
-
-def _resolve_document_uuid(doc: Dict[str, Any]) -> uuid.UUID:
-    """
-    Resolve (or deterministically derive) a UUID for a document.
-    Prefers explicit UUID values, then falls back to deterministic uuid5 variants.
-    """
-    candidates = [
-        doc.get("id"),
-        doc.get("doc_id"),
-        doc.get("metadata", {}).get("id"),
-        doc.get("metadata", {}).get("doc_id"),
-    ]
-    for candidate in candidates:
-        if not candidate:
-            continue
-        try:
-            return uuid.UUID(str(candidate))
-        except (ValueError, TypeError):
-            return uuid.uuid5(uuid.NAMESPACE_URL, str(candidate))
-
-    url = doc.get("url") or doc.get("metadata", {}).get("url")
-    if url:
-        return uuid.uuid5(uuid.NAMESPACE_URL, url)
-
-    text = doc.get("text") or doc.get("metadata", {}).get("text") or ""
-    if text:
-        return uuid.uuid5(uuid.NAMESPACE_OID, text[:1024])
-
-    return uuid.uuid4()
-
-
-def _get_doc_id(doc: Dict[str, Any]) -> str:
-    """Best-effort retrieval of document ID."""
-    doc_id = (
-        doc.get("id")
-        or doc.get("doc_id")
-        or doc.get("metadata", {}).get("doc_id")
-        or doc.get("metadata", {}).get("id")
-    )
-    if doc_id:
-        return str(doc_id)
-
-    # Fall back to deterministic UUID so downstream tables remain consistent.
-    derived = _resolve_document_uuid(doc)
-    doc["id"] = str(derived)
-    return doc["id"]
 
 
 def _batched_documents(
@@ -341,13 +278,7 @@ SKILL_TERMS = [
     "BPO operations",
 ]
 
-TIME_RANGE_REGEX = re.compile(
-    r"(?:Q[1-4]\s*\d{4}|\d+\s+(?:day|week|month|year)s?|next\s+(?:quarter|year)|"
-    r"past\s+\d+\s+(?:months|years))",
-    re.IGNORECASE,
-)
-
-TEMPORAL_REGEX = re.compile(r"\b(?:pre|post|mid)-(?:launch|merger|acquisition|pandemic)\b", re.IGNORECASE)
+# Time range and temporal patterns now imported from src.extraction.patterns
 
 
 @task(
@@ -597,8 +528,7 @@ async def extract_entities_batch(
                 existing_spans.append((ent.start_char, ent.end_char))
             
             # Add regex patterns for MONEY and PERCENT
-            money_pattern = r'\$\s*\d{1,3}(?:,\d{3})*(?:\.\d{2})?'
-            for match in re.finditer(money_pattern, text):
+            for match in MONEY_PATTERN.finditer(text):
                 if not _span_overlaps(match.start(), match.end(), existing_spans):
                     entities.append({
                         "doc_id": doc_id,
@@ -614,8 +544,7 @@ async def extract_entities_batch(
                     })
                     existing_spans.append((match.start(), match.end()))
             
-            percent_pattern = r'\d{1,3}(?:\.\d{1,2})?\s*%'
-            for match in re.finditer(percent_pattern, text):
+            for match in PERCENT_PATTERN.finditer(text):
                 if not _span_overlaps(match.start(), match.end(), existing_spans):
                     entities.append({
                         "doc_id": doc_id,
@@ -879,8 +808,7 @@ async def extract_entities_batch(
                             existing_spans.append((match.start(), match.end()))
             
             # Extract NUMBER entities (cardinal numbers, metrics)
-            number_pattern = r'\b\d{1,3}(?:,\d{3})*(?:\.\d+)?\b'
-            for match in re.finditer(number_pattern, text):
+            for match in NUMBER_PATTERN.finditer(text):
                 if not _span_overlaps(match.start(), match.end(), existing_spans):
                     # Skip if it's already captured as MONEY or PERCENT
                     matched_text = match.group(0)
@@ -900,8 +828,7 @@ async def extract_entities_batch(
                         existing_spans.append((match.start(), match.end()))
             
             # Extract QUANTITY patterns (e.g., "5 units", "10 employees")
-            quantity_pattern = r'\b\d+\s+(?:units?|employees?|customers?|users?|clients?|staff|people|workers?|agents?|members?)\b'
-            for match in re.finditer(quantity_pattern, text, re.IGNORECASE):
+            for match in QUANTITY_PATTERN.finditer(text):
                 if not _span_overlaps(match.start(), match.end(), existing_spans):
                     entities.append({
                         "doc_id": doc_id,
@@ -918,8 +845,7 @@ async def extract_entities_batch(
                     existing_spans.append((match.start(), match.end()))
             
             # Extract METRIC patterns (e.g., "98% uptime", "99.9% SLA")
-            metric_pattern = r'\b\d+\.?\d*\s*%?\s*(?:uptime|SLA|availability|accuracy|efficiency|satisfaction|NPS|CSAT|FCR|AHT|MTTR|MTBF)\b'
-            for match in re.finditer(metric_pattern, text, re.IGNORECASE):
+            for match in METRIC_PATTERN.finditer(text):
                 if not _span_overlaps(match.start(), match.end(), existing_spans):
                     entities.append({
                         "doc_id": doc_id,
@@ -936,8 +862,7 @@ async def extract_entities_batch(
                     existing_spans.append((match.start(), match.end()))
             
             # Extract DURATION patterns
-            duration_pattern = r'\b\d+\s+(?:seconds?|minutes?|hours?|days?|weeks?|months?|years?)\b'
-            for match in re.finditer(duration_pattern, text, re.IGNORECASE):
+            for match in DURATION_PATTERN.finditer(text):
                 if not _span_overlaps(match.start(), match.end(), existing_spans):
                     entities.append({
                         "doc_id": doc_id,
@@ -1158,14 +1083,8 @@ async def generate_and_store_embeddings(extraction_result: Dict[str, Any]) -> Di
         
         # Store embeddings in database
         embeddings_stored = 0
-        async with asyncpg.create_pool(
-            host=os.getenv("DB_HOST", "localhost"),
-            port=int(os.getenv("DB_PORT", 5432)),
-            database=os.getenv("DB_NAME", "bpo_intel"),
-            user=os.getenv("DB_USER", "postgres"),
-            password=os.getenv("DB_PASSWORD", "postgres")
-        ) as pool:
-            async with pool.acquire() as conn:
+        pool = await get_db_pool()
+        async with pool.acquire() as conn:
                 for entity in entities_with_embeddings:
                     if "embedding" not in entity:
                         continue

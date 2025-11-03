@@ -1158,52 +1158,46 @@ async def generate_and_store_embeddings(extraction_result: Dict[str, Any]) -> Di
         
         # Store embeddings in database
         embeddings_stored = 0
-        async with asyncpg.create_pool(
-            host=os.getenv("DB_HOST", "localhost"),
-            port=int(os.getenv("DB_PORT", 5432)),
-            database=os.getenv("DB_NAME", "bpo_intel"),
-            user=os.getenv("DB_USER", "postgres"),
-            password=os.getenv("DB_PASSWORD", "postgres")
-        ) as pool:
-            async with pool.acquire() as conn:
-                for entity in entities_with_embeddings:
-                    if "embedding" not in entity:
-                        continue
-                    
-                    try:
-                        # First, get the entity_id from the database
-                        entity_id = await conn.fetchval(
+        pool = await get_db_pool()
+        async with pool.acquire() as conn:
+            for entity in entities_with_embeddings:
+                if "embedding" not in entity:
+                    continue
+
+                try:
+                    # First, get the entity_id from the database
+                    entity_id = await conn.fetchval(
+                        """
+                        SELECT id FROM entities
+                        WHERE doc_id = $1
+                          AND type = $2
+                          AND surface = $3
+                        ORDER BY created_at DESC
+                        LIMIT 1
+                        """,
+                        entity["doc_id"],
+                        entity["type"],
+                        entity["surface"]
+                    )
+
+                    if entity_id:
+                        await conn.execute(
                             """
-                            SELECT id FROM entities
-                            WHERE doc_id = $1 
-                              AND type = $2
-                              AND surface = $3
-                            ORDER BY created_at DESC
-                            LIMIT 1
+                            INSERT INTO entity_embeddings (entity_id, embedding, model_name)
+                            VALUES ($1, $2, $3)
+                            ON CONFLICT (entity_id) DO UPDATE
+                            SET embedding = EXCLUDED.embedding,
+                                model_name = EXCLUDED.model_name,
+                                created_at = NOW()
                             """,
-                            entity["doc_id"],
-                            entity["type"],
-                            entity["surface"]
+                            entity_id,
+                            entity["embedding"],
+                            entity.get("embedding_model", "sentence-transformers/all-MiniLM-L6-v2")
                         )
-                        
-                        if entity_id:
-                            await conn.execute(
-                                """
-                                INSERT INTO entity_embeddings (entity_id, embedding, model_name)
-                                VALUES ($1, $2, $3)
-                                ON CONFLICT (entity_id) DO UPDATE
-                                SET embedding = EXCLUDED.embedding,
-                                    model_name = EXCLUDED.model_name,
-                                    created_at = NOW()
-                                """,
-                                entity_id,
-                                entity["embedding"],
-                                entity.get("embedding_model", "sentence-transformers/all-MiniLM-L6-v2")
-                            )
-                            embeddings_stored += 1
-                    except Exception as e:
-                        logger.warning(f"Failed to store embedding for entity: {e}")
-                        continue
+                        embeddings_stored += 1
+                except Exception as e:
+                    logger.warning(f"Failed to store embedding for entity: {e}")
+                    continue
         
         logger.info(f"Stored {embeddings_stored} entity embeddings in database")
         return {"embeddings": embeddings_stored}
@@ -1248,12 +1242,12 @@ async def save_checkpoint(workflow_id: str, run_id: str, checkpoint_data: Dict) 
     retries=1,
     retry_delay_seconds=30,
     log_prints=True,
-    timeout_seconds=7200  # 2 hour timeout
+    timeout_seconds=14400  # 4 hour timeout to accommodate large corpora
 )
 async def extract_documents_flow(
     source_path: str,
     heuristics_version: str = "2.0.0",
-    batch_size: int = 100,
+    batch_size: int = 200,
     start_offset: int = 0
 ):
     """

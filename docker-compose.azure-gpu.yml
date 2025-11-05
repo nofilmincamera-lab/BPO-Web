@@ -1,0 +1,187 @@
+# ============================================================================
+# Azure GPU Mode - Docker Compose Override
+# ============================================================================
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.azure-gpu.yml up
+#
+# This configuration optimizes for Azure GPU instances:
+# - AKS with GPU node pools
+# - Container Instances with GPU support
+# - Virtual Machines with GPU instances
+# ============================================================================
+
+version: '3.9'
+
+services:
+  # ==========================================================================
+  # PREFECT AGENT (Azure GPU)
+  # ==========================================================================
+  prefect-agent:
+    environment:
+      - GPU_DEPLOYMENT_MODE=azure-gpu
+      - AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID}
+      - AZURE_RESOURCE_GROUP=${AZURE_RESOURCE_GROUP}
+      - AZURE_LOCATION=${AZURE_LOCATION:-eastus}
+      # Use Managed Identity for Azure API access
+      - AZURE_CLIENT_ID=${AZURE_CLIENT_ID}
+      - AZURE_TENANT_ID=${AZURE_TENANT_ID}
+      # GPU configuration
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      # Embedding batch size optimized for T4 (16GB)
+      - EMBEDDING_BATCH_SIZE=64
+      - LOG_LEVEL=INFO
+    # Azure GPU resource requirements
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+        limits:
+          cpus: '4'
+          memory: 14G
+    # Azure Monitor logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "azure-log-workspace"
+
+  # ==========================================================================
+  # API SERVICE (Azure GPU)
+  # ==========================================================================
+  api:
+    environment:
+      - GPU_DEPLOYMENT_MODE=azure-gpu
+      - AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID}
+      - AZURE_RESOURCE_GROUP=${AZURE_RESOURCE_GROUP}
+      - AZURE_LOCATION=${AZURE_LOCATION:-eastus}
+      - AZURE_CLIENT_ID=${AZURE_CLIENT_ID}
+      - AZURE_TENANT_ID=${AZURE_TENANT_ID}
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - EMBEDDING_BATCH_SIZE=64
+      - LOG_LEVEL=INFO
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+        limits:
+          cpus: '2'
+          memory: 6G
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "azure-log-workspace"
+
+  # ==========================================================================
+  # POSTGRES (Azure Database for PostgreSQL Alternative)
+  # ==========================================================================
+  # NOTE: In production Azure deployments, consider using Azure Database for PostgreSQL
+  # Flexible Server with pgvector extension instead of self-hosted postgres
+  postgres:
+    # Override DB connection for Azure Database (if using external DB)
+    # Uncomment and set DB_HOST in .env to Azure Database endpoint
+    # profiles:
+    #   - disabled
+    environment:
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+      - POSTGRES_DB=${DB_NAME:-bpo_intel}
+
+  # ==========================================================================
+  # MONITORING (Azure Monitor Integration)
+  # ==========================================================================
+  prometheus:
+    environment:
+      - AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID}
+      - AZURE_RESOURCE_GROUP=${AZURE_RESOURCE_GROUP}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  grafana:
+    environment:
+      - AZURE_SUBSCRIPTION_ID=${AZURE_SUBSCRIPTION_ID}
+      - AZURE_RESOURCE_GROUP=${AZURE_RESOURCE_GROUP}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# ============================================================================
+# Azure-Specific Notes
+# ============================================================================
+#
+# 1. GPU Instance Types (Virtual Machines):
+#    - Standard_NC4as_T4_v3: T4 GPU, 4 vCPU, 28 GB RAM, $0.526/hr (~$379/month)
+#    - Standard_NC8as_T4_v3: T4 GPU, 8 vCPU, 56 GB RAM, $0.752/hr (~$541/month)
+#    - Standard_NC6s_v3: V100 GPU, 6 vCPU, 112 GB RAM, $3.06/hr (~$2,203/month)
+#    - Standard_ND96asr_v4: 8x A100 GPU, 96 vCPU, 900 GB RAM, $27.20/hr (~$19,584/month)
+#
+# 2. AKS GPU Node Pool Configuration:
+#    - Install NVIDIA GPU device plugin (DaemonSet)
+#    - Set node selector: agentpool=gpunodepool
+#    - Use node affinity for GPU scheduling
+#    - Configure resource requests/limits for GPU
+#    - Install GPU drivers on node pool
+#
+# 3. Azure Container Instances GPU:
+#    - Supports K80, P100, V100 GPUs
+#    - Automatic scaling and billing by second
+#    - No cluster management required
+#    - Limited to specific regions
+#
+# 4. Networking:
+#    - Use Virtual Network (VNet) for private networking
+#    - Configure Network Security Groups (NSGs) for access control
+#    - Use Azure Load Balancer or Application Gateway for API service
+#    - Consider Azure Firewall for advanced security
+#
+# 5. Cost Optimization:
+#    - Use Spot VMs for 90% cost savings (with interruption handling)
+#    - Use Reserved VM Instances for predictable workloads (up to 72% savings)
+#    - Scale down during off-hours with auto-scaling
+#    - Use Azure Hybrid Benefit if you have Windows Server licenses
+#    - Consider low-priority batch nodes for processing
+#
+# 6. Storage:
+#    - Use Azure Files for shared heuristics data (SMB/NFS)
+#    - Use Premium SSD managed disks for performance
+#    - Consider Azure Blob Storage for large document storage
+#    - Use Azure NetApp Files for high-performance workloads
+#
+# 7. Monitoring:
+#    - Integrate with Azure Monitor for metrics and logs
+#    - Use Application Insights for application telemetry
+#    - Set up alerts for GPU utilization and errors
+#    - Use Log Analytics workspace for centralized logging
+#
+# 8. Authentication:
+#    - Use Managed Identity for secure Azure API access
+#    - Configure Azure AD service principals with RBAC
+#    - Use Azure Key Vault for secrets management
+#    - Implement Pod Identity for AKS workloads
+#
+# 9. High Availability:
+#    - Deploy across Availability Zones for fault tolerance
+#    - Use Azure Site Recovery for disaster recovery
+#    - Configure auto-scaling for demand spikes
+#    - Implement health checks and self-healing
+#
+# 10. GPU Driver Management:
+#    - Azure handles GPU driver updates for AKS
+#    - Manual driver installation for VMs
+#    - Use NVIDIA GPU Operator for automated driver management
+#
+# ============================================================================

@@ -1,0 +1,142 @@
+# ============================================================================
+# AWS GPU Mode - Docker Compose Override
+# ============================================================================
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.aws-gpu.yml up
+#
+# This configuration optimizes for AWS GPU instances:
+# - ECS with GPU-enabled task definitions
+# - EC2 with GPU instances (g4dn, g5, p3)
+# - Handles ECS task networking and IAM roles
+# ============================================================================
+
+version: '3.9'
+
+services:
+  # ==========================================================================
+  # PREFECT AGENT (AWS GPU)
+  # ==========================================================================
+  prefect-agent:
+    environment:
+      - GPU_DEPLOYMENT_MODE=aws-gpu
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - AWS_DEFAULT_REGION=${AWS_REGION:-us-east-1}
+      # ECS-specific: Use IAM task role for credentials
+      - AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=${AWS_CONTAINER_CREDENTIALS_RELATIVE_URI}
+      # GPU configuration
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      # Embedding batch size optimized for T4 (g4dn.xlarge - 16GB)
+      - EMBEDDING_BATCH_SIZE=64
+      # Logging for CloudWatch
+      - LOG_LEVEL=INFO
+    # AWS ECS GPU resource requirements
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+        limits:
+          cpus: '4'
+          memory: 14G  # Leave 2GB for system on g4dn.xlarge (16GB total)
+    # CloudWatch logs
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: /ecs/bpo-pipeline
+        awslogs-region: ${AWS_REGION:-us-east-1}
+        awslogs-stream-prefix: prefect-agent
+
+  # ==========================================================================
+  # API SERVICE (AWS GPU)
+  # ==========================================================================
+  api:
+    environment:
+      - GPU_DEPLOYMENT_MODE=aws-gpu
+      - AWS_REGION=${AWS_REGION:-us-east-1}
+      - AWS_DEFAULT_REGION=${AWS_REGION:-us-east-1}
+      - AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=${AWS_CONTAINER_CREDENTIALS_RELATIVE_URI}
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - EMBEDDING_BATCH_SIZE=64
+      - LOG_LEVEL=INFO
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+        limits:
+          cpus: '2'
+          memory: 6G
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: /ecs/bpo-pipeline
+        awslogs-region: ${AWS_REGION:-us-east-1}
+        awslogs-stream-prefix: api
+
+  # ==========================================================================
+  # POSTGRES (AWS RDS Alternative)
+  # ==========================================================================
+  # NOTE: In production AWS deployments, consider using RDS for PostgreSQL
+  # with pgvector extension instead of self-hosted postgres container
+  postgres:
+    # Override DB connection for RDS (if using external DB)
+    # Uncomment and set DB_HOST in .env to RDS endpoint
+    # profiles:
+    #   - disabled
+
+  # ==========================================================================
+  # MONITORING (CloudWatch Integration)
+  # ==========================================================================
+  prometheus:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: /ecs/bpo-pipeline
+        awslogs-region: ${AWS_REGION:-us-east-1}
+        awslogs-stream-prefix: prometheus
+
+  grafana:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: /ecs/bpo-pipeline
+        awslogs-region: ${AWS_REGION:-us-east-1}
+        awslogs-stream-prefix: grafana
+
+# ============================================================================
+# AWS-Specific Notes
+# ============================================================================
+#
+# 1. GPU Instance Types:
+#    - g4dn.xlarge: T4 GPU, 4 vCPU, 16 GB RAM, $0.526/hr (~$379/month)
+#    - g4dn.2xlarge: T4 GPU, 8 vCPU, 32 GB RAM, $0.752/hr (~$541/month)
+#    - g5.xlarge: A10G GPU, 4 vCPU, 16 GB RAM, $1.006/hr (~$724/month)
+#    - p3.2xlarge: V100 GPU, 8 vCPU, 61 GB RAM, $3.06/hr (~$2,203/month)
+#
+# 2. ECS Task Definition Requirements:
+#    - Set requiresCompatibilities: ["EC2"] (Fargate doesn't support GPU yet)
+#    - Set resourceRequirements for GPU
+#    - Configure IAM task role for AWS API access
+#    - Use awsvpc network mode
+#
+# 3. Networking:
+#    - Create VPC with public/private subnets
+#    - Configure security groups for port access
+#    - Use Application Load Balancer for API service
+#
+# 4. Cost Optimization:
+#    - Use Spot Instances for 70% cost savings (with interruption handling)
+#    - Scale down during off-hours with auto-scaling
+#    - Consider Reserved Instances for predictable workloads
+#
+# 5. Storage:
+#    - Use EFS for shared heuristics data
+#    - Use EBS gp3 volumes for performance
+#    - Consider S3 for large document storage
+#
+# ============================================================================

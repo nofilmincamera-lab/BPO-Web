@@ -8,7 +8,7 @@ Follow these exact steps to deploy on your Vast.AI instance.
 
 ## Step 1: Connect to Vast.AI Instance
 
-### From Your Local Machine
+### Option A: SSH (Traditional)
 
 ```bash
 # Connect with port forwarding (keeps terminal open)
@@ -19,6 +19,15 @@ ssh -p 40731 root@198.53.64.194 \
 ```
 
 **Keep this terminal open!** This creates tunnels to access services.
+
+### Option B: Cloudflare Tunnel (Recommended)
+
+```bash
+# Connect via SSH (no port forwarding needed)
+ssh -p 40731 root@198.53.64.194
+```
+
+**Then access services via public URL** (see CLOUDFLARE_TUNNEL.md)
 
 ---
 
@@ -237,28 +246,33 @@ print(f'✓ Batch Size: {info.get(\"batch_size\", \"N/A\")}')
 
 ## Step 9: Access Services
 
-### From Your Local Machine (via SSH tunnel)
+### Option A: Via SSH Tunnel
 
-Open these URLs in your browser:
+Open these URLs in your browser (requires SSH connection with port forwarding):
 
 1. **Prefect UI**: http://localhost:4200
-   - Workflow orchestration dashboard
-   - View running flows and tasks
-   - Monitor worker status
-
 2. **API**: http://localhost:8000
-   - FastAPI endpoints
-   - Health check: http://localhost:8000/healthz
-
 3. **API Documentation**: http://localhost:8000/docs
-   - Interactive Swagger UI
-   - Test API endpoints
-
 4. **PostgreSQL**: localhost:5432
-   - Connect with any PostgreSQL client
-   - Username: postgres
-   - Password: (your password from .env)
-   - Database: bpo_intel
+
+### Option B: Via Cloudflare Tunnel (Public Access)
+
+**Prefect UI**:
+```
+https://everybody-pastor-appearing-tell.trycloudflare.com:4200/?token=b859fd36a46f2ba7a33150784ecfcef70590999c7d698072dc42ac989ae8ed7a
+```
+
+**API**:
+```
+https://everybody-pastor-appearing-tell.trycloudflare.com:8000/?token=b859fd36a46f2ba7a33150784ecfcef70590999c7d698072dc42ac989ae8ed7a
+```
+
+**API Docs**:
+```
+https://everybody-pastor-appearing-tell.trycloudflare.com:8000/docs?token=b859fd36a46f2ba7a33150784ecfcef70590999c7d698072dc42ac989ae8ed7a
+```
+
+See **CLOUDFLARE_TUNNEL.md** for complete Cloudflare setup guide.
 
 ---
 

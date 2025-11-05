@@ -1,0 +1,76 @@
+# BPO Intelligence Pipeline - API image (CPU-Only)
+# This Dockerfile creates a CPU-only version for development/testing
+
+FROM python:3.11-slim AS python-base
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PYTHONPATH=/app \
+    FORCE_CPU_ONLY=1 \
+    CUDA_VISIBLE_DEVICES=""
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    pkg-config \
+    git \
+    curl \
+    wget \
+    ca-certificates \
+    libpq-dev \
+    libmagic1 \
+    libffi-dev \
+    libssl-dev \
+    libxml2 \
+    libxslt1.1 \
+    libxslt1-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN python3.11 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:${PATH}"
+
+WORKDIR /app
+COPY requirements.txt requirements.txt
+
+# Install CPU-only PyTorch (smaller, faster for CPU)
+RUN pip install --upgrade pip setuptools wheel && \
+    pip install torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu && \
+    pip install --no-cache-dir -r requirements.txt
+
+FROM python:3.11-slim AS runtime
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PYTHONPATH=/app \
+    PATH="/opt/venv/bin:${PATH}" \
+    FORCE_CPU_ONLY=1 \
+    CUDA_VISIBLE_DEVICES=""
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    libpq5 \
+    libmagic1 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY --from=python-base /opt/venv /opt/venv
+
+WORKDIR /app
+COPY src/ ./src/
+COPY alembic.ini .
+COPY alembic/ ./alembic/
+COPY docker/entrypoints/run-api.sh /usr/local/bin/run-api.sh
+RUN chmod +x /usr/local/bin/run-api.sh && \
+    useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+EXPOSE 8000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+    CMD curl -f http://localhost:8000/healthz || exit 1
+
+ENTRYPOINT ["/usr/local/bin/run-api.sh"]
+CMD ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000"]

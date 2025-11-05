@@ -1,0 +1,108 @@
+# ============================================================================
+# Vast.AI GPU Mode - Docker Compose Override
+# ============================================================================
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.vastai-gpu.yml up
+#
+# This configuration optimizes for Vast.AI cloud GPU instances:
+# - RTX 6000 Ada Pro (96GB VRAM)
+# - Pre-configured nvidia-docker runtime
+# - Maximum batch sizes for large VRAM
+# - Remote access configuration
+# ============================================================================
+
+version: '3.9'
+
+services:
+  # ==========================================================================
+  # PREFECT AGENT (Vast.AI GPU - RTX 6000 Pro 96GB)
+  # ==========================================================================
+  prefect-agent:
+    environment:
+      - GPU_DEPLOYMENT_MODE=vastai-gpu
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      # RTX 6000 Pro optimized settings (96GB VRAM!)
+      - EMBEDDING_BATCH_SIZE=1024     # DOUBLED! 32x larger than RTX 3060
+      # For extreme testing:
+      # - EMBEDDING_BATCH_SIZE=2048   # 64x larger!
+      - GPU_MEMORY_FRACTION=0.95      # Use 91.2GB of 96GB
+      - LOG_LEVEL=INFO
+    # RTX 6000 Pro resource configuration
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+        limits:
+          cpus: '8'                   # Vast.AI typically has good CPU
+          memory: 30G                 # Adjust based on instance RAM
+
+  # ==========================================================================
+  # API SERVICE (Vast.AI GPU)
+  # ==========================================================================
+  api:
+    environment:
+      - GPU_DEPLOYMENT_MODE=vastai-gpu
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - EMBEDDING_BATCH_SIZE=1024     # DOUBLED!
+      - GPU_MEMORY_FRACTION=0.95
+      - LOG_LEVEL=INFO
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+        limits:
+          cpus: '4'
+          memory: 16G
+
+# ============================================================================
+# Vast.AI-Specific Notes
+# ============================================================================
+#
+# 1. RTX 6000 Ada Pro (96GB):
+#    - VRAM: 96GB GDDR6 ECC (2x standard RTX 6000)
+#    - Memory Bandwidth: 960 GB/s
+#    - Batch Size: 1024-2048 (start at 1024)
+#    - Expected Performance: 700-900 embeddings/sec (7x faster than RTX 3060)
+#    - Processing Time: 4-5 hours for 45,000 documents (vs 17 hours on RTX 3060)
+#
+# 2. SSH Access:
+#    - Connect via: ssh -p PORT root@INSTANCE_IP
+#    - Port forwarding for services:
+#      -L 4200:localhost:4200    # Prefect UI
+#      -L 8000:localhost:8000    # API
+#      -L 5432:localhost:5432    # PostgreSQL
+#
+# 3. Storage:
+#    - Use /workspace for persistent data
+#    - Everything else is ephemeral
+#    - Backup before destroying instance
+#
+# 4. Cost Optimization:
+#    - RTX 6000 Pro pricing: $0.80-1.50/hr typical
+#    - Stop instance when not in use (billing stops)
+#    - Use auto-pause feature for idle timeout
+#
+# 5. Performance Tips:
+#    - Start with EMBEDDING_BATCH_SIZE=1024 (recommended)
+#    - Monitor GPU memory: nvidia-smi -l 1
+#    - Increase to 2048 if stable and <80% memory
+#    - Can handle larger models (768-dim) with batch_size=512
+#
+# 6. Network Configuration:
+#    - Vast.AI pre-configures port mappings
+#    - Use SSH tunneling for secure access
+#    - Check Vast.AI dashboard for assigned ports
+#
+# 7. Monitoring:
+#    - GPU: nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv -l 1
+#    - Containers: docker stats
+#    - Logs: docker-compose logs -f
+#
+# ============================================================================

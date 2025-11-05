@@ -1,0 +1,172 @@
+# ============================================================================
+# GCP GPU Mode - Docker Compose Override
+# ============================================================================
+# Usage: docker-compose -f docker-compose.yml -f docker-compose.gcp-gpu.yml up
+#
+# This configuration optimizes for GCP GPU instances:
+# - GKE with GPU node pools
+# - Cloud Run with GPU support (preview)
+# - Compute Engine with GPU instances
+# ============================================================================
+
+version: '3.9'
+
+services:
+  # ==========================================================================
+  # PREFECT AGENT (GCP GPU)
+  # ==========================================================================
+  prefect-agent:
+    environment:
+      - GPU_DEPLOYMENT_MODE=gcp-gpu
+      - GCP_PROJECT_ID=${GCP_PROJECT_ID}
+      - GCP_REGION=${GCP_REGION:-us-central1}
+      # Use GCP metadata server for credentials
+      - GOOGLE_APPLICATION_CREDENTIALS=/var/secrets/google/key.json
+      # GPU configuration
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      # Embedding batch size optimized for T4 (16GB)
+      - EMBEDDING_BATCH_SIZE=64
+      - LOG_LEVEL=INFO
+    # GCP GPU resource requirements
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: ${GCP_GPU_COUNT:-1}
+              capabilities: [gpu]
+        limits:
+          cpus: '4'
+          memory: 14G
+    # Mount GCP service account key (for GKE)
+    volumes:
+      - ./data:/data
+      - ./Heuristics:/heuristics
+      - ./src:/app/src
+      # Uncomment for GKE with Workload Identity
+      # - /var/secrets/google:/var/secrets/google:ro
+    # Cloud Logging
+    logging:
+      driver: gcplogs
+      options:
+        gcp-project: ${GCP_PROJECT_ID}
+        gcp-log-cmd: "true"
+
+  # ==========================================================================
+  # API SERVICE (GCP GPU)
+  # ==========================================================================
+  api:
+    environment:
+      - GPU_DEPLOYMENT_MODE=gcp-gpu
+      - GCP_PROJECT_ID=${GCP_PROJECT_ID}
+      - GCP_REGION=${GCP_REGION:-us-central1}
+      - GOOGLE_APPLICATION_CREDENTIALS=/var/secrets/google/key.json
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - EMBEDDING_BATCH_SIZE=64
+      - LOG_LEVEL=INFO
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: ${GCP_GPU_COUNT:-1}
+              capabilities: [gpu]
+        limits:
+          cpus: '2'
+          memory: 6G
+    volumes:
+      - ./data:/data
+      - ./Heuristics:/heuristics
+      - ./src:/app/src
+      # Uncomment for GKE with Workload Identity
+      # - /var/secrets/google:/var/secrets/google:ro
+    logging:
+      driver: gcplogs
+      options:
+        gcp-project: ${GCP_PROJECT_ID}
+        gcp-log-cmd: "true"
+
+  # ==========================================================================
+  # POSTGRES (Cloud SQL Alternative)
+  # ==========================================================================
+  # NOTE: In production GCP deployments, consider using Cloud SQL for PostgreSQL
+  # with pgvector extension instead of self-hosted postgres container
+  postgres:
+    # Override DB connection for Cloud SQL (if using external DB)
+    # Uncomment and set DB_HOST in .env to Cloud SQL connection name
+    # profiles:
+    #   - disabled
+    environment:
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+      - POSTGRES_DB=${DB_NAME:-bpo_intel}
+      # For Cloud SQL Proxy
+      # - CLOUDSQL_CONNECTION_NAME=${GCP_PROJECT_ID}:${GCP_REGION}:bpo-postgres
+
+  # ==========================================================================
+  # MONITORING (Cloud Monitoring Integration)
+  # ==========================================================================
+  prometheus:
+    logging:
+      driver: gcplogs
+      options:
+        gcp-project: ${GCP_PROJECT_ID}
+
+  grafana:
+    logging:
+      driver: gcplogs
+      options:
+        gcp-project: ${GCP_PROJECT_ID}
+
+# ============================================================================
+# GCP-Specific Notes
+# ============================================================================
+#
+# 1. GPU Instance Types (Compute Engine):
+#    - n1-standard-4 + T4: 4 vCPU, 15 GB RAM, $0.35/hr + $0.35/hr = $0.70/hr (~$504/month)
+#    - n1-standard-8 + T4: 8 vCPU, 30 GB RAM, $0.38/hr + $0.35/hr = $0.73/hr (~$525/month)
+#    - n1-standard-4 + A100: 4 vCPU, 15 GB RAM, $0.35/hr + $2.933/hr = $3.28/hr (~$2,362/month)
+#    - a2-highgpu-1g: A100 GPU, 12 vCPU, 85 GB RAM, $3.673/hr (~$2,644/month)
+#
+# 2. GKE GPU Node Pool Configuration:
+#    - Install NVIDIA GPU device drivers (DaemonSet)
+#    - Set node selector: cloud.google.com/gke-accelerator=nvidia-tesla-t4
+#    - Use node affinity for GPU scheduling
+#    - Configure resource requests/limits for GPU
+#
+# 3. Cloud Run GPU (Preview):
+#    - Limited to specific regions
+#    - Automatic scaling with GPU
+#    - Pay only for request time
+#    - Currently supports NVIDIA L4 GPUs
+#
+# 4. Networking:
+#    - Use VPC for private networking
+#    - Configure firewall rules for service access
+#    - Use Cloud Load Balancing for API service
+#    - Consider Cloud NAT for egress
+#
+# 5. Cost Optimization:
+#    - Use Preemptible VMs for 80% cost savings (with interruption handling)
+#    - Use Committed Use Discounts for predictable workloads (37% savings)
+#    - Scale down during off-hours with autoscaling
+#    - Use Spot VMs for batch processing
+#
+# 6. Storage:
+#    - Use Cloud Filestore for shared heuristics data
+#    - Use Persistent Disks (SSD) for performance
+#    - Consider Cloud Storage for large document storage
+#
+# 7. Monitoring:
+#    - Integrate with Cloud Monitoring for metrics
+#    - Use Cloud Logging for centralized logs
+#    - Set up alerts for GPU utilization and errors
+#
+# 8. Authentication:
+#    - Use Workload Identity for secure GCP API access
+#    - Configure service accounts with least privilege
+#    - Mount service account keys securely
+#
+# ============================================================================

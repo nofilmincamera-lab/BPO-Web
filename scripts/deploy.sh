@@ -10,6 +10,7 @@
 # Modes:
 #   local-egpu   - Local external GPU (default)
 #   cpu-only     - CPU-only mode
+#   vastai-gpu   - Vast.AI GPU instances (RTX 6000 Pro)
 #   aws-gpu      - AWS GPU instances
 #   gcp-gpu      - GCP GPU instances
 #   azure-gpu    - Azure GPU instances
@@ -120,6 +121,32 @@ deploy_local_egpu() {
     print_info "GPU performance: ~128 embeddings/sec (RTX 3060)"
     print_info "Access Prefect UI: http://localhost:4200"
     print_info "Access API: http://localhost:8000"
+}
+
+deploy_vastai_gpu() {
+    print_header "Deploying with Vast.AI GPU"
+
+    # Update .env
+    sed -i.bak 's/GPU_DEPLOYMENT_MODE=.*/GPU_DEPLOYMENT_MODE=vastai-gpu/' .env
+    sed -i.bak 's/EMBEDDING_BATCH_SIZE=.*/EMBEDDING_BATCH_SIZE=512/' .env
+
+    # Create networks
+    for network in bpo-main-network bpo-gpu-network bpo-db-network bpo-monitoring-network bpo-external-network; do
+        if ! docker network inspect $network &> /dev/null; then
+            docker network create $network
+            print_success "Created network: $network"
+        fi
+    done
+
+    # Deploy
+    print_info "Starting services with Vast.AI GPU support..."
+    docker compose -f docker-compose.yml -f docker-compose.vastai-gpu.yml --profile base up $DETACH
+
+    print_success "Vast.AI GPU deployment complete!"
+    print_info "GPU: RTX 6000 Ada Pro (96GB VRAM)"
+    print_info "Performance: ~600-700 embeddings/sec (5x faster than RTX 3060)"
+    print_info "Batch size: 512 (16x larger than RTX 3060)"
+    print_warning "Access via SSH tunnel: http://localhost:4200 (Prefect), http://localhost:8000 (API)"
 }
 
 deploy_cpu_only() {
@@ -341,6 +368,9 @@ main() {
             ;;
         cpu-only)
             deploy_cpu_only
+            ;;
+        vastai-gpu)
+            deploy_vastai_gpu
             ;;
         aws-gpu)
             deploy_aws_gpu

@@ -22,9 +22,9 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
       # RTX 6000 Pro optimized settings (96GB VRAM!)
-      - EMBEDDING_BATCH_SIZE=512      # 16x larger than RTX 3060
-      # For maximum throughput, uncomment:
-      # - EMBEDDING_BATCH_SIZE=1024   # 32x larger!
+      - EMBEDDING_BATCH_SIZE=1024     # DOUBLED! 32x larger than RTX 3060
+      # For extreme testing:
+      # - EMBEDDING_BATCH_SIZE=2048   # 64x larger!
       - GPU_MEMORY_FRACTION=0.95      # Use 91.2GB of 96GB
       - LOG_LEVEL=INFO
     # RTX 6000 Pro resource configuration
@@ -47,7 +47,7 @@ services:
       - GPU_DEPLOYMENT_MODE=vastai-gpu
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
-      - EMBEDDING_BATCH_SIZE=512
+      - EMBEDDING_BATCH_SIZE=1024     # DOUBLED!
       - GPU_MEMORY_FRACTION=0.95
       - LOG_LEVEL=INFO
     deploy:
@@ -68,8 +68,8 @@ services:
 # 1. RTX 6000 Ada Pro (96GB):
 #    - VRAM: 96GB GDDR6 ECC (2x standard RTX 6000)
 #    - Memory Bandwidth: 960 GB/s
-#    - Batch Size: 512-1024 (up to 2048 for testing)
-#    - Expected Performance: 600-700 embeddings/sec (5x faster than RTX 3060)
+#    - Batch Size: 1024-2048 (start at 1024)
+#    - Expected Performance: 700-900 embeddings/sec (7x faster than RTX 3060)
 #    - Processing Time: 4-5 hours for 45,000 documents (vs 17 hours on RTX 3060)
 #
 # 2. SSH Access:
@@ -90,10 +90,10 @@ services:
 #    - Use auto-pause feature for idle timeout
 #
 # 5. Performance Tips:
-#    - Start with EMBEDDING_BATCH_SIZE=512
+#    - Start with EMBEDDING_BATCH_SIZE=1024 (recommended)
 #    - Monitor GPU memory: nvidia-smi -l 1
-#    - Increase to 1024 if stable and <80% memory
-#    - Can handle larger models (768-dim) with batch_size=256
+#    - Increase to 2048 if stable and <80% memory
+#    - Can handle larger models (768-dim) with batch_size=512
 #
 # 6. Network Configuration:
 #    - Vast.AI pre-configures port mappings

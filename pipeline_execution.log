@@ -1,0 +1,63 @@
+================================================================================
+DATA CLEANING AND ENRICHMENT PIPELINE
+================================================================================
+
+Input file: data/collections_extraction.csv
+Text column: text
+Provider column: matched_companies
+Date column: fetched_at
+Label columns: ['matched_terms', 'matched_keywords']
+
+Loaded taxonomy: 50 services
+Category mappings: 242
+
+================================================================================
+
+Processing data in chunks of 50000...
+Processing chunk 1 (3673 rows)...
+
+Combining all processed chunks...
+
+Total rows processed: 3673
+Rows with provider: 311
+Rows with categories: 3672
+
+Detecting duplicates...
+Found 2380 duplicate entries
+
+================================================================================
+GENERATING OUTPUTS
+================================================================================
+
+1. Writing cleaned_enriched.csv...
+   ✓ Wrote 3673 rows to cleaned_enriched.csv
+
+2. Writing aggregates_provider.csv...
+   ✓ Wrote 3 providers to aggregates_provider.csv
+
+3. Writing aggregates_category.csv...
+   ✓ Wrote 49 categories to aggregates_category.csv
+
+4. Writing tag_dictionary.csv...
+   ✓ Wrote 292 tag mappings to tag_dictionary.csv
+
+5. Writing data_quality_issues.csv...
+   ✓ Wrote 5743 quality issues to data_quality_issues.csv
+
+6. Writing REPORT.md...
+   ✓ Wrote comprehensive report to REPORT.md
+
+================================================================================
+PIPELINE COMPLETE
+================================================================================
+
+================================================================================
+OUTPUT FILES SUMMARY
+================================================================================
+✓ cleaned_enriched.csv                    159.24 MB
+✓ aggregates_provider.csv                   0.00 MB
+✓ aggregates_category.csv                   0.00 MB
+✓ tag_dictionary.csv                        0.01 MB
+✓ data_quality_issues.csv                   0.37 MB
+✓ REPORT.md                                 0.04 MB
+================================================================================

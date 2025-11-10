@@ -1,0 +1,377 @@
+[
+  {
+    "id": "person-001",
+    "name": "Alice Johnson",
+    "url": "https://linkedin.com/in/alicejohnson",
+    "photo": "https://example.com/photo1.jpg",
+    "summary": "Experienced software engineer passionate about building scalable systems.",
+    "experience": [
+      {
+        "company": "Google LLC",
+        "title": "Senior Software Engineer",
+        "start_date": "2020-03",
+        "end_date": null,
+        "is_current": true,
+        "description": "Building cloud infrastructure services",
+        "duration": "4 years"
+      },
+      {
+        "company": "Microsoft Corporation",
+        "title": "Software Engineer II",
+        "start_date": "2018-06",
+        "end_date": "2020-02",
+        "is_current": false,
+        "description": "Worked on Azure services",
+        "duration": "2 years"
+      },
+      {
+        "company": "Amazon.com Inc",
+        "title": "Software Development Engineer",
+        "start_date": "2016-07",
+        "end_date": "2018-05",
+        "is_current": false,
+        "description": "AWS infrastructure development",
+        "duration": "2 years"
+      }
+    ],
+    "education": [
+      {
+        "school": "Stanford University",
+        "degree": "BS Computer Science",
+        "years": "2012-2016"
+      }
+    ],
+    "skills": ["Python", "Java", "Cloud Computing", "Distributed Systems"],
+    "posts": [
+      {
+        "date": "2024-11-01",
+        "text": "Excited to share our team's latest product launch at Google Cloud!",
+        "url": "https://linkedin.com/posts/alice-1",
+        "likes": 245,
+        "comments": 32,
+        "shares": 18
+      },
+      {
+        "date": "2024-10-15",
+        "text": "Great panel discussion on cloud architecture patterns today.",
+        "url": "https://linkedin.com/posts/alice-2",
+        "likes": 187,
+        "comments": 24,
+        "shares": 12
+      }
+    ]
+  },
+  {
+    "id": "person-002",
+    "name": "Bob Smith",
+    "url": "https://linkedin.com/in/bobsmith",
+    "photo": "https://example.com/photo2.jpg",
+    "summary": "Product leader helping companies build customer-centric solutions.",
+    "experience": [
+      {
+        "company": "Meta Platforms Inc",
+        "title": "Director of Product Management",
+        "start_date": "2021-01",
+        "end_date": null,
+        "is_current": true,
+        "description": "Leading product strategy for WhatsApp Business",
+        "duration": "3 years"
+      },
+      {
+        "company": "Google LLC",
+        "title": "Senior Product Manager",
+        "start_date": "2018-03",
+        "end_date": "2020-12",
+        "is_current": false,
+        "description": "Led product development for Google Workspace",
+        "duration": "3 years"
+      },
+      {
+        "company": "Dropbox Inc",
+        "title": "Product Manager",
+        "start_date": "2015-06",
+        "end_date": "2018-02",
+        "is_current": false,
+        "description": "Enterprise product features",
+        "duration": "3 years"
+      }
+    ],
+    "education": [
+      {
+        "school": "MIT",
+        "degree": "MBA",
+        "years": "2013-2015"
+      }
+    ],
+    "skills": ["Product Management", "Strategy", "Analytics"],
+    "posts": [
+      {
+        "date": "2024-10-28",
+        "text": "Thrilled to announce new features for WhatsApp Business API",
+        "url": "https://linkedin.com/posts/bob-1",
+        "likes": 892,
+        "comments": 156,
+        "shares": 67
+      }
+    ]
+  },
+  {
+    "id": "person-003",
+    "name": "Carol Davis",
+    "url": "https://linkedin.com/in/caroldavis",
+    "photo": "https://example.com/photo3.jpg",
+    "summary": "VP of Engineering building high-performing technical teams.",
+    "experience": [
+      {
+        "company": "Stripe Inc",
+        "title": "VP of Engineering",
+        "start_date": "2022-06",
+        "end_date": "Present",
+        "is_current": true,
+        "description": "Leading infrastructure and platform engineering teams",
+        "duration": "2 years"
+      },
+      {
+        "company": "Google LLC",
+        "title": "Engineering Director",
+        "start_date": "2019-01",
+        "end_date": "2022-05",
+        "is_current": false,
+        "description": "Built and scaled Google Cloud Platform teams",
+        "duration": "3 years"
+      },
+      {
+        "company": "Amazon.com Inc",
+        "title": "Principal Engineer",
+        "start_date": "2014-03",
+        "end_date": "2018-12",
+        "is_current": false,
+        "description": "Technical leadership for AWS services",
+        "duration": "5 years"
+      }
+    ],
+    "education": [
+      {
+        "school": "UC Berkeley",
+        "degree": "MS Computer Science",
+        "years": "2012-2014"
+      }
+    ],
+    "skills": ["Engineering Leadership", "System Design", "Team Building"],
+    "posts": [
+      {
+        "date": "2024-11-05",
+        "text": "We're hiring! Looking for senior engineers to join our payments platform team.",
+        "url": "https://linkedin.com/posts/carol-1",
+        "likes": 567,
+        "comments": 89,
+        "shares": 45
+      },
+      {
+        "date": "2024-10-20",
+        "text": "Thoughts on building resilient distributed systems",
+        "url": "https://linkedin.com/posts/carol-2",
+        "likes": 423,
+        "comments": 67,
+        "shares": 34
+      }
+    ]
+  },
+  {
+    "id": "person-004",
+    "name": "David Lee",
+    "url": "https://linkedin.com/in/davidlee",
+    "photo": "https://example.com/photo4.jpg",
+    "summary": "Data scientist and ML engineer passionate about AI applications.",
+    "experience": [
+      {
+        "company": "OpenAI",
+        "title": "Senior Research Engineer",
+        "start_date": "2023-02",
+        "end_date": null,
+        "is_current": true,
+        "description": "Working on large language models",
+        "duration": "1 year"
+      },
+      {
+        "company": "Google LLC",
+        "title": "Staff Machine Learning Engineer",
+        "start_date": "2020-06",
+        "end_date": "2023-01",
+        "is_current": false,
+        "description": "Google Brain team - NLP research",
+        "duration": "3 years"
+      },
+      {
+        "company": "Facebook Inc",
+        "title": "Data Scientist",
+        "start_date": "2017-08",
+        "end_date": "2020-05",
+        "is_current": false,
+        "description": "ML models for content ranking",
+        "duration": "3 years"
+      }
+    ],
+    "education": [
+      {
+        "school": "Carnegie Mellon University",
+        "degree": "PhD Computer Science",
+        "years": "2013-2017"
+      }
+    ],
+    "skills": ["Machine Learning", "Deep Learning", "NLP", "Python"],
+    "posts": [
+      {
+        "date": "2024-11-08",
+        "text": "Fascinating developments in transformer architectures",
+        "url": "https://linkedin.com/posts/david-1",
+        "likes": 1234,
+        "comments": 234,
+        "shares": 123
+      }
+    ]
+  },
+  {
+    "id": "person-005",
+    "name": "Emma Wilson",
+    "url": "https://linkedin.com/in/emmawilson",
+    "photo": "https://example.com/photo5.jpg",
+    "summary": "Sales leader driving enterprise growth.",
+    "experience": [
+      {
+        "company": "Salesforce Inc",
+        "title": "VP of Enterprise Sales",
+        "start_date": "2021-09",
+        "end_date": "Present",
+        "is_current": true,
+        "description": "Leading the North America enterprise sales team",
+        "duration": "3 years"
+      },
+      {
+        "company": "Microsoft Corporation",
+        "title": "Senior Account Executive",
+        "start_date": "2018-05",
+        "end_date": "2021-08",
+        "is_current": false,
+        "description": "Enterprise sales for Azure and M365",
+        "duration": "3 years"
+      },
+      {
+        "company": "Oracle Corporation",
+        "title": "Account Executive",
+        "start_date": "2015-01",
+        "end_date": "2018-04",
+        "is_current": false,
+        "description": "Database and cloud sales",
+        "duration": "3 years"
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Pennsylvania",
+        "degree": "BA Economics",
+        "years": "2011-2015"
+      }
+    ],
+    "skills": ["Enterprise Sales", "Account Management", "SaaS"],
+    "posts": [
+      {
+        "date": "2024-11-02",
+        "text": "Amazing quarter for our team! Proud of what we've accomplished.",
+        "url": "https://linkedin.com/posts/emma-1",
+        "likes": 456,
+        "comments": 78,
+        "shares": 23
+      }
+    ]
+  },
+  {
+    "id": "person-006",
+    "name": "Frank Martinez",
+    "url": "https://linkedin.com/in/frankmartinez",
+    "summary": "Junior developer learning and growing in the tech industry.",
+    "experience": [
+      {
+        "company": "Google LLC",
+        "title": "Software Engineer I",
+        "start_date": "2023-06",
+        "end_date": null,
+        "is_current": true,
+        "description": "Working on frontend features for Search",
+        "duration": "1 year"
+      },
+      {
+        "company": "Startup XYZ",
+        "title": "Junior Developer",
+        "start_date": "2022-01",
+        "end_date": "2023-05",
+        "is_current": false,
+        "description": "Full-stack web development",
+        "duration": "1 year"
+      }
+    ],
+    "education": [
+      {
+        "school": "University of Texas",
+        "degree": "BS Computer Science",
+        "years": "2018-2022"
+      }
+    ],
+    "skills": ["JavaScript", "React", "Node.js"],
+    "posts": []
+  },
+  {
+    "id": "person-007",
+    "name": "Grace Chen",
+    "url": "https://linkedin.com/in/gracechen",
+    "photo": "https://example.com/photo7.jpg",
+    "summary": "Marketing executive driving brand growth and customer acquisition.",
+    "experience": [
+      {
+        "company": "HubSpot Inc",
+        "title": "CMO",
+        "start_date": "2022-03",
+        "end_date": null,
+        "is_current": true,
+        "description": "Leading all marketing functions",
+        "duration": "2 years"
+      },
+      {
+        "company": "Shopify Inc",
+        "title": "VP of Marketing",
+        "start_date": "2019-06",
+        "end_date": "2022-02",
+        "is_current": false,
+        "description": "Growth marketing and brand",
+        "duration": "3 years"
+      },
+      {
+        "company": "Google LLC",
+        "title": "Senior Marketing Manager",
+        "start_date": "2016-01",
+        "end_date": "2019-05",
+        "is_current": false,
+        "description": "Google Cloud marketing campaigns",
+        "duration": "3 years"
+      }
+    ],
+    "education": [
+      {
+        "school": "Harvard Business School",
+        "degree": "MBA",
+        "years": "2014-2016"
+      }
+    ],
+    "skills": ["Marketing Strategy", "Brand Management", "Growth Marketing"],
+    "posts": [
+      {
+        "date": "2024-10-30",
+        "text": "Excited to share our latest marketing campaign results!",
+        "url": "https://linkedin.com/posts/grace-1",
+        "likes": 678,
+        "comments": 92,
+        "shares": 45
+      }
+    ]
+  }
+]

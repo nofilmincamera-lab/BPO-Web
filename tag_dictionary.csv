@@ -1,0 +1,293 @@
+canonical,synonym,source
+Account Support,account_support,taxonomy_id
+Account Support,Account Support,taxonomy_name
+Agent Assist & Copilot,agent_assist,taxonomy_id
+Agent Assist & Copilot,Agent Assist & Copilot,taxonomy_name
+Autonomous Service Agents,agentic_ai,taxonomy_id
+Autonomous Service Agents,Autonomous Service Agents,taxonomy_name
+AI-Enabled CX & Automation,ai_cx,taxonomy_id
+AI-Enabled CX & Automation,AI-Enabled CX & Automation,taxonomy_name
+"Data, Analytics & Insights",analytics,taxonomy_id
+"Data, Analytics & Insights","Data, Analytics & Insights",taxonomy_name
+Application Maintenance,app_maintenance,taxonomy_id
+Application Maintenance,Application Maintenance,taxonomy_name
+Auto & Asset-Backed,auto_collections,taxonomy_id
+Auto & Asset-Backed,Auto & Asset-Backed,taxonomy_name
+Back-Office & Process Management,back_office,taxonomy_id
+Back-Office & Process Management,Back-Office & Process Management,taxonomy_name
+Benchmarking & VOC Strategy,benchmarking,taxonomy_id
+Benchmarking & VOC Strategy,Benchmarking & VOC Strategy,taxonomy_name
+BI & Visualization,bi_viz,taxonomy_id
+BI & Visualization,BI & Visualization,taxonomy_name
+Claims Processing,claims_processing,taxonomy_id
+Claims Processing,Claims Processing,taxonomy_name
+Cloud Support,cloud_support,taxonomy_id
+Cloud Support,Cloud Support,taxonomy_name
+"Collections, Credit & Revenue Recovery",collections,taxonomy_id
+"Collections, Credit & Revenue Recovery","Collections, Credit & Revenue Recovery",taxonomy_name
+Commercial & B2B,commercial_ar,taxonomy_id
+Commercial & B2B,Commercial & B2B,taxonomy_name
+Consumer Collections,consumer_collections,taxonomy_id
+Consumer Collections,Consumer Collections,taxonomy_name
+Content Moderation / T&S,content_moderation,taxonomy_id
+Content Moderation / T&S,Content Moderation / T&S,taxonomy_name
+Conversational AI,conversational_ai,taxonomy_id
+Conversational AI,Conversational AI,taxonomy_name
+Customer Experience (CX) Operations,cx_ops,taxonomy_id
+Customer Experience (CX) Operations,Customer Experience (CX) Operations,taxonomy_name
+CX Transformation & Consulting,cx_transform,taxonomy_id
+CX Transformation & Consulting,CX Transformation & Consulting,taxonomy_name
+Digital Self-Cure Journeys,digital_journeys,taxonomy_id
+Digital Self-Cure Journeys,Digital Self-Cure Journeys,taxonomy_name
+Digital Transformation Strategy,digital_transform,taxonomy_id
+Digital Transformation Strategy,Digital Transformation Strategy,taxonomy_name
+Document Processing,doc_mgmt,taxonomy_id
+Document Processing,Document Processing,taxonomy_name
+Escalations & Retention,escalations,taxonomy_id
+Escalations & Retention,Escalations & Retention,taxonomy_name
+Finance & Accounting (F&A),fa,taxonomy_id
+Finance & Accounting (F&A),Finance & Accounting (F&A),taxonomy_name
+Fraud & Disputes,fraud_disputes,taxonomy_id
+Fraud & Disputes,Fraud & Disputes,taxonomy_name
+HR Helpdesk,hr_helpdesk,taxonomy_id
+HR Helpdesk,HR Helpdesk,taxonomy_name
+Human Resources (HRO),hro,taxonomy_id
+Human Resources (HRO),Human Resources (HRO),taxonomy_name
+Inventory Planning,inventory_planning,taxonomy_id
+Inventory Planning,Inventory Planning,taxonomy_name
+IT Consulting & Advisory,it_consulting,taxonomy_id
+IT Consulting & Advisory,IT Consulting & Advisory,taxonomy_name
+IT Helpdesk,it_helpdesk,taxonomy_id
+IT Helpdesk,IT Helpdesk,taxonomy_name
+Journey Mapping,journey_mapping,taxonomy_id
+Journey Mapping,Journey Mapping,taxonomy_name
+Knowledge Automation,knowledge_auto,taxonomy_id
+Knowledge Automation,Knowledge Automation,taxonomy_name
+KYC / AML,kyc_aml,taxonomy_id
+KYC / AML,KYC / AML,taxonomy_name
+Mortgage Default,mortgage_default,taxonomy_id
+Mortgage Default,Mortgage Default,taxonomy_name
+Order-to-Cash (O2C),o2c,taxonomy_id
+Order-to-Cash (O2C),Order-to-Cash (O2C),taxonomy_name
+Order Management,order_mgmt,taxonomy_id
+Order Management,Order Management,taxonomy_name
+Procure-to-Pay (P2P),p2p,taxonomy_id
+Procure-to-Pay (P2P),Procure-to-Pay (P2P),taxonomy_name
+Payroll,payroll,taxonomy_id
+Payroll,Payroll,taxonomy_name
+Policy Administration,policy_admin,taxonomy_id
+Policy Administration,Policy Administration,taxonomy_name
+Process Optimization,process_opt,taxonomy_id
+Process Optimization,Process Optimization,taxonomy_name
+Predictive / Propensity,propensity,taxonomy_id
+Predictive / Propensity,Predictive / Propensity,taxonomy_name
+Record-to-Report (R2R),r2r,taxonomy_id
+Record-to-Report (R2R),Record-to-Report (R2R),taxonomy_name
+Talent Acquisition,recruiting,taxonomy_id
+Talent Acquisition,Talent Acquisition,taxonomy_name
+"Risk, Compliance & Trust",risk_trust,taxonomy_id
+"Risk, Compliance & Trust","Risk, Compliance & Trust",taxonomy_name
+Social Media Care,social_care,taxonomy_id
+Social Media Care,Social Media Care,taxonomy_name
+Supply Chain & Logistics Management,supply_chain,taxonomy_id
+Supply Chain & Logistics Management,Supply Chain & Logistics Management,taxonomy_name
+Technology Services,tech_svcs,taxonomy_id
+Technology Services,Technology Services,taxonomy_name
+Transportation Ops,transport_ops,taxonomy_id
+Transportation Ops,Transportation Ops,taxonomy_name
+VOC & Sentiment,voc_sentiment,taxonomy_id
+VOC & Sentiment,VOC & Sentiment,taxonomy_name
+Workforce Management & Staffing,wfm_staffing,taxonomy_id
+Workforce Management & Staffing,Workforce Management & Staffing,taxonomy_name
+Account Support,account_support,inferred
+Account Support,balance,inferred
+Account Support,billing,inferred
+Account Support,updates,inferred
+Agent Assist & Copilot,agent_assist,inferred
+Agent Assist & Copilot,real,inferred
+Agent Assist & Copilot,time,inferred
+Agent Assist & Copilot,guidance,inferred
+Autonomous Service Agents,agentic_ai,inferred
+Autonomous Service Agents,multi,inferred
+Autonomous Service Agents,step,inferred
+Autonomous Service Agents,resolution,inferred
+Autonomous Service Agents,with,inferred
+Autonomous Service Agents,tools,inferred
+AI-Enabled CX & Automation,ai_cx,inferred
+AI-Enabled CX & Automation,automation,inferred
+AI-Enabled CX & Automation,products,inferred
+AI-Enabled CX & Automation,agent,inferred
+AI-Enabled CX & Automation,augmentation,inferred
+"Data, Analytics & Insights",analytics,inferred
+"Data, Analytics & Insights",decisioning,inferred
+"Data, Analytics & Insights",reporting,inferred
+"Data, Analytics & Insights",data,inferred
+Application Maintenance,app_maintenance,inferred
+Application Maintenance,upgrades,inferred
+Application Maintenance,break,inferred
+Auto & Asset-Backed,auto_collections,inferred
+Auto & Asset-Backed,repossession,inferred
+Auto & Asset-Backed,recovery,inferred
+Auto & Asset-Backed,support,inferred
+Back-Office & Process Management,back_office,inferred
+Back-Office & Process Management,content,inferred
+Back-Office & Process Management,workflow,inferred
+Back-Office & Process Management,policy,inferred
+Back-Office & Process Management,operations,inferred
+Benchmarking & VOC Strategy,benchmarking,inferred
+Benchmarking & VOC Strategy,targets,inferred
+Benchmarking & VOC Strategy,feedback,inferred
+Benchmarking & VOC Strategy,loops,inferred
+BI & Visualization,bi_viz,inferred
+BI & Visualization,dashboards,inferred
+BI & Visualization,views,inferred
+Claims Processing,claims_processing,inferred
+Claims Processing,intake,inferred
+Claims Processing,adjudication,inferred
+Cloud Support,cloud_support,inferred
+Cloud Support,infra,inferred
+Cloud Support,monitoring,inferred
+Cloud Support,runbooks,inferred
+"Collections, Credit & Revenue Recovery",collections,inferred
+"Collections, Credit & Revenue Recovery",delinquency,inferred
+"Collections, Credit & Revenue Recovery",outreach,inferred
+"Collections, Credit & Revenue Recovery",debt,inferred
+Commercial & B2B,commercial_ar,inferred
+Commercial & B2B,follow,inferred
+Commercial & B2B,dispute,inferred
+Consumer Collections,consumer_collections,inferred
+Consumer Collections,early,inferred
+Consumer Collections,stage,inferred
+Consumer Collections,treatments,inferred
+Content Moderation / T&S,content_moderation,inferred
+Content Moderation / T&S,safety,inferred
+Content Moderation / T&S,enforcement,inferred
+Conversational AI,conversational_ai,inferred
+Conversational AI,chat,inferred
+Conversational AI,voice,inferred
+Conversational AI,bots,inferred
+Conversational AI,routine,inferred
+Conversational AI,tasks,inferred
+Customer Experience (CX) Operations,cx_ops,inferred
+Customer Experience (CX) Operations,multichannel,inferred
+Customer Experience (CX) Operations,customer,inferred
+Customer Experience (CX) Operations,retention,inferred
+CX Transformation & Consulting,cx_transform,inferred
+CX Transformation & Consulting,strategy,inferred
+CX Transformation & Consulting,design,inferred
+CX Transformation & Consulting,operating,inferred
+CX Transformation & Consulting,model,inferred
+CX Transformation & Consulting,change,inferred
+Digital Self-Cure Journeys,digital_journeys,inferred
+Digital Self-Cure Journeys,omnichannel,inferred
+Digital Self-Cure Journeys,self,inferred
+Digital Self-Cure Journeys,flows,inferred
+Digital Transformation Strategy,digital_transform,inferred
+Digital Transformation Strategy,modernization,inferred
+Digital Transformation Strategy,digital,inferred
+Digital Transformation Strategy,core,inferred
+Digital Transformation Strategy,channel,inferred
+Digital Transformation Strategy,platform,inferred
+Digital Transformation Strategy,implementation,inferred
+Document Processing,doc_mgmt,inferred
+Document Processing,indexing,inferred
+Escalations & Retention,escalations,inferred
+Escalations & Retention,save,inferred
+Escalations & Retention,sale,inferred
+Escalations & Retention,complaint,inferred
+Finance & Accounting (F&A),fa,inferred
+Finance & Accounting (F&A),transactional,inferred
+Finance & Accounting (F&A),finance,inferred
+Finance & Accounting (F&A),processes,inferred
+Finance & Accounting (F&A),close,inferred
+Fraud & Disputes,fraud_disputes,inferred
+Fraud & Disputes,detection,inferred
+Fraud & Disputes,chargeback,inferred
+Fraud & Disputes,handling,inferred
+HR Helpdesk,hr_helpdesk,inferred
+HR Helpdesk,case,inferred
+HR Helpdesk,management,inferred
+Human Resources (HRO),hro,inferred
+Human Resources (HRO),employee,inferred
+Human Resources (HRO),lifecycle,inferred
+Inventory Planning,inventory_planning,inferred
+Inventory Planning,demand,inferred
+Inventory Planning,replenishment,inferred
+IT Consulting & Advisory,it_consulting,inferred
+IT Consulting & Advisory,strategic,inferred
+IT Consulting & Advisory,consulting,inferred
+IT Consulting & Advisory,integration,inferred
+IT Consulting & Advisory,professional,inferred
+IT Consulting & Advisory,services,inferred
+IT Consulting & Advisory,including,inferred
+IT Consulting & Advisory,blockchain,inferred
+IT Consulting & Advisory,advisory,inferred
+IT Helpdesk,it_helpdesk,inferred
+IT Helpdesk,ticket,inferred
+Journey Mapping,journey_mapping,inferred
+Journey Mapping,flow,inferred
+Knowledge Automation,knowledge_auto,inferred
+Knowledge Automation,retrieval,inferred
+Knowledge Automation,deflection,inferred
+Knowledge Automation,models,inferred
+KYC / AML,kyc_aml,inferred
+KYC / AML,identity,inferred
+KYC / AML,anti,inferred
+KYC / AML,money,inferred
+KYC / AML,laundering,inferred
+Mortgage Default,mortgage_default,inferred
+Mortgage Default,workout,inferred
+Mortgage Default,loss,inferred
+Mortgage Default,mitigation,inferred
+Order-to-Cash (O2C),o2c,inferred
+Order-to-Cash (O2C),cash,inferred
+Order-to-Cash (O2C),application,inferred
+Order Management,order_mgmt,inferred
+Order Management,order,inferred
+Order Management,promising,inferred
+Order Management,tracking,inferred
+Procure-to-Pay (P2P),p2p,inferred
+Procure-to-Pay (P2P),purchasing,inferred
+Procure-to-Pay (P2P),through,inferred
+Procure-to-Pay (P2P),payment,inferred
+Payroll,gross,inferred
+Payroll,statutory,inferred
+Payroll,filings,inferred
+Policy Administration,policy_admin,inferred
+Process Optimization,process_opt,inferred
+Process Optimization,lean,inferred
+Process Optimization,playbooks,inferred
+Predictive / Propensity,propensity,inferred
+Predictive / Propensity,likelihood,inferred
+Predictive / Propensity,segmentation,inferred
+Record-to-Report (R2R),r2r,inferred
+Record-to-Report (R2R),period,inferred
+Talent Acquisition,recruiting,inferred
+Talent Acquisition,sourcing,inferred
+Talent Acquisition,hiring,inferred
+"Risk, Compliance & Trust",risk_trust,inferred
+"Risk, Compliance & Trust",fraud,inferred
+"Risk, Compliance & Trust",regulatory,inferred
+"Risk, Compliance & Trust",controls,inferred
+Social Media Care,social_care,inferred
+Social Media Care,public,inferred
+Supply Chain & Logistics Management,supply_chain,inferred
+Supply Chain & Logistics Management,inventory,inferred
+Supply Chain & Logistics Management,fulfillment,inferred
+Supply Chain & Logistics Management,transport,inferred
+Technology Services,tech_svcs,inferred
+Technology Services,cloud,inferred
+Technology Services,applications,inferred
+Transportation Ops,transport_ops,inferred
+Transportation Ops,freight,inferred
+Transportation Ops,routing,inferred
+VOC & Sentiment,voc_sentiment,inferred
+VOC & Sentiment,listening,inferred
+VOC & Sentiment,measurement,inferred
+Workforce Management & Staffing,wfm_staffing,inferred
+Workforce Management & Staffing,forecasting,inferred
+Workforce Management & Staffing,scheduling,inferred
+Workforce Management & Staffing,managing,inferred
+Workforce Management & Staffing,contact,inferred
+Workforce Management & Staffing,center,inferred
+Workforce Management & Staffing,staffing,inferred

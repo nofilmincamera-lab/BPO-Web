@@ -1,9 +1,9 @@
 {
   "metadata": {
     "title": "BPO and CX Industry Terms with Fuzzy Logic",
-    "version": "2.1",
+    "version": "2.2",
     "total_terms": 600,
-    "description": "Comprehensive list of Business Process Outsourcing and Customer Experience terms with NER categories, fuzzy matching variations, compliance terms, and multi-category watchlist entries with disambiguation rules"
+    "description": "Comprehensive list of Business Process Outsourcing and Customer Experience terms with NER categories, fuzzy matching variations, compliance terms, and multi-category watchlist entries with disambiguation rules - Added context filtering for ambiguous terms to reduce false positives"
   },
   "disambiguation_rules": {
     "AI": "Map 'AI' to TECHNOLOGY when near tech keywords (model, inference, training, platform, algorithm, neural, machine learning). Map to LOC only with geographic cues (e.g., 'in AI', 'The Valley, AI'). Map to ORG only when 'AI, Inc.' or similar company structure is present.",
@@ -2005,7 +2005,30 @@
         "debt collector",
         "Debt Collector",
         "collector"
-      ]
+      ],
+      "required_context": [
+        "debt",
+        "payment",
+        "delinquent",
+        "account",
+        "receivable",
+        "past due",
+        "outstanding",
+        "creditor",
+        "financial",
+        "billing"
+      ],
+      "exclude_context": [
+        "data collection",
+        "art collection",
+        "museum",
+        "gallery",
+        "evidence collection",
+        "sample collection",
+        "waste collection"
+      ],
+      "context_window": 200,
+      "min_required_matches": 1
     },
     {
       "id": 123,
@@ -2032,11 +2055,31 @@
       "fuzzy_variations": [
         "recovery rate",
         "Recovery Rate",
-        "debt recovery",
-        "Debt Recovery",
         "recovery %",
-        "collection rate"
-      ]
+        "recovery percentage",
+        "debt recovery rate"
+      ],
+      "required_context": [
+        "debt",
+        "collection",
+        "payment",
+        "delinquent",
+        "account",
+        "receivable",
+        "past due",
+        "outstanding",
+        "financial"
+      ],
+      "exclude_context": [
+        "system recovery",
+        "data recovery",
+        "file recovery",
+        "password recovery",
+        "account recovery",
+        "disaster recovery"
+      ],
+      "context_window": 200,
+      "min_required_matches": 1
     },
     {
       "id": 125,
@@ -4225,7 +4268,20 @@
         "cart recovery",
         "Cart Recovery",
         "cart abandonment recovery"
-      ]
+      ],
+      "required_context": [
+        "cart",
+        "checkout",
+        "e-commerce",
+        "ecommerce",
+        "shopping",
+        "online store",
+        "purchase",
+        "customer"
+      ],
+      "exclude_context": [],
+      "context_window": 200,
+      "min_required_matches": 1
     },
     {
       "id": 272,
@@ -4643,11 +4699,38 @@
       "fuzzy_variations": [
         "disaster recovery",
         "Disaster Recovery",
-        "DR",
-        "dr",
-        "business continuity",
-        "disaster recovery plan"
-      ]
+        "disaster recovery services"
+      ],
+      "required_context": [
+        "debt",
+        "collection",
+        "payment",
+        "delinquent",
+        "account",
+        "receivable",
+        "past due",
+        "outstanding balance",
+        "financial"
+      ],
+      "exclude_context": [
+        "cloud",
+        "backup",
+        "IT infrastructure",
+        "data center",
+        "system recovery",
+        "server",
+        "business continuity plan",
+        "failover",
+        "replication",
+        "virtual",
+        "hardware",
+        "network",
+        "database",
+        "storage",
+        "cybersecurity"
+      ],
+      "context_window": 200,
+      "min_required_matches": 1
     },
     {
       "id": 301,
@@ -5165,7 +5248,24 @@
         "premium payment",
         "Premium Payment",
         "collect premium"
-      ]
+      ],
+      "required_context": [
+        "insurance",
+        "policy",
+        "premium payment",
+        "insurer",
+        "policyholder",
+        "coverage",
+        "underwriting"
+      ],
+      "exclude_context": [
+        "art collection",
+        "museum",
+        "gallery",
+        "luxury goods"
+      ],
+      "context_window": 200,
+      "min_required_matches": 1
     },
     {
       "id": 337,

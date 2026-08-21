@@ -120,7 +120,8 @@ h2{
   background:var(--surface);border:1px solid var(--rule);border-radius:3px;
   padding:22px 22px 14px;box-shadow:var(--shadow);overflow-x:auto;
 }
-.tl-inner{min-width:820px}
+.tl-inner{min-width:900px}
+:root{--gutter:96px}
 .tl-readout{
   display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
   padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--rule2);
@@ -129,7 +130,7 @@ h2{
 .tl-readout .lbl{font-family:Archivo,sans-serif;font-weight:600;font-size:15px;letter-spacing:-.01em}
 .tl-readout .hint{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
 
-.track{position:relative;height:62px;cursor:crosshair;touch-action:none}
+.track{position:relative;height:62px;cursor:crosshair;touch-action:none;margin-left:var(--gutter)}
 .shot{
   position:absolute;top:0;height:62px;border-right:1px solid var(--ground);
   background:var(--sunk);overflow:hidden;
@@ -156,14 +157,14 @@ h2{
 .playhead{position:absolute;top:-6px;bottom:-16px;width:1px;background:var(--ink);pointer-events:none;z-index:5}
 .playhead::before{content:"";position:absolute;top:0;left:-3px;width:7px;height:7px;background:var(--ink)}
 
-.ribbon{position:relative;height:12px;margin-top:5px}
+.ribbon{position:relative;height:12px;margin-top:5px;margin-left:var(--gutter)}
 .ribbon .line{position:absolute;left:0;right:0;top:4px;height:2px;background:var(--mint);opacity:.42}
 .ribbon .glow{position:absolute;top:2px;height:6px;background:var(--mint);opacity:.9}
 .ribbon .tag{
   position:absolute;right:0;top:-1px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;
   letter-spacing:.1em;text-transform:uppercase;color:var(--mint);background:var(--surface);padding-left:8px;
 }
-.ruler{position:relative;height:26px;margin-top:4px;border-top:1px solid var(--rule)}
+.ruler{position:relative;height:26px;margin-top:4px;border-top:1px solid var(--rule);margin-left:var(--gutter)}
 .tick{position:absolute;top:0;width:1px;height:5px;background:var(--rule)}
 .tick span{position:absolute;left:3px;top:5px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink3)}
 
@@ -171,6 +172,64 @@ h2{
 .legend div{display:flex;align-items:center;gap:7px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
 .legend i{width:14px;height:9px;display:block}
 .legend .hx{background-image:repeating-linear-gradient(-45deg,transparent 0 3px,var(--rule) 3px 4px);border:1px solid var(--rule)}
+
+/* ---------- lane band ---------- */
+.lanes{margin-top:18px;padding-top:16px;border-top:1px solid var(--rule2)}
+.lane-row{position:relative;height:26px;margin-bottom:2px}
+.lane-name{
+  position:absolute;left:0;top:0;width:var(--gutter);height:26px;display:flex;align-items:center;
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink3);z-index:2;background:var(--surface);padding-right:8px;
+}
+.lane-track{position:absolute;left:var(--gutter);right:0;top:0;height:26px}
+.seg{
+  position:absolute;top:0;height:26px;display:flex;align-items:center;
+  padding:0 6px;overflow:hidden;border-right:1px solid var(--surface);
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;line-height:1.15;
+}
+.seg span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;width:100%}
+.seg.off{background:var(--sunk);opacity:.42}
+.seg.on{color:var(--ink)}
+.seg.cur{box-shadow:inset 0 0 0 1px var(--ink)}
+.lane-legend{
+  margin-left:var(--gutter);display:flex;gap:20px;flex-wrap:wrap;margin-top:12px;
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink3);
+}
+
+/* ---------- provenance ---------- */
+.prov{
+  display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:600;
+  width:15px;height:15px;line-height:13px;text-align:center;border-radius:2px;
+  border:1px solid;vertical-align:1px;flex:0 0 auto;
+}
+.prov.E{border-color:var(--mint);color:var(--mint)}
+.prov.I{border-color:var(--coral);color:var(--coral)}
+.prov.P{border-color:var(--indigo);color:var(--indigo)}
+.prov.N{border-color:var(--ink3);color:var(--ink3)}
+
+.lanebox{
+  margin:0 0 14px;border:1px solid var(--rule);background:var(--surface);
+  display:grid;grid-template-columns:88px 1fr;max-width:64ch;
+}
+.lanebox > div{padding:8px 12px;border-bottom:1px solid var(--rule2);font-size:14.5px;line-height:1.42}
+.lanebox > div:nth-last-child(-n+2){border-bottom:0}
+.lanebox .lk{
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink3);background:var(--sunk);display:flex;align-items:flex-start;
+}
+.lanebox .lv.idle{color:var(--ink3);font-style:italic}
+.fill{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:7px;max-width:64ch}
+.fill li{display:flex;gap:9px;align-items:flex-start;font-size:15.5px;line-height:1.45}
+.fill code{
+  font-family:"IBM Plex Mono",monospace;font-size:12.5px;background:var(--sunk);
+  padding:1px 5px;border-radius:2px;color:var(--ink2);
+}
+.fill b{font-weight:600}
+.sub{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink3);margin:0 0 9px;
+}
 
 /* ---------- findings ---------- */
 .findings{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
@@ -270,7 +329,7 @@ footer a{color:var(--ink2)}
     <div class="mast-in">
       <div>
         <div class="eyebrow">Cut sheet &middot; Foundever &times; Klarna FinCrime Operations</div>
-        <h1>The Judgment Layer<span class="lo">19 shots, cut to the track</span></h1>
+        <h1>The Judgment Layer<span class="lo">19 shots, four lanes, cut to the track</span></h1>
       </div>
       <div class="vitals">
         <div class="vital"><b>115.12</b><span>Audio&nbsp;/&nbsp;sec</span></div>
@@ -285,9 +344,11 @@ footer a{color:var(--ink2)}
 <div class="wrap">
   <p class="standfirst">
     Every timecode here is measured from the delivered narration at word level &mdash; not estimated.
-    The source storyboard was written for a 55&ndash;65&nbsp;second explainer; the track that came back runs
-    <strong>115.12&nbsp;seconds</strong> and tells one customer's story. Same operating model, different film.
-    This is the re-cut.
+    The storyboard was written for a 55&ndash;65&nbsp;second explainer; the track that came back runs
+    <strong>115.12&nbsp;seconds</strong> and tells one customer's story. This is the re-cut, with the gaps filled:
+    at every beat, <strong>what is happening in the story, what Klarna's automation is doing behind it,
+    what manual work is actually occurring, and what stays with Klarna</strong> &mdash; grounded in the real
+    queue model, field names and control catalog rather than invented mechanics.
   </p>
 </div>
 
@@ -298,6 +359,7 @@ footer a{color:var(--ink2)}
     <h2>The cut</h2>
     <p>Blocks are scaled to real duration. Solid where the narration runs, hatched where the track breathes &mdash;
        every one of those gaps is a shot change, so no transition has to be forced under a word.
+       The four lanes beneath show what each layer of the operating model is doing at that moment.
        Drag across the track to scrub.</p>
   </div>
 
@@ -308,13 +370,19 @@ footer a{color:var(--ink2)}
         <span class="lbl" id="ro-shot">01 &middot; Thesis</span>
         <span class="hint">Drag to scrub &middot; click a block for the shot</span>
       </div>
-      <div class="track" id="track"></div>
+      <div style="position:relative"><div class="lane-name" style="height:62px">Shots</div>
+      <div class="track" id="track"></div></div>
       <div class="ribbon" id="ribbon">
         <div class="line"></div>
         <div class="glow" id="rib-glow" style="left:0;width:0"></div>
         <span class="tag">Customer ribbon &mdash; unbroken</span>
       </div>
       <div class="ruler" id="ruler"></div>
+      <div class="lanes" id="lanes"></div>
+      <div class="lane-legend">
+        <span>Solid = lane active</span><span>Faded = lane idle</span><span>Hover a block for its full text</span>
+        <span>Manual stays dark through 26.46 s &mdash; that is the claim, held continuously</span>
+      </div>
       <div class="legend">
         <div><i style="background:var(--indigo)"></i>Klarna &mdash; automation, retained, learns</div>
         <div><i style="background:var(--mint)"></i>Foundever L1 / L2</div>
@@ -360,6 +428,98 @@ footer a{color:var(--ink2)}
       <p>The track goes &ldquo;Klarna confirms&rdquo; &rarr; &ldquo;the washing machine ships&rdquo; &rarr; &ldquo;the case closes.&rdquo;
          Stage&nbsp;5 plays entirely inside a 2.00&nbsp;s silence or it does not appear.</p>
       <div class="tc">93.28 &rarr; 95.28 s &middot; Shot 16</div>
+    </div>
+  </div>
+
+  <div class="sec-head" style="margin-top:44px">
+    <h2>Three things filling the lanes changed</h2>
+    <p>Working the real process through the film surfaced calls that the story alone does not expose.</p>
+  </div>
+  <div class="findings">
+    <div class="finding">
+      <div class="n">05</div>
+      <h3>It is Q13, not Q1 &mdash; and the difference is the whole SLA</h3>
+      <p>Tuesday 21:40, resolved inside the fulfilment window, ending in a release. That is
+         <b>Q13 Fraud 24/7 Real-Time Monitoring</b>, 3&nbsp;h. Q1 Transaction Monitoring is the intuitive guess and
+         it escalates toward Q4 and SAR preparation on a different clock and a different staffing model.</p>
+      <div class="tc">Shot 05 &middot; 36.94 s</div>
+    </div>
+    <div class="finding">
+      <div class="n">06</div>
+      <h3>The currency picks the market, and the market is why she needs a human</h3>
+      <p>&euro;1,900 means a euro market, where identity anchors on email, phone and billing details with
+         <b>no state registry key</b>. In Sweden the national ID number settles this in one lookup. Judgment here
+         is a structural consequence of Klarna's own market footprint.</p>
+      <div class="tc">Shot 02 &middot; 8.34 s</div>
+    </div>
+    <div class="finding">
+      <div class="n">07</div>
+      <h3>&ldquo;Klarna confirms&rdquo; risks arguing against our own bid</h3>
+      <p>The disposition is <i>Resolved: no report</i>, which L2 closes within delegated authority. Animating Klarna
+         approving it makes Klarna a rework step and asks for less autonomy than the commercial case needs.
+         Klarna should confirm <b>the boundary</b>, not the case &mdash; see D6.</p>
+      <div class="tc">Shot 14 &middot; 85.82 s</div>
+    </div>
+  </div>
+</section>
+
+<section id="cuts">
+  <div class="sec-head">
+    <h2>Build two cuts, not one</h2>
+    <p>Real-process depth and the storyboard's cognitive-load rule are both right, for different rooms.
+       Resolve it by taking one extra layer off the same build &mdash; identical timeline, identical renders,
+       a toggleable group.</p>
+  </div>
+  <div class="tbl-shell">
+    <table>
+      <thead><tr><th></th><th>Exec cut</th><th>Ops cut</th></tr></thead>
+      <tbody>
+        <tr><td class="ttl">Runtime</td><td>118 s</td><td>118 s &mdash; identical</td></tr>
+        <tr><td class="ttl">Shots</td><td>The 19 below</td><td>The same 19, unchanged</td></tr>
+        <tr><td class="ttl">Audience</td><td>RFP evaluators, procurement, executive sponsors</td><td>FinCrime Ops, Risk, operational due diligence, orals Q&amp;A</td></tr>
+        <tr><td class="ttl">Extra layer</td><td>None</td><td>Lane rail &middot; field-name sub-labels &middot; queue tags &middot; provenance</td></tr>
+        <tr><td class="ttl">Answers</td><td><i>Where does authority sit?</i></td><td><i>Yes, but what does the analyst actually do?</i></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec-head" style="margin-top:44px">
+    <h2>Provenance discipline</h2>
+    <p>RFP &sect;1.12 treats unstated assumptions as acceptance, so an animation that puts Klarna's internal wiring
+       on screen is making claims under that rule whether it means to or not. Every mechanic below carries a tag,
+       and the tag decides whether it can appear unqualified.</p>
+  </div>
+  <div class="tbl-shell">
+    <table>
+      <thead><tr><th>Tag</th><th>Meaning</th><th>On-screen rule</th></tr></thead>
+      <tbody>
+        <tr><td><span class="prov E">E</span></td><td class="ttl">Evidenced</td>
+            <td>Published Klarna or RFP source &mdash; EMD field schemas, Identity API operations, the 13-queue list and SLAs, retained scope (&sect;4.3), the QA model (&sect;7.1), the Control Catalog. <b>Show freely, including exact field names.</b></td></tr>
+        <tr><td><span class="prov I">I</span></td><td class="ttl">Inferred</td>
+            <td>Engine-to-queue and inter-queue wiring; Klarna-internal, not published. Show only under the existing illustrative-model footer. Never as confirmed Klarna wiring.</td></tr>
+        <tr><td><span class="prov P">P</span></td><td class="ttl">Foundever-proposed</td>
+            <td>Our operating design, not a Klarna requirement &mdash; L1&rarr;L2 triggers, L2 outcome authorities, four-eye placement, SAR Option&nbsp;B. Must read as a proposal; frames carrying several get a second-line qualifier.</td></tr>
+        <tr><td><span class="prov N">N</span></td><td class="ttl">Narrative</td>
+            <td>From the audio, carrying no process claim. Never dressed as a system state.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cols" style="margin-top:40px">
+    <div>
+      <h3 style="font-family:Archivo,sans-serif;font-size:17px;font-weight:700;margin:0 0 10px">Three hard prohibitions this creates</h3>
+      <ul class="checks">
+        <li><b>No invented risk score.</b> Klarna publishes no thresholds. The threshold edge is labelled with the real edge condition &mdash; <code style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">cannot auto-clear</code>.</li>
+        <li><b>No invented engine names.</b> The UK Privacy Notice establishes that there are five automated decision categories; the contents are not published. Cite the count, never the contents.</li>
+        <li><b>No itemised basket in the case file.</b> Purchase-category EMD packages carry no case-evidence value. The analyst gets the flag and the merchant category &mdash; drawing a shopping list is a visible process error.</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="font-family:Archivo,sans-serif;font-size:17px;font-weight:700;margin:0 0 10px">Two persistent additions</h3>
+      <ul class="checks">
+        <li><b>The automation river.</b> Clean tokens stream through Stage&nbsp;1 at 15% for all 118&nbsp;s, behind everything. The film as storyboarded implies automation hands off and waits; it does not. Foundever's judgment layer is a side-channel on a river that never stops &mdash; and the river is the denominator the deal is priced on.</li>
+        <li><b>The retained column stands, it does not queue.</b> From Shot&nbsp;14 the four retained labels stay lit and untouched. Klarna's authority is a standing property of the model, not a station the case passes through.</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -445,6 +605,50 @@ footer a{color:var(--ink2)}
          lands as evidence rather than assertion. It has to be unbroken for ninety seconds before it can pay off in three.</p>
     </div>
   </div>
+
+  <div class="dec">
+    <div class="did">D6</div>
+    <div>
+      <h3>Does Klarna <i>approve this case</i>, or <i>confirm the boundary</i> while L2 closes within delegated authority?</h3>
+      <p><b>Confirm the boundary.</b> Shot 13 sets the disposition to <i>Resolved: no report</i>, which our own model closes
+         within delegated authority. Animating an approval contradicts the model we are bidding, trips the storyboard's
+         prohibitions on sending every case to Klarna and making Klarna a rework step, and argues for less autonomy than
+         the commercial case needs. The narration supports the boundary reading exactly &mdash; &ldquo;keeps what only Klarna
+         should hold&rdquo; describes a standing column, not a transaction. <b>The most consequential open call in the film.</b></p>
+    </div>
+  </div>
+  <div class="dec">
+    <div class="did">D7</div>
+    <div>
+      <h3>Build the ops layer as a toggleable group, or leave the exec cut as the only asset?</h3>
+      <p><b>Build both.</b> One extra pass on the same renders. The exec cut wins the evaluation; the ops cut wins the room
+         where someone stops the video and asks what the analyst was looking at.</p>
+    </div>
+  </div>
+  <div class="dec">
+    <div class="did">D8</div>
+    <div>
+      <h3>Name the queue on screen, or stay queue-agnostic?</h3>
+      <p><b>Name it &mdash; Q13, Fraud 24/7 Real-Time Monitoring.</b> It is evidenced, it makes the 21:40 timestamp and the
+         real-time resolution mutually reinforcing, and it demonstrates we know which of the thirteen we are in.</p>
+    </div>
+  </div>
+  <div class="dec">
+    <div class="did">D9</div>
+    <div>
+      <h3>Show the market-anchor line &mdash; no registry key in euro markets?</h3>
+      <p><b>Yes.</b> One mono sub-label in Shot 2. It is the strongest available evidence that judgment is a structural
+         requirement of Klarna's market footprint rather than a service we are selling into it.</p>
+    </div>
+  </div>
+  <div class="dec">
+    <div class="did">D10</div>
+    <div>
+      <h3>Show both QA gates, or the single gate as storyboarded?</h3>
+      <p><b>Both.</b> &sect;7.1 specifies Klarna AI-first QC on every case. A single mint gate understates Klarna's own
+         control and wastes a governance proof that costs 0.7&nbsp;s.</p>
+    </div>
+  </div>
 </section>
 
 <section id="closing">
@@ -461,6 +665,7 @@ footer a{color:var(--ink2)}
         <li><b>Shot 17.</b> The learning loop, with the governance label locked in from the first pass.</li>
         <li><b>Shot 3 + persistent architecture.</b> The three-chip component and all stationary furniture.</li>
         <li><b>Shots 1 + 19.</b> The ring &mdash; one composition in two states, never two frames.</li>
+        <li><b>The ops layer.</b> Lane rail, field-name sub-labels, queue tags &mdash; one pass over the finished exec cut.</li>
         <li>Everything else.</li>
       </ol>
     </div>
@@ -483,6 +688,13 @@ footer a{color:var(--ink2)}
         <li class="add">The decline column never resolves into a state &mdash; ghosted and dashed for its full life.</li>
         <li class="add">The customer ribbon is unbroken from 0:05 to 118:00, and brightens exactly once.</li>
         <li class="add">Shots 1 and 19 are the same composition in two states, not two different frames.</li>
+        <li class="add">The automation river runs unbroken for all 118&nbsp;s and is never idle.</li>
+        <li class="add">Foundever's lane is visibly dark for the whole of Shot 2, not just at the routing moment.</li>
+        <li class="add">No numeric risk score, and no itemised basket, appears anywhere.</li>
+        <li class="add">The third signal chip reads as an engine conclusion, not a record fact.</li>
+        <li class="add">Nothing ever queues on Klarna's side of the boundary.</li>
+        <li class="add">Both QA gates appear, with their two owners visually distinct.</li>
+        <li class="add"><code style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">Model risk management &middot; Tier D</code> is legible for the full learning-loop shot.</li>
       </ul>
     </div>
   </div>
@@ -569,8 +781,8 @@ const SHOTS = [
  note:{k:'',t:''}},
 
 {n:14,in:85.82,out:90.18,name:'The boundary',stage:'4 · Klarna retained',owner:'retained',vo:'Klarna keeps what only Klarna should hold. Klarna confirms.',say:[[85.82,88.8]],
- hits:[['85.82','Vertical authority boundary between Stage 3 and Stage 4 becomes fully prominent'],['86.22','Retained labels stack in, 60 ms stagger — <em class="ind">Policy interpretation</em> <em class="ind">Material-risk decisions</em> <em class="ind">SAR/STR filing authority</em> <em class="ind">Risk appetite</em>'],['87.54','Completed evidence pack crosses the boundary'],['88.42','Stage 4 returns a single <em class="ind">Confirmed</em> stamp; token advances']],
- note:{k:'hard',t:'The governance proof — the viewer must be able to point at where supplier authority stops. <b>The case token must visibly not cross.</b> If it crosses, the film says Foundever carried the authority over and the whole argument collapses. Only the pack crosses. No ambiguous shared-ownership zone — the boundary is a line, not a gradient. Do not imply Foundever files a SAR/STR: the vendor ceiling is L2, the claim is a SAR-ready case file to Klarna’s quality bar, and Klarna signs. Klarna is also not a rework step — <em>Confirmed</em> returns in under half a second. <b>PDF frame 6</b> captures at 88.80 s.'}},
+ hits:[['85.82','Vertical authority boundary between Stage 3 and Stage 4 becomes fully prominent'],['86.22','Retained labels stack in, 60 ms stagger — <em class="ind">Policy interpretation</em> <em class="ind">Material-risk decisions</em> <em class="ind">SAR/STR filing authority</em> <em class="ind">Risk appetite</em>'],['87.54','The completed pack presents at the boundary. <b>The token stays on the Foundever side</b>'],['88.42','A <em class="ind">Policy check · within delegated authority</em> confirmation returns; the case releases. Nothing queues on Klarna&rsquo;s side']],
+ note:{k:'hard',t:'The governance proof — the viewer must be able to point at where supplier authority stops. <b>The case token must visibly not cross.</b> If it crosses, the film says Foundever carried the authority over and the whole argument collapses. Only the pack crosses. No ambiguous shared-ownership zone — the boundary is a line, not a gradient. Do not imply Foundever files a SAR/STR: the vendor ceiling is L2, the claim is a SAR-ready case file to Klarna’s quality bar, and Klarna signs. Klarna is also not a rework step — the confirmation returns in under half a second and nothing waits behind it. <b>See D6</b> for the call this shot turns on. <b>PDF frame 6</b> captures at 88.80 s.'}},
 
 {n:15,in:90.18,out:93.28,name:'The customer never felt it',stage:'4 · Klarna retained',owner:'retained',vo:'The washing machine ships. The customer never felt the review.',say:[[90.18,93.28]],
  hits:[['90.42','Small mint <em class="mint">Shipped</em> marker'],['92.02','<b>Everything else holds absolutely still.</b> The customer ribbon brightens once, left to right, over 900 ms']],
@@ -592,6 +804,87 @@ const SHOTS = [
  hits:[['105.48','Headline returns in the <b>identical position and type size</b> as Shot 1'],['108.12','Single mint emphasis on the word <em class="mint">judgment</em>'],['111.00','Supporting line: <b>Thirteen queues. One governed judgment model.</b>'],['111.86','Foundever logo, lower left'],['112.88','<em class="neu">Prepared for Klarna</em>, lower right'],['114.56','Audio ends — hold static to 118.00 s (3.44 s)']],
  note:{k:'key',t:'<b>The ring is the argument.</b> Same sentence, same frame — but in Shot 1 the architecture sat at 30% and empty, and here it is at full opacity and fully resolved. The first time the viewer had no reason to believe it; now they have watched one transaction earn it, exactly as promised at 5.82 s. No additional statistics, no new capability claims, no motion in the hold. <b>PDF frame 1</b> captures at 116.00 s.'}}
 ];
+
+/* ---- process lanes: what each layer is doing, per shot ---- */
+const PROV = {
+  E:'Evidenced — published Klarna or RFP source',
+  I:'Inferred — Klarna-internal wiring, not published',
+  P:'Foundever-proposed operating model, not a Klarna requirement',
+  N:'Narrative device — carries no process claim'
+};
+
+const LANE_DEFS = [
+  {k:'story',  name:'Story',      c:'var(--frame)'},
+  {k:'auto',   name:'Automation', c:'var(--indigo)'},
+  {k:'manual', name:'Manual',     c:'var(--mint)'},
+  {k:'ret',    name:'Retained',   c:'var(--navy)'}
+];
+
+const LANES = {
+ 1:{auto:'river starts — never idle again'},
+ 2:{story:'checkout · €1,900 · Tue 21:40', auto:'risk assessment: account, payment history, device, address'},
+ 3:{auto:'three flags attach to the order'},
+ 4:{auto:'engines composite → cannot auto-clear'},
+ 5:{story:'order HELD, not declined', auto:'STP continues for the clean majority · routes to Q13', manual:'L1 receives'},
+ 6:{auto:'holding · 3 h Q13 clock running', manual:'L1 triage: tokenIntrospect, phone_verified, devices_linked'},
+ 7:{auto:'holding', manual:'L1 resolves 2, cannot resolve the third'},
+ 8:{auto:'holding', manual:'L1 → L2 trigger'},
+ 9:{story:'the two costs', auto:'holding', manual:'L2 frames the call'},
+10:{story:'decline → a 3-year relationship ends', auto:'holding', manual:'L2 frames the call'},
+11:{story:'approve a takeover → the loss is yours', auto:'holding', manual:'L2 frames the call'},
+12:{auto:'holding', manual:'L2 linkage · exculpatory'},
+13:{auto:'holding', manual:'typology: relocation · resolved, no report'},
+14:{auto:'holding · river', manual:'released', ret:'boundary confirmed'},
+15:{story:'the washing machine ships', auto:'hold clears · rejoins fulfilment', manual:'record updated · tokenRevoke not invoked', ret:'standing'},
+16:{auto:'river', manual:'vendor QA — 3 checks', ret:'Klarna AI-first QC, every case'},
+17:{auto:'routing updated', manual:'insight out', ret:'model risk management · Tier D'},
+18:{auto:'river', ret:'standing'},
+19:{auto:'river', ret:'retained authority, standing'}
+};
+
+/* ---- gap fill: what to actually draw, with provenance ---- */
+const FILL = {
+ 1:[['E','Start the <b>automation river</b> at 4.0 s, 15% opacity. The viewer must never see Klarna automation idle — not for one frame of the next 114 seconds.']],
+ 2:[['E','Each record row carries its real field name as a mono sub-label: <code>account_registration_date</code>, <code>number_paid_purchases</code>, <code>devices_linked</code>, <code>account_last_modified</code>.'],
+    ['E','<b>The market-anchor line.</b> €1,900 puts this in a euro market, where identity anchors on email + phone + billing + DOB and there is <b>no state registry key</b>. In Sweden the national ID number would settle this case in one lookup. Sub-label: <code>Market anchor: email + phone + billing — no registry key</code>.'],
+    ['E','The Manual lane stays visibly dark for all 18 seconds. That proves &ldquo;Foundever is absent from the clean path&rdquo; continuously, not in a two-second window.']],
+ 3:[['E','Tag the chips by origin. <code>New device</code> and <code>Address change</code> are <b>facts the record holds</b>; <code>Unusual basket</code> is a <b>conclusion the engine reached</b> — basket-level item data carries no case-evidence value in any EMD package.'],
+    ['E','Drawing all three as equivalent data points is the most likely process error in this shot.']],
+ 4:[['E','Label the threshold line with the real edge condition — <code>cannot auto-clear</code>. That is the actual exit from the Tier A node, and it cannot be challenged the way an invented score can.'],
+    ['E','<code>5 automated decision categories</code> may appear as a count. Their contents are unpublished and must not be invented.']],
+ 5:[['E','<b>Name the queue: Q13 · Fraud 24/7 Real-Time Monitoring</b> (3 h real-time / 24 h action). Three things make Q13 the only correct answer — the 21:40 timestamp, resolution inside the fulfilment window, and an outcome that is a release rather than a SAR path.'],
+    ['I','Q1 Transaction Monitoring is the intuitive guess and it is wrong: it escalates toward Q4 and SAR preparation, on a different SLA and a different staffing model.'],
+    ['E','The order state reads <code>HELD</code>, never <code>DECLINED</code>. The merchant-side stop-delivery loop (96 h) exists and is not used.']],
+ 6:[['E','&ldquo;Carries her credentials cleanly&rdquo; is a specific check: <code>tokenIntrospect</code> returns an active, non-revoked session; <code>phone_verified</code> is true; <code>last_verification_method</code> and <code>devices_linked</code> corroborate.'],
+    ['E','The finding to put on screen: <b>the device is new, the credential path is not.</b> A valid token from an unfamiliar device is a materially different fact from a credential presented after a reset — and it is what keeps identity from resolving as an ATO.'],
+    ['P','Rows show what was checked, in mono: <code>tokenIntrospect · ACTIVE</code> / <code>phone_verified · true</code> / <code>devices_linked · 3→4</code>.']],
+ 7:[['E','<b>Why the third row cannot resolve, and it is evidenced rather than dramatic:</b> <code>other_delivery_address</code> is rated &ldquo;rarely sufficient alone&rdquo; in Klarna&rsquo;s own signal model. Put the reason on screen — <code>address mismatch — not sufficient alone</code>.'],
+    ['E','That sub-label is the strongest line in the L1 sequence. It turns the escalation from a beat into a documented evidentiary limit.']],
+ 8:[['P','The trigger has a name. Category <b>Fraud escalation</b>; trigger <i>account takeover, synthetic identity, organised fraud, repeated abuse, material loss, or network behaviour</i>; L2 action <i>investigate linked activity, assess control action, identify typology</i>.'],
+    ['P','On-screen discipline label: <b>L1 does not escalate because a case is difficult. Escalation fires only on defined evidence, risk, complexity, or decision-authority conditions.</b>'],
+    ['P','The handoff is a <b>structured referral template</b> — a tagged, fielded object, never a free-text note. That difference is the whole argument for a certified activity level over a call centre.']],
+ 9:[['N','Mark the entire overlay as narrative. It carries no process claim and neither column may be dressed as a system state.']],
+10:[['N','Ghosted, dashed, never resolving — see the counterfactual constraint in the sequence map.']],
+11:[['E','Grounding for PDF frame 4, not for the film: conventional IDV answers &ldquo;is this a real person.&rdquo; First-party fraud requires a third question — <i>will this real, verified person commit fraud</i> — answerable only with behavioural intelligence and human judgment (LexisNexis 2026). That is the academic statement of exactly what this overlay dramatises.']],
+12:[['P','<b>Caption the shot with the real process name: <code>Exculpatory evidence documented</code>.</b> The SAR workflow requires L2 to document both inculpatory and exculpatory evidence. The reorder <i>is</i> that documentation — and it names the thing most fraud operations never write down.'],
+    ['P','The reorder is <b>linkage analysis</b>, the defined L2 action for a complex transaction pattern.'],
+    ['E','Chips carry their sources as they move: <code>account_last_modified</code> → <code>devices_linked</code> → merchant category. The connector label is the finding: <code>same postal_code</code>.']],
+13:[['P','The disposition has a defined class: <b>Resolved: no report</b> — does not meet the suspicious-activity or material-risk threshold, fully documented, and <b>L2 closes it within delegated authority</b>.'],
+    ['P','Card gains <code>Typology: relocation · non-reportable</code> and <code>Disposition: resolved, no report</code>. Note what that second line commits to — it sets up the next shot.']],
+14:[['E','Retained scope, all evidenced: <code>Policy interpretation</code> <code>Material-risk decisions</code> <code>SAR/STR filing authority</code> <code>Risk appetite</code>. The Control Catalog adds four more that strengthen the frame — model risk management, jurisdiction risk list, business-wide risk assessment, termination of customer relationships.'],
+    ['P','<b>The problem.</b> Shot 13 just set the disposition to <i>Resolved: no report</i>, which our own model closes within delegated authority. Animating Klarna approving this case contradicts the model we are bidding, trips the storyboard&rsquo;s own prohibitions on &ldquo;sending every case to Klarna&rdquo; and &ldquo;making Klarna look like a routine rework step,&rdquo; and argues for less autonomy than the commercial case needs.'],
+    ['P','<b>Recommendation: Klarna confirms the boundary, not the case.</b> The retained column lights and stays untouched. The token never crosses and never waits. What crosses is a <code>Policy check · within delegated authority</code> confirmation returning in under half a second. What Klarna sees is the <b>decision log</b> — case ID, investigator, approver, decision, rationale, filing status, timestamps. That is what &ldquo;Klarna confirms&rdquo; honestly means.']],
+15:[['E','<b>The control that was not pulled.</b> <code>tokenRevoke</code> is the account-takeover response control on a linked account, live throughout, and not invoked. A small ghosted label — <code>tokenRevoke · not invoked</code> — is the quietest beat in the film and one of the most credible: the analyst had a control in hand and correctly did not use it.'],
+    ['E','Resolution lands well inside the Q13 3 h real-time window.']],
+16:[['E','<b>QA is two gates with two owners</b>, per RFP §7.1 — vendor QA, then <b>Klarna AI-first QC on every case</b>. The storyboard&rsquo;s single mint gate understates Klarna&rsquo;s own control and wastes a governance proof that costs 0.7 s.'],
+    ['P','<b>Be precise about four-eye.</b> Under the proposed model it triggers on adverse disposition and on EDD files. This is a clean release, so it is standard QA plus Klarna AI QC — <i>not</i> four-eye. Animating four-eye here overclaims a control our own model does not apply to this path, and an operational reviewer will catch it.'],
+    ['E','Keep off screen, put in PDF frame 7: a quality failure means the case is <b>reopened unpaid and counts against the quality score</b>. That is the sentence that makes QA a gate rather than a gesture.']],
+17:[['E','<b>This is what resolves the wording problem.</b> Klarna&rsquo;s <b>model risk management</b> control validates models used for risk scoring and transaction monitoring <b>before deployment</b> — a Tier D, Klarna-retained control. Put it on the return path in indigo: <code>Model risk management · Tier D · validated before deployment</code>.'],
+    ['E','That single label is the difference between &ldquo;our insight improves your model&rdquo; — an unqualified autonomous-learning claim the storyboard forbids — and &ldquo;our insight informs a change your governance validates,&rdquo; which is accurate and a stronger governance story besides.'],
+    ['P','The vendor-side mechanism is the <b>feedback loop</b>: approved and rejected outcomes feed L2 coaching, QA calibration, and training.']],
+18:[['E','If the lane rail is built, this is the only shot where all four rows are lit at once — the film&rsquo;s single complete process frame.']],
+19:[['E','&ldquo;Thirteen queues&rdquo; is scope, not a capability claim, so it survives the no-new-claims rule. Optional for the ops cut: the thirteen queue names ghost in around the settled architecture during the hold.']]
+};
 
 const pct = t => (t / DUR) * 100;
 const fmt = t => {
@@ -665,6 +958,37 @@ for (let t = 0; t <= 110; t += 10) {
   ruler.appendChild(tk);
 }
 
+/* ---- lane band ---- */
+const lanesEl = document.getElementById('lanes');
+LANE_DEFS.forEach(ld => {
+  const row = document.createElement('div');
+  row.className = 'lane-row';
+  row.innerHTML = '<div class="lane-name">' + ld.name + '</div>';
+  const lt = document.createElement('div');
+  lt.className = 'lane-track';
+  SHOTS.forEach(sh => {
+    const txt = (LANES[sh.n] || {})[ld.k];
+    const seg = document.createElement('div');
+    seg.className = 'seg ' + (txt ? 'on' : 'off');
+    seg.dataset.n = sh.n;
+    seg.style.left  = pct(sh.in) + '%';
+    seg.style.width = pct(sh.out - sh.in) + '%';
+    if (txt) {
+      seg.style.background = ld.c;
+      seg.style.color = 'var(--surface)';
+      if (sh.out - sh.in >= 5.4) {
+        const sp = document.createElement('span');
+        sp.textContent = txt;
+        seg.appendChild(sp);
+      }
+      seg.title = ld.name + ' — ' + txt;
+    }
+    lt.appendChild(seg);
+  });
+  row.appendChild(lt);
+  lanesEl.appendChild(row);
+});
+
 /* ---- shot cards ---- */
 const CHIP = {
   mint:['var(--mint-soft)','var(--mint)'],
@@ -697,6 +1021,23 @@ SHOTS.forEach(sh => {
   const note = sh.note && sh.note.t
     ? '<p class="note ' + sh.note.k + '">' + sh.note.t + '</p>' : '';
 
+  const ln = LANES[sh.n] || {};
+  const laneBox =
+    '<p class="sub">What each layer is doing</p><div class="lanebox">' +
+    LANE_DEFS.map(ld => {
+      const v = ln[ld.k];
+      return '<div class="lk">' + ld.name + '</div>' +
+             '<div class="lv' + (v ? '' : ' idle') + '">' + (v || 'idle') + '</div>';
+    }).join('') + '</div>';
+
+  const fillItems = FILL[sh.n] || [];
+  const fillList = fillItems.length
+    ? '<p class="sub">Fill the gap with</p><ul class="fill">' +
+      fillItems.map(([t, txt]) =>
+        '<li><span class="prov ' + t + '" title="' + PROV[t] + '">' + t + '</span><span>' + txt + '</span></li>'
+      ).join('') + '</ul>'
+    : '';
+
   card.innerHTML =
     '<div class="slate">' +
       '<div class="id"><b>' + String(sh.n).padStart(2,'0') + '</b><span>Shot</span></div>' +
@@ -706,7 +1047,7 @@ SHOTS.forEach(sh => {
     '</div>' +
     '<div class="body">' +
       '<h3>' + sh.name + '</h3>' + vo +
-      '<ul class="hits">' + hits + '</ul>' + note +
+      '<ul class="hits">' + hits + '</ul>' + note + laneBox + fillList +
     '</div>';
   shotsEl.appendChild(card);
 });
@@ -725,6 +1066,7 @@ function setTime(t) {
   const sh = SHOTS.find(s => t >= s.in && t < s.out) || SHOTS[SHOTS.length - 1];
   roShot.textContent = String(sh.n).padStart(2,'0') + ' · ' + sh.name;
   blocks.forEach(b => b.classList.toggle('on', +b.dataset.n === sh.n));
+  document.querySelectorAll('.seg').forEach(g => g.classList.toggle('cur', +g.dataset.n === sh.n));
   document.querySelectorAll('.card').forEach(c => c.classList.toggle('lit', c.id === 'shot-' + sh.n));
 }
 

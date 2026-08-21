@@ -1,0 +1,763 @@
+<title>Klarna Judgment Layer Cut Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+
+<style>
+:root{
+  --ground:#FBF8F3;
+  --surface:#FFFFFF;
+  --sunk:#F3EFE8;
+  --ink:#15161E;
+  --ink2:#4A4A58;
+  --ink3:#7C7A86;
+  --rule:#DFD9CF;
+  --rule2:#EDE8E0;
+  --indigo:#3E42B5;
+  --indigo-soft:#E4E4F6;
+  --mint:#0E8E76;
+  --mint-soft:#DCF0EA;
+  --coral:#C94A3D;
+  --coral-soft:#F8E2DE;
+  --navy:#1E2A44;
+  --navy-soft:#E2E5EC;
+  --frame:#8A8578;
+  --frame-soft:#EAE6DD;
+  --shadow:0 1px 2px rgba(21,22,30,.05),0 8px 24px -12px rgba(21,22,30,.14);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#111219;
+    --surface:#191A23;
+    --sunk:#15161D;
+    --ink:#EFECE6;
+    --ink2:#AFACB8;
+    --ink3:#7E7B88;
+    --rule:#2E2F3B;
+    --rule2:#24252F;
+    --indigo:#8A8DF0;
+    --indigo-soft:#25264A;
+    --mint:#43C9AA;
+    --mint-soft:#12332D;
+    --coral:#F08476;
+    --coral-soft:#3A211C;
+    --navy:#9BAAC9;
+    --navy-soft:#1D2333;
+    --frame:#96917F;
+    --frame-soft:#26261F;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#111219;
+  --surface:#191A23;
+  --sunk:#15161D;
+  --ink:#EFECE6;
+  --ink2:#AFACB8;
+  --ink3:#7E7B88;
+  --rule:#2E2F3B;
+  --rule2:#24252F;
+  --indigo:#8A8DF0;
+  --indigo-soft:#25264A;
+  --mint:#43C9AA;
+  --mint-soft:#12332D;
+  --coral:#F08476;
+  --coral-soft:#3A211C;
+  --navy:#9BAAC9;
+  --navy-soft:#1D2333;
+  --frame:#96917F;
+  --frame-soft:#26261F;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Source Serif 4",Georgia,"Times New Roman",serif;
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1160px;margin:0 auto;padding:0 28px}
+.prose{max-width:66ch}
+
+h1,h2,h3,.disp{font-family:Archivo,"Helvetica Neue",Arial,sans-serif;text-wrap:balance}
+.mono,.tc{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);
+}
+
+/* ---------- masthead ---------- */
+header.mast{border-bottom:1px solid var(--rule);background:var(--surface)}
+.mast-in{display:flex;flex-wrap:wrap;gap:32px;align-items:flex-end;justify-content:space-between;padding:44px 0 30px}
+h1{
+  margin:8px 0 0;font-size:clamp(30px,4.6vw,52px);font-weight:800;
+  letter-spacing:-.028em;line-height:1.02;
+}
+h1 .lo{display:block;font-weight:500;color:var(--ink2);letter-spacing:-.02em}
+.vitals{display:flex;gap:26px;flex-wrap:wrap;padding-bottom:6px}
+.vital{display:flex;flex-direction:column;gap:3px;min-width:74px}
+.vital b{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:23px;font-weight:600;letter-spacing:-.02em}
+.vital span{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3)}
+.standfirst{padding:0 0 34px;color:var(--ink2);font-size:18.5px;max-width:70ch}
+.standfirst strong{color:var(--ink);font-weight:600}
+
+/* ---------- sections ---------- */
+section{padding:56px 0;border-bottom:1px solid var(--rule2)}
+section:last-of-type{border-bottom:0}
+h2{
+  margin:0 0 6px;font-size:clamp(21px,2.4vw,27px);font-weight:800;letter-spacing:-.02em;
+}
+.sec-head{margin-bottom:30px}
+.sec-head p{margin:8px 0 0;color:var(--ink2);max-width:64ch;font-size:16.5px}
+
+/* ---------- timeline ---------- */
+.tl-shell{
+  background:var(--surface);border:1px solid var(--rule);border-radius:3px;
+  padding:22px 22px 14px;box-shadow:var(--shadow);overflow-x:auto;
+}
+.tl-inner{min-width:820px}
+.tl-readout{
+  display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
+  padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--rule2);
+}
+.tl-readout .tc{font-size:26px;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.tl-readout .lbl{font-family:Archivo,sans-serif;font-weight:600;font-size:15px;letter-spacing:-.01em}
+.tl-readout .hint{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+
+.track{position:relative;height:62px;cursor:crosshair;touch-action:none}
+.shot{
+  position:absolute;top:0;height:62px;border-right:1px solid var(--ground);
+  background:var(--sunk);overflow:hidden;
+}
+.shot:focus-visible{outline:2px solid var(--ink);outline-offset:2px;z-index:6}
+.shot .fill{position:absolute;top:0;bottom:0;opacity:.30}
+.shot .num{
+  position:absolute;left:5px;top:5px;font-family:"IBM Plex Mono",monospace;
+  font-size:10px;font-weight:600;color:var(--ink2);
+}
+.shot .nm{
+  position:absolute;left:5px;bottom:5px;right:4px;font-family:Archivo,sans-serif;
+  font-size:10.5px;font-weight:600;letter-spacing:-.005em;color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:clip;line-height:1.1;
+}
+.shot .bar{position:absolute;left:0;right:0;top:0;height:3px}
+.shot.on .fill{opacity:.62}
+.shot.on{box-shadow:inset 0 0 0 1px var(--ink)}
+
+.hatch{
+  position:absolute;top:3px;bottom:0;
+  background-image:repeating-linear-gradient(-45deg,transparent 0 3px,var(--rule) 3px 4px);
+}
+.playhead{position:absolute;top:-6px;bottom:-16px;width:1px;background:var(--ink);pointer-events:none;z-index:5}
+.playhead::before{content:"";position:absolute;top:0;left:-3px;width:7px;height:7px;background:var(--ink)}
+
+.ribbon{position:relative;height:12px;margin-top:5px}
+.ribbon .line{position:absolute;left:0;right:0;top:4px;height:2px;background:var(--mint);opacity:.42}
+.ribbon .glow{position:absolute;top:2px;height:6px;background:var(--mint);opacity:.9}
+.ribbon .tag{
+  position:absolute;right:0;top:-1px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--mint);background:var(--surface);padding-left:8px;
+}
+.ruler{position:relative;height:26px;margin-top:4px;border-top:1px solid var(--rule)}
+.tick{position:absolute;top:0;width:1px;height:5px;background:var(--rule)}
+.tick span{position:absolute;left:3px;top:5px;font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--ink3)}
+
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:16px;padding-top:14px;border-top:1px solid var(--rule2)}
+.legend div{display:flex;align-items:center;gap:7px;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.legend i{width:14px;height:9px;display:block}
+.legend .hx{background-image:repeating-linear-gradient(-45deg,transparent 0 3px,var(--rule) 3px 4px);border:1px solid var(--rule)}
+
+/* ---------- findings ---------- */
+.findings{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.finding{background:var(--surface);padding:22px 20px 24px;display:flex;flex-direction:column;gap:9px}
+.finding .n{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;color:var(--coral);letter-spacing:.1em}
+.finding h3{margin:0;font-size:16px;font-weight:700;letter-spacing:-.012em;line-height:1.3}
+.finding p{margin:0;font-size:15px;color:var(--ink2);line-height:1.52}
+.finding .tc{font-size:12px;color:var(--ink3)}
+
+/* ---------- shot list ---------- */
+.shots{border-top:1px solid var(--rule)}
+.card{
+  border-bottom:1px solid var(--rule);padding:26px 0;
+  display:grid;grid-template-columns:132px 1fr;gap:26px;scroll-margin-top:16px;
+}
+.card.lit{background:var(--sunk);box-shadow:-14px 0 0 var(--sunk),14px 0 0 var(--sunk)}
+.slate{display:flex;flex-direction:column;gap:7px}
+.slate .id{display:flex;align-items:baseline;gap:8px}
+.slate .id b{font-family:Archivo,sans-serif;font-size:27px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.slate .id span{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.slate .times{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-variant-numeric:tabular-nums;color:var(--ink2);line-height:1.5}
+.slate .dur{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;color:var(--ink)}
+.owner{display:inline-flex;align-items:center;gap:6px;font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:2px;align-self:flex-start;line-height:1.4}
+.body h3{margin:0 0 10px;font-size:20px;font-weight:700;letter-spacing:-.018em}
+.vo{
+  margin:0 0 14px;padding-left:15px;border-left:2px solid var(--rule);
+  font-style:italic;font-size:17px;color:var(--ink2);line-height:1.55;max-width:64ch;
+}
+.vo.silent{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.body p{margin:0 0 12px;max-width:66ch}
+.body p:last-child{margin-bottom:0}
+.hits{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:0;max-width:60ch}
+.hits li{display:grid;grid-template-columns:62px 1fr;gap:12px;padding:6px 0;border-bottom:1px dotted var(--rule)}
+.hits li:last-child{border-bottom:0}
+.hits .k{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-variant-numeric:tabular-nums;color:var(--ink3)}
+.hits .v{font-size:15.5px;line-height:1.45}
+.hits .v em{font-style:normal;font-family:"IBM Plex Mono",monospace;font-size:12.5px;padding:1px 5px;border-radius:2px}
+.note{
+  margin:0;padding:13px 15px;font-size:15.5px;line-height:1.5;
+  border-left:2px solid var(--ink3);background:var(--sunk);color:var(--ink2);max-width:64ch;
+}
+.note b{color:var(--ink);font-weight:600}
+.note.hard{border-left-color:var(--coral)}
+.note.key{border-left-color:var(--mint)}
+
+/* ---------- tables ---------- */
+.tbl-shell{overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:15.5px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--rule2);vertical-align:top}
+thead th{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--ink3);font-weight:500;border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:0}
+td.tc{font-variant-numeric:tabular-nums;font-size:13px;white-space:nowrap;color:var(--ink2)}
+td.ttl{font-family:Archivo,sans-serif;font-weight:600;font-size:15px;letter-spacing:-.01em}
+.pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;padding:2px 6px;border-radius:2px;white-space:nowrap}
+.pill.new{background:var(--coral-soft);color:var(--coral)}
+.pill.old{background:var(--frame-soft);color:var(--frame)}
+
+/* ---------- decisions ---------- */
+.dec{display:grid;grid-template-columns:64px 1fr;gap:22px;padding:22px 0;border-bottom:1px solid var(--rule2)}
+.dec:last-child{border-bottom:0}
+.dec .did{font-family:Archivo,sans-serif;font-weight:800;font-size:19px;letter-spacing:-.02em;color:var(--ink3)}
+.dec h3{margin:0 0 8px;font-size:17px;font-weight:700;letter-spacing:-.015em;max-width:60ch}
+.dec p{margin:0;color:var(--ink2);max-width:64ch;font-size:16px}
+.dec p b{color:var(--mint);font-weight:600}
+
+/* ---------- closing cols ---------- */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:44px}
+ol.build{margin:0;padding-left:1.3em}
+ol.build li{margin-bottom:9px;max-width:52ch}
+ol.build li b{font-weight:600}
+ul.checks{list-style:none;margin:0;padding:0}
+ul.checks li{position:relative;padding:0 0 9px 26px;max-width:54ch;font-size:16px}
+ul.checks li::before{
+  content:"";position:absolute;left:0;top:6px;width:11px;height:11px;
+  border:1.5px solid var(--ink3);border-radius:2px;
+}
+ul.checks li.add::before{border-color:var(--mint);background:var(--mint-soft)}
+
+footer{padding:40px 0 60px;color:var(--ink3);font-size:14px}
+footer .mono{font-size:12px;letter-spacing:.04em}
+footer a{color:var(--ink2)}
+
+@media (max-width:720px){
+  .card{grid-template-columns:1fr;gap:14px}
+  .slate{flex-direction:row;flex-wrap:wrap;align-items:baseline;gap:12px}
+  .dec{grid-template-columns:1fr;gap:8px}
+  .wrap{padding:0 18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="mast-in">
+      <div>
+        <div class="eyebrow">Cut sheet &middot; Foundever &times; Klarna FinCrime Operations</div>
+        <h1>The Judgment Layer<span class="lo">19 shots, cut to the track</span></h1>
+      </div>
+      <div class="vitals">
+        <div class="vital"><b>115.12</b><span>Audio&nbsp;/&nbsp;sec</span></div>
+        <div class="vital"><b>118.00</b><span>Cut&nbsp;/&nbsp;sec</span></div>
+        <div class="vital"><b>19</b><span>Shots</span></div>
+        <div class="vital"><b>16:9</b><span>Frame</span></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <p class="standfirst">
+    Every timecode here is measured from the delivered narration at word level &mdash; not estimated.
+    The source storyboard was written for a 55&ndash;65&nbsp;second explainer; the track that came back runs
+    <strong>115.12&nbsp;seconds</strong> and tells one customer's story. Same operating model, different film.
+    This is the re-cut.
+  </p>
+</div>
+
+<div class="wrap">
+
+<section id="timeline">
+  <div class="sec-head">
+    <h2>The cut</h2>
+    <p>Blocks are scaled to real duration. Solid where the narration runs, hatched where the track breathes &mdash;
+       every one of those gaps is a shot change, so no transition has to be forced under a word.
+       Drag across the track to scrub.</p>
+  </div>
+
+  <div class="tl-shell">
+    <div class="tl-inner">
+      <div class="tl-readout">
+        <span class="tc" id="ro-time">00:00.00</span>
+        <span class="lbl" id="ro-shot">01 &middot; Thesis</span>
+        <span class="hint">Drag to scrub &middot; click a block for the shot</span>
+      </div>
+      <div class="track" id="track"></div>
+      <div class="ribbon" id="ribbon">
+        <div class="line"></div>
+        <div class="glow" id="rib-glow" style="left:0;width:0"></div>
+        <span class="tag">Customer ribbon &mdash; unbroken</span>
+      </div>
+      <div class="ruler" id="ruler"></div>
+      <div class="legend">
+        <div><i style="background:var(--indigo)"></i>Klarna &mdash; automation, retained, learns</div>
+        <div><i style="background:var(--mint)"></i>Foundever L1 / L2</div>
+        <div><i style="background:var(--coral)"></i>Stakes overlay</div>
+        <div><i style="background:var(--navy)"></i>QA gate</div>
+        <div><i style="background:var(--frame)"></i>Frame &amp; ring</div>
+        <div><i class="hx"></i>Silence</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="findings">
+  <div class="sec-head">
+    <h2>Four things the storyboard doesn't cover</h2>
+    <p>The re-cut is not just a re-time. Four passages in the delivered audio have no equivalent in the
+       original six-stage plan, and each one needs a decision before build.</p>
+  </div>
+  <div class="findings">
+    <div class="finding">
+      <div class="n">01</div>
+      <h3>The film runs 2&times; the storyboarded length</h3>
+      <p>Every duration in the original Timing Overview is void. All 19 shots are re-timed against measured word onsets.</p>
+      <div class="tc">115.12 s vs. 55&ndash;65 s</div>
+    </div>
+    <div class="finding">
+      <div class="n">02</div>
+      <h3>An 18-second case setup with no stage to live in</h3>
+      <p>The audio spends a sixth of its runtime establishing who this customer is, before the system flags her.
+         That sympathy is what makes the rest work &mdash; it needs its own treatment, not a compression.</p>
+      <div class="tc">8.34 &rarr; 26.46 s &middot; Shot 02</div>
+    </div>
+    <div class="finding">
+      <div class="n">03</div>
+      <h3>A 15-second stakes passage with no stage at all</h3>
+      <p>Decline-versus-approve is the emotional core and the six-stage model has nowhere to put it.
+         Resolved as an overlay on Stage&nbsp;3 &mdash; never a seventh stage, which would break the authority boundary.</p>
+      <div class="tc">58.52 &rarr; 73.12 s &middot; Shots 09&ndash;11</div>
+    </div>
+    <div class="finding">
+      <div class="n">04</div>
+      <h3>QA has no narration whatsoever</h3>
+      <p>The track goes &ldquo;Klarna confirms&rdquo; &rarr; &ldquo;the washing machine ships&rdquo; &rarr; &ldquo;the case closes.&rdquo;
+         Stage&nbsp;5 plays entirely inside a 2.00&nbsp;s silence or it does not appear.</p>
+      <div class="tc">93.28 &rarr; 95.28 s &middot; Shot 16</div>
+    </div>
+  </div>
+</section>
+
+<section id="shotlist">
+  <div class="sec-head">
+    <h2>Shot list</h2>
+    <p>Timecodes are absolute. Element hits land on the stressed word given &mdash; those onsets are measured,
+       so they can be keyed directly.</p>
+  </div>
+  <div class="shots" id="shots"></div>
+</section>
+
+<section id="frames">
+  <div class="sec-head">
+    <h2>PDF companion frames</h2>
+    <p>The storyboard calls for six deliberate stills. The audio's structure argues for eight.
+       If the deck is capacity-constrained, cut frame&nbsp;7 first &mdash; QA reads adequately inside frame&nbsp;8.</p>
+  </div>
+  <div class="tbl-shell">
+    <table>
+      <thead><tr><th>#</th><th>Capture</th><th>Title</th><th>What it proves</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td class="tc">1</td><td class="tc">116.00 s</td><td class="ttl">The operating model</td><td>Six governed stages, thirteen queues, one model</td><td><span class="pill old">Storyboard</span></td></tr>
+        <tr><td class="tc">2</td><td class="tc">39.20 s</td><td class="ttl">Exception routing</td><td>Automation works; Foundever is absent from the clean path</td><td><span class="pill old">Storyboard</span></td></tr>
+        <tr><td class="tc">3</td><td class="tc">51.90 s</td><td class="ttl">Structured judgment</td><td>L1 turns an alert into 2 confirmed, 1 open</td><td><span class="pill old">Storyboard</span></td></tr>
+        <tr><td class="tc">4</td><td class="tc">73.00 s</td><td class="ttl">The stakes are asymmetric</td><td>Why this is judgment and not a threshold</td><td><span class="pill new">New</span></td></tr>
+        <tr><td class="tc">5</td><td class="tc">81.68 s</td><td class="ttl">The same facts, read whole</td><td>Reordering is the judgment &mdash; no new data required</td><td><span class="pill old">Re-framed</span></td></tr>
+        <tr><td class="tc">6</td><td class="tc">88.80 s</td><td class="ttl">Retained authority</td><td>The pack crosses; the authority does not</td><td><span class="pill old">Storyboard</span></td></tr>
+        <tr><td class="tc">7</td><td class="tc">95.78 s</td><td class="ttl">Quality-accepted closure</td><td>Decision, evidence, rationale all pass before close</td><td><span class="pill new">New</span></td></tr>
+        <tr><td class="tc">8</td><td class="tc">102.30 s</td><td class="ttl">Klarna-controlled learning</td><td>Structured insight informs future detection, routing, controls</td><td><span class="pill old">Storyboard</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="decisions">
+  <div class="sec-head">
+    <h2>Decisions before build</h2>
+    <p>Five open calls. Recommendations are marked; D1 is a deliberate departure from a stated storyboard rule.</p>
+  </div>
+
+  <div class="dec">
+    <div class="did">D1</div>
+    <div>
+      <h3>Does the camera scale to the active stage through the middle, or hold wide for all 115&nbsp;seconds?</h3>
+      <p><b>Scale.</b> The cognitive-load rule was written for 60 seconds; a fixed wide shot for 115 reads as static,
+         and the 2.76&nbsp;s pull-back at 102.72&nbsp;s is wasted without it. Composition and stage order never change,
+         which is what that rule actually protects.</p>
+    </div>
+  </div>
+  <div class="dec">
+    <div class="did">D2</div>
+    <div>
+      <h3>The outcome is an approval, not a fraud finding. Is false-positive cost the argument we want leading?</h3>
+      <p><b>Yes &mdash; and say so in the deck.</b> It is the stronger commercial argument for an evaluator who already
+         owns the fraud-loss case. But note the film does not demonstrate a confirmed-suspicion path. If evaluators
+         need that, it is a second asset, not an extension of this one.</p>
+    </div>
+  </div>
+  <div class="dec">
+    <div class="did">D3</div>
+    <div>
+      <h3>QA gets 2.00&nbsp;s of silence and no narration. Accept, or record a VO pickup?</h3>
+      <p><b>Accept.</b> Three 300&nbsp;ms checks fit with room. A pickup would break the read's rhythm and the ring
+         composition. If QA must carry more weight for a specific evaluator, give it a dedicated PDF frame rather
+         than more screen time.</p>
+    </div>
+  </div>
+  <div class="dec">
+    <div class="did">D4</div>
+    <div>
+      <h3>&ldquo;Clears straight through&rdquo; is stronger than the storyboard's permitted learning register.</h3>
+      <p><b>Keep the audio; carry the qualification on screen.</b> The governance label beside the return path is
+         mandatory and must hold legible for the full 5.8&nbsp;s of Shot&nbsp;17. Do not re-record.</p>
+    </div>
+  </div>
+  <div class="dec">
+    <div class="did">D5</div>
+    <div>
+      <h3>Is the customer ribbon in scope?</h3>
+      <p><b>Yes.</b> One line of persistent furniture, and the only way &ldquo;the customer never felt the review&rdquo;
+         lands as evidence rather than assertion. It has to be unbroken for ninety seconds before it can pay off in three.</p>
+    </div>
+  </div>
+</section>
+
+<section id="closing">
+  <div class="cols">
+    <div>
+      <h2>Build order</h2>
+      <p class="prose" style="color:var(--ink2);font-size:16px;margin:8px 0 18px">
+        Not chronological. Build the shots that carry the argument first, so a failure is found while it is still cheap.
+      </p>
+      <ol class="build">
+        <li><b>Shot 12 &mdash; the inversion.</b> The film's central idea. If the chip reorder doesn't read, nothing downstream matters.</li>
+        <li><b>Shot 14 &mdash; the boundary.</b> The governance proof, and the shot an RFP evaluator will scrub back to.</li>
+        <li><b>Shots 2 + 10.</b> Record card and its strike-throughs &mdash; one component, two states. Build together.</li>
+        <li><b>Shot 17.</b> The learning loop, with the governance label locked in from the first pass.</li>
+        <li><b>Shot 3 + persistent architecture.</b> The three-chip component and all stationary furniture.</li>
+        <li><b>Shots 1 + 19.</b> The ring &mdash; one composition in two states, never two frames.</li>
+        <li>Everything else.</li>
+      </ol>
+    </div>
+    <div>
+      <h2>Acceptance checks</h2>
+      <p class="prose" style="color:var(--ink2);font-size:16px;margin:8px 0 18px">
+        Carried from the storyboard's production checklist. Mint boxes are the four this cut adds.
+      </p>
+      <ul class="checks">
+        <li>The proposition is legible within five seconds.</li>
+        <li>Stage order and composition never change; only scale and the case move.</li>
+        <li>Foundever is visibly absent from the clean automated path.</li>
+        <li>L1 and L2 have distinct purposes &mdash; L1 structures, L2 resolves sequence.</li>
+        <li>The authority boundary is a hard line, and the token does not cross it.</li>
+        <li>QA resolves before closure, not after.</li>
+        <li>The learning loop returns insight to Klarna-controlled automation, label legible throughout.</li>
+        <li>The second case completes without starting a new story.</li>
+        <li>Every beat has a clean, printable settled frame.</li>
+        <li class="add">The three signals <em>invert</em> rather than being replaced &mdash; same chips, reordered and recoloured.</li>
+        <li class="add">The decline column never resolves into a state &mdash; ghosted and dashed for its full life.</li>
+        <li class="add">The customer ribbon is unbroken from 0:05 to 118:00, and brightens exactly once.</li>
+        <li class="add">Shots 1 and 19 are the same composition in two states, not two different frames.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>
+    <strong>Final comprehension test.</strong> Show frame 8 for five seconds, then hide it. The viewer should be able to say:
+    &ldquo;Klarna's automation flags what it should. Foundever resolves the judgment. Klarna keeps the decisions that are
+    Klarna's. QA gates the close. And the next case is better informed.&rdquo;
+  </p>
+  <p class="mono">
+    Cut to Short_Audio_Track_Klarna.mp3 &middot; 115.12 s measured &middot; word-level timings verified
+    &middot; Illustrative operating model based on Klarna RFP workflows
+  </p>
+</footer>
+
+</div>
+
+<script>
+const DUR = 118.0;
+
+const OWNERS = {
+  auto:    {c:'var(--indigo)', s:'var(--indigo-soft)', label:'Klarna automation'},
+  fe:      {c:'var(--mint)',   s:'var(--mint-soft)',   label:'Foundever L1 / L2'},
+  stakes:  {c:'var(--coral)',  s:'var(--coral-soft)',  label:'Stakes overlay'},
+  retained:{c:'var(--indigo)', s:'var(--indigo-soft)', label:'Klarna retained'},
+  qa:      {c:'var(--navy)',   s:'var(--navy-soft)',   label:'QA gate'},
+  learn:   {c:'var(--indigo)', s:'var(--indigo-soft)', label:'Klarna learns'},
+  frame:   {c:'var(--frame)',  s:'var(--frame-soft)',  label:'Frame / ring'}
+};
+
+const SHOTS = [
+{n:1,in:0,out:8.34,name:'Thesis',stage:'Frame',owner:'frame',vo:'Tasks are temporary, judgment is the service. That is our position, and one transaction will earn it.',say:[[0,7.12]],
+ hits:[['0.00','Headline, centred: <b>Tasks are temporary. Judgment is the service.</b>'],['0.35','Six-stage architecture reveals left to right, 60 ms stagger — then settles to 30% opacity'],['4.00','Customer ribbon draws, full width'],['5.82','Lower third: <em>One transaction will earn it.</em>']],
+ note:{k:'',t:'The architecture is present but subordinate. The viewer should register <b>there is a system here</b> without being asked to read it. It gets read properly at 39.52 s.'}},
+
+{n:2,in:8.34,out:26.46,name:'The customer',stage:'1 · Klarna automation',owner:'auto',vo:'Tuesday, 9:40 at night. A customer three years on the books, 41 purchases, every installment paid on time, checks out a €1,900 basket. She is on a phone your systems have never seen, shipping to an address that changed six days ago.',say:[[8.34,25.5]],
+ hits:[['8.34','<em class="neu">Tue · 21:40</em> — neutral'],['11.06','<em class="mint">3 years · account age</em>'],['13.32','<em class="mint">41 purchases</em>'],['14.96','<em class="mint">100% on time</em>'],['17.80','<em class="neu">€1,900 basket</em> — holds'],['20.46','<em class="coral">New device</em> — tone turns'],['23.82','<em class="coral">Address changed · 6 days</em>']],
+ note:{k:'key',t:'This is why the film works. The viewer must <b>want this customer cleared</b> before the system flags her. Eighteen seconds is a long time on screen and it is spent buying sympathy — do not shorten it and do not decorate it. No person, no avatar, no name: she is a record, and the record is sympathetic on its own evidence. <b>Tue · 21:40</b> also evidences the 24/7 real-time monitoring requirement without a word of claim.'}},
+
+{n:3,in:26.46,out:30.0,name:'Three signals',stage:'1 · Klarna automation',owner:'auto',vo:'New device. Address change. Unusual basket.',say:[[26.46,29.14]],
+ hits:[['26.46','Chip 1 — <em class="coral">New device</em>'],['27.70','Chip 2 — <em class="coral">Address change</em>'],['28.84','Chip 3 — <em class="coral">Unusual basket</em>']],
+ note:{k:'key',t:'These three chips are the film’s spine. They persist — dimmed — to 84.32 s and <b>invert</b> at Shot 12. Build them as one component with two states. Each snaps in on its stressed syllable, 300 ms, clinical. No alarm, no pulse, no sound cue. Never a fourth signal.'}},
+
+{n:4,in:30.0,out:36.94,name:'Threshold',stage:'1 · Klarna automation',owner:'auto',vo:'Each signal is explainable on its own. Together they cross a threshold the model was built to respect.',say:[[30.0,36.02]],
+ hits:[['30.00','Chips separate; benign rationales appear beneath at 40% — <em class="neu">travel</em> <em class="neu">moved</em> <em class="neu">gift</em>'],['32.92','Rationales fade; chips converge into one cluster (fast)'],['33.94','Threshold line appears through Stage 1; cluster rises across it']],
+ note:{k:'',t:'Individually innocent, collectively actionable — the most important idea in the automation stage, carried entirely by separate-then-converge motion. The threshold is one <b>the model was built to respect</b>: nothing on screen may imply detection failed.'}},
+
+{n:5,in:36.94,out:40.74,name:'Routes out',stage:'1 · Klarna automation',owner:'auto',vo:'The automation does its job. The case routes out.',say:[[36.94,39.52]],
+ hits:[['36.94','Four or five clean tokens stream the straight-through path and fade — Foundever’s stages stay visibly empty'],['39.26','Flagged token diverges downward onto the judgment path, 450–600 ms travel'],['39.52','Caption, lower left: <b>Held for review, not declined.</b>']],
+ note:{k:'hard',t:'The storyboard’s hardest requirement — <b>Foundever is visibly absent from the clean path</b> — and this two-second window is the only place it can be proven. Make the clean tokens unmistakably numerous relative to the one exception. <b>PDF frame 2</b> captures at 39.20 s.'}},
+
+{n:6,in:40.74,out:49.18,name:'L1 receives',stage:'2 · Foundever L1',owner:'fe',vo:'A Foundever analyst receives it as a structured case file. Identity confirms — the new phone carries her credentials cleanly.',say:[[40.74,47.82]],
+ hits:[['40.74','Token lands, expands into an L1 case card with three empty evidence rows'],['41.72','Queue / evidence / SLA markers — icons or two-word labels, never sentences'],['44.52','Row 1: <em class="mint">Identity · Confirmed</em> — credentials carried cleanly'],['47.82','Rows 2 and 3 stay open and visibly waiting']],
+ note:{k:'',t:'No call-centre imagery, no headsets, no avatar. And L1 is not a permanent team — it is a certified activity level.'}},
+
+{n:7,in:49.18,out:52.8,name:'Evidence resolves',stage:'2 · Foundever L1',owner:'fe',vo:'Behavior holds. Transaction context stays open.',say:[[49.18,52.3]],
+ hits:[['49.18','Row 2: <em class="mint">Behavior · Holds</em>'],['50.90','Row 3: <em class="coral">Transaction context · Open</em> — coral <b>outlined, not filled</b>'],['51.50','Slow 600 ms outline pulse, then stops. Card reads <b>2 confirmed · 1 open</b>']],
+ note:{k:'',t:'This is the storyboard’s Stage 3 spec — two confirmed facts, one remaining uncertainty — but the audio delivers it at the L1/L2 boundary. Follow the audio. That single open row is the justification for everything that follows, so it must be <b>the only unresolved thing on screen</b>. <b>PDF frame 3</b> captures at 51.90 s.'}},
+
+{n:8,in:52.8,out:58.52,name:'The handoff',stage:'2 → 3',owner:'fe',vo:'And this is now the judgment call your automation was designed to route out.',say:[[52.8,57.4]],
+ hits:[['52.80','Case card slides Stage 2 → Stage 3'],['53.98','The <em class="coral">Transaction context · Open</em> row lifts clear and holds alone in Stage 3'],['56.98','Thin indigo line traces back from the open row to Stage 1, then fades']],
+ note:{k:'',t:'The automation did not fail and did not guess — it correctly identified the boundary of its own competence. That trace-back line is the proof, and it is worth the 400 ms.'}},
+
+{n:9,in:58.52,out:60.58,name:'Asymmetry',stage:'Overlay on Stage 3',owner:'stakes',vo:'The stakes are asymmetric.',say:[[58.52,59.24]],
+ hits:[['58.52','Architecture dims to 25% over 400 ms'],['58.68','Two-column overlay opens above Stage 3 — <b>both columns empty</b>'],['59.24','1.34 s of held empty frame']],
+ note:{k:'key',t:'The longest deliberate emptiness in the film. <b>Let it sit.</b> Do not fill it early.'}},
+
+{n:10,in:60.58,out:68.8,name:'The cost of no',stage:'Overlay on Stage 3',owner:'stakes',vo:'Decline her, and a decision that should have been a yes ends a three-year relationship at the exact moment she is furnishing a new home.',say:[[60.58,67.68]],
+ hits:[['60.58','Left column header: <b>Decline</b>'],['61.86','<em class="neu">A decision that should have been yes</em>'],['64.56','Strike-through — <em class="neu">3 years</em>'],['64.92','Strike-through — <em class="neu">41 purchases</em>'],['65.46','Strike-through — <em class="neu">100% on time</em>'],['66.92','<em class="neu">at the moment she is furnishing a new home</em>']],
+ note:{k:'hard',t:'This is a <b>counterfactual</b>, and the storyboard forbids implying the customer was declined. Render the entire left column ghosted — dashed borders, no fill, unmistakably a path not taken. It must never resolve into a state. Coral appears only at the strike-throughs, which run slow (400 ms each) and deliberately uncomfortable.'}},
+
+{n:11,in:68.8,out:74.18,name:'The cost of yes',stage:'Overlay on Stage 3',owner:'stakes',vo:'Approve a takeover, and the loss is yours to eat and yours to explain.',say:[[68.8,73.12]],
+ hits:[['68.80','Right column header: <b>Approve a takeover</b>'],['70.74','<em class="neu">Loss — yours to eat</em>'],['72.70','<em class="neu">Explanation — yours to give</em>'],['73.12','Both columns hold, equally weighted, 1.06 s'],['74.18','Overlay dismisses upward, 400 ms; architecture returns to full opacity']],
+ note:{k:'hard',t:'The two columns must be <b>visually identical in weight</b> — the point is that neither error is cheap, which is what makes this judgment rather than a threshold. If one column looks heavier, the shot argues the opposite of the script. And this is not fraud / not-fraud: it is <b>cost / cost</b>. Two prices, not two verdicts — label by consequence, never by verdict. <b>PDF frame 4</b> captures at 73.00 s.'}},
+
+{n:12,in:74.18,out:82.7,name:'The inversion',stage:'3 · Foundever L2',owner:'fe',vo:'The analyst reads the cluster whole. Address updated, then a device, then durable goods shipping to that same address.',say:[[74.18,81.68]],
+ hits:[['74.18','The three coral chips return to full opacity — still in the automation’s <b>detection order</b>'],['76.92','Chip → position 1, re-labels <em class="mint">Address updated</em>, coral → mint'],['78.52','Chip → position 2, <em class="mint">then a device</em>, coral → mint'],['79.56','Chip → position 3, <em class="mint">then durable goods</em>, coral → mint'],['80.48','Connector draws chip 3 → chip 1: <em class="mint">shipping to that same address</em>']],
+ note:{k:'key',t:'<b>Build this shot first.</b> The reordering <em>is</em> the judgment. Same three facts, same three chips — nothing new was fetched. What the analyst added was sequence, and sequence turned a threat cluster into a life event. It is the most defensible thing the film says about what human judgment buys, and it costs eight seconds and zero new information. Colour transitions run <b>during</b> travel, completing on arrival. No scoring dashboard, no confidence percentage, no invented numeric precision. <b>PDF frame 5</b> captures at 81.68 s.'}},
+
+{n:13,in:82.7,out:85.82,name:'Relocation',stage:'3 · Foundever L2',owner:'fe',vo:'That is what relocation looks like.',say:[[82.7,84.32]],
+ hits:[['82.70','Three mint chips consolidate into one block — <em class="mint">Relocation</em>'],['83.42','<em class="coral">Transaction context · Open</em> flips to <em class="mint">Resolved</em>'],['84.32','Card reads <b>3 confirmed · 0 open</b> + <em class="neu">Recommendation documented</em>, then 1.5 s clean hold']],
+ note:{k:'',t:''}},
+
+{n:14,in:85.82,out:90.18,name:'The boundary',stage:'4 · Klarna retained',owner:'retained',vo:'Klarna keeps what only Klarna should hold. Klarna confirms.',say:[[85.82,88.8]],
+ hits:[['85.82','Vertical authority boundary between Stage 3 and Stage 4 becomes fully prominent'],['86.22','Retained labels stack in, 60 ms stagger — <em class="ind">Policy interpretation</em> <em class="ind">Material-risk decisions</em> <em class="ind">SAR/STR filing authority</em> <em class="ind">Risk appetite</em>'],['87.54','Completed evidence pack crosses the boundary'],['88.42','Stage 4 returns a single <em class="ind">Confirmed</em> stamp; token advances']],
+ note:{k:'hard',t:'The governance proof — the viewer must be able to point at where supplier authority stops. <b>The case token must visibly not cross.</b> If it crosses, the film says Foundever carried the authority over and the whole argument collapses. Only the pack crosses. No ambiguous shared-ownership zone — the boundary is a line, not a gradient. Do not imply Foundever files a SAR/STR: the vendor ceiling is L2, the claim is a SAR-ready case file to Klarna’s quality bar, and Klarna signs. Klarna is also not a rework step — <em>Confirmed</em> returns in under half a second. <b>PDF frame 6</b> captures at 88.80 s.'}},
+
+{n:15,in:90.18,out:93.28,name:'The customer never felt it',stage:'4 · Klarna retained',owner:'retained',vo:'The washing machine ships. The customer never felt the review.',say:[[90.18,93.28]],
+ hits:[['90.42','Small mint <em class="mint">Shipped</em> marker'],['92.02','<b>Everything else holds absolutely still.</b> The customer ribbon brightens once, left to right, over 900 ms']],
+ note:{k:'key',t:'Ninety seconds of governed machinery ran, and the line representing her experience never broke. <b>The stillness is what sells it</b> — no other element may animate in this window.'}},
+
+{n:16,in:93.28,out:96.92,name:'QA',stage:'5 · QA accepted',owner:'qa',vo:'The case closes.',say:[[95.28,95.78]],
+ hits:[['93.60','<em class="nav">Correct decision</em> — 300 ms'],['94.10','<em class="nav">Complete evidence</em> — 300 ms'],['94.60','<em class="nav">Compliant rationale</em> — 300 ms'],['95.28','<em class="mint">Quality accepted</em>; the case closes'],['95.78','Closed case <b>stays visible</b> — Shot 17 originates from it']],
+ note:{k:'hard',t:'<b>This shot has no narration and must carry itself.</b> The 2.00 s silence at 93.28 is the only room QA gets — enough for three 300 ms checks with breathing space, but only if they start immediately at 93.60 s. Closure is a settle, not a disappearance. No confetti, no celebration, no generic shield standing in for the whole QA story, no “billable” language. <b>PDF frame 7</b> captures at 95.78 s.'}},
+
+{n:17,in:96.92,out:102.72,name:'The learning loop',stage:'6 · Klarna learns',owner:'learn',vo:'That history flows back into detection, and the next customer who moves apartments clears straight through.',say:[[96.92,102.72]],
+ hits:[['96.92','Three insight blocks lift out of the closed case — <em class="ind">Risk pattern</em> <em class="ind">Decision outcome</em> <em class="ind">Control effectiveness</em>'],['97.56','They enter Stage 6, labelled <b>Klarna-controlled learning</b>'],['98.60','They travel the return loop toward Stage 1 — 1.5 s, smooth and continuous'],['100.14','Stage 1 updates <b>subtly</b>: routing lines sharpen, one new pattern marker appears'],['100.82','A second case token enters at the left edge'],['101.68','It clears straight through — no stop, no coral, no diversion — and fades on the clean path']],
+ note:{k:'hard',t:'Fixed beside the return path for the whole shot: <b>Structured case insight informs future detection, routing, and controls.</b> This label is <b>not optional</b> — the narration’s “clears straight through” is stronger than the storyboard’s permitted register, and the on-screen label is what keeps the claim inside its bounds. Never show or say: the model automatically retrains · Foundever updates Klarna’s model · every case changes the algorithm. And do not start a second full workflow — the second case gets 1.9 s of this shot. <b>PDF frame 8</b> captures at 102.30 s.'}},
+
+{n:18,in:102.72,out:105.48,name:'The pull-back',stage:'Frame',owner:'frame',vo:'',say:[],
+ hits:[['102.72','A single continuous 2.76 s ease-out pull-back to the full six-stage architecture, settled'],['','All stages visible · both cases resolved · return loop lit · ribbon unbroken'],['','Nothing else animates']],
+ note:{k:'',t:'The longest gap in the film, and the reason <b>D1</b> is worth taking. If the film has scaled in through the middle, this is the exhale that makes the architecture legible again right before the thesis returns. If D1 is rejected and the film holds wide throughout, this becomes a 2.76 s dead hold — usable, but it gives away the film’s best structural moment.'}},
+
+{n:19,in:105.48,out:118.0,name:'Ring close',stage:'Ring',owner:'frame',vo:'Tasks are temporary. Judgment is the service. … That is Foundever. That is what we do.',say:[[105.48,109.14],[111.0,114.56]],
+ hits:[['105.48','Headline returns in the <b>identical position and type size</b> as Shot 1'],['108.12','Single mint emphasis on the word <em class="mint">judgment</em>'],['111.00','Supporting line: <b>Thirteen queues. One governed judgment model.</b>'],['111.86','Foundever logo, lower left'],['112.88','<em class="neu">Prepared for Klarna</em>, lower right'],['114.56','Audio ends — hold static to 118.00 s (3.44 s)']],
+ note:{k:'key',t:'<b>The ring is the argument.</b> Same sentence, same frame — but in Shot 1 the architecture sat at 30% and empty, and here it is at full opacity and fully resolved. The first time the viewer had no reason to believe it; now they have watched one transaction earn it, exactly as promised at 5.82 s. No additional statistics, no new capability claims, no motion in the hold. <b>PDF frame 1</b> captures at 116.00 s.'}}
+];
+
+const pct = t => (t / DUR) * 100;
+const fmt = t => {
+  const m = Math.floor(t / 60), s = t - m * 60;
+  return String(m).padStart(2,'0') + ':' + s.toFixed(2).padStart(5,'0');
+};
+
+/* ---- build the track ---- */
+const track = document.getElementById('track');
+SHOTS.forEach(sh => {
+  const el = document.createElement('div');
+  el.className = 'shot';
+  el.style.left = pct(sh.in) + '%';
+  el.style.width = pct(sh.out - sh.in) + '%';
+  el.dataset.n = sh.n;
+  el.tabIndex = 0;
+  el.setAttribute('role','button');
+  el.setAttribute('aria-label', 'Shot ' + sh.n + ', ' + sh.name + ', ' + sh.in.toFixed(2) + ' to ' + sh.out.toFixed(2) + ' seconds');
+  const o = OWNERS[sh.owner];
+
+  const fill = document.createElement('div');
+  fill.className = 'fill';
+  fill.style.background = o.c;
+  fill.style.left = '0'; fill.style.right = '0';
+  el.appendChild(fill);
+
+  const bar = document.createElement('div');
+  bar.className = 'bar';
+  bar.style.background = o.c;
+  el.appendChild(bar);
+
+  // hatch the silences: complement of the narration spans
+  const span = sh.out - sh.in;
+  let cursor = sh.in;
+  const gaps = [];
+  sh.say.forEach(([a,b]) => { if (a > cursor) gaps.push([cursor,a]); cursor = b; });
+  if (cursor < sh.out) gaps.push([cursor, sh.out]);
+  gaps.forEach(([a,b]) => {
+    const h = document.createElement('div');
+    h.className = 'hatch';
+    h.style.left  = ((a - sh.in) / span * 100) + '%';
+    h.style.width = ((b - a) / span * 100) + '%';
+    el.appendChild(h);
+  });
+
+  const num = document.createElement('div');
+  num.className = 'num';
+  num.textContent = String(sh.n).padStart(2,'0');
+  el.appendChild(num);
+
+  const nm = document.createElement('div');
+  nm.className = 'nm';
+  nm.textContent = sh.name;
+  el.appendChild(nm);
+
+  track.appendChild(el);
+});
+
+const ph = document.createElement('div');
+ph.className = 'playhead';
+ph.style.left = '0';
+track.appendChild(ph);
+
+/* ---- ruler ---- */
+const ruler = document.getElementById('ruler');
+for (let t = 0; t <= 110; t += 10) {
+  const tk = document.createElement('div');
+  tk.className = 'tick';
+  tk.style.left = pct(t) + '%';
+  tk.innerHTML = '<span>' + t + 's</span>';
+  ruler.appendChild(tk);
+}
+
+/* ---- shot cards ---- */
+const CHIP = {
+  mint:['var(--mint-soft)','var(--mint)'],
+  coral:['var(--coral-soft)','var(--coral)'],
+  ind:['var(--indigo-soft)','var(--indigo)'],
+  nav:['var(--navy-soft)','var(--navy)'],
+  neu:['var(--sunk)','var(--ink2)']
+};
+const chipCSS = Object.entries(CHIP)
+  .map(([k,[bg,fg]]) => '.hits em.' + k + '{background:' + bg + ';color:' + fg + '}')
+  .join('\n');
+const st = document.createElement('style');
+st.textContent = chipCSS;
+document.head.appendChild(st);
+
+const shotsEl = document.getElementById('shots');
+SHOTS.forEach(sh => {
+  const o = OWNERS[sh.owner];
+  const card = document.createElement('article');
+  card.className = 'card';
+  card.id = 'shot-' + sh.n;
+
+  const hits = sh.hits.map(([k,v]) =>
+    '<li><span class="k">' + (k ? k : '&nbsp;') + '</span><span class="v">' + v + '</span></li>').join('');
+
+  const vo = sh.vo
+    ? '<p class="vo">&ldquo;' + sh.vo + '&rdquo;</p>'
+    : '<p class="vo silent">No narration &mdash; 2.76 s of silence</p>';
+
+  const note = sh.note && sh.note.t
+    ? '<p class="note ' + sh.note.k + '">' + sh.note.t + '</p>' : '';
+
+  card.innerHTML =
+    '<div class="slate">' +
+      '<div class="id"><b>' + String(sh.n).padStart(2,'0') + '</b><span>Shot</span></div>' +
+      '<div class="times">' + sh.in.toFixed(2) + '&nbsp;s<br>' + sh.out.toFixed(2) + '&nbsp;s</div>' +
+      '<div class="dur">' + (sh.out - sh.in).toFixed(2) + '&nbsp;s</div>' +
+      '<span class="owner" style="background:' + o.s + ';color:' + o.c + '">' + sh.stage + '</span>' +
+    '</div>' +
+    '<div class="body">' +
+      '<h3>' + sh.name + '</h3>' + vo +
+      '<ul class="hits">' + hits + '</ul>' + note +
+    '</div>';
+  shotsEl.appendChild(card);
+});
+
+/* ---- scrub ---- */
+const roTime = document.getElementById('ro-time');
+const roShot = document.getElementById('ro-shot');
+const ribGlow = document.getElementById('rib-glow');
+const blocks = [...track.querySelectorAll('.shot')];
+
+function setTime(t) {
+  t = Math.max(0, Math.min(DUR, t));
+  ph.style.left = pct(t) + '%';
+  ribGlow.style.width = pct(t) + '%';
+  roTime.textContent = fmt(t);
+  const sh = SHOTS.find(s => t >= s.in && t < s.out) || SHOTS[SHOTS.length - 1];
+  roShot.textContent = String(sh.n).padStart(2,'0') + ' · ' + sh.name;
+  blocks.forEach(b => b.classList.toggle('on', +b.dataset.n === sh.n));
+  document.querySelectorAll('.card').forEach(c => c.classList.toggle('lit', c.id === 'shot-' + sh.n));
+}
+
+function timeAt(ev) {
+  const r = track.getBoundingClientRect();
+  return ((ev.clientX - r.left) / r.width) * DUR;
+}
+
+let scrubbing = false;
+track.addEventListener('pointerdown', e => {
+  scrubbing = true;
+  track.setPointerCapture(e.pointerId);
+  setTime(timeAt(e));
+});
+track.addEventListener('pointermove', e => { if (scrubbing) setTime(timeAt(e)); });
+track.addEventListener('pointerup', e => {
+  scrubbing = false;
+  const el = e.target.closest('.shot');
+  if (el) document.getElementById('shot-' + el.dataset.n)
+              .scrollIntoView({behavior:'smooth', block:'start'});
+});
+track.addEventListener('pointercancel', () => { scrubbing = false; });
+
+blocks.forEach(b => {
+  b.addEventListener('mouseenter', () => { if (!scrubbing) setTime(SHOTS[+b.dataset.n - 1].in); });
+  b.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      setTime(SHOTS[+b.dataset.n - 1].in);
+      document.getElementById('shot-' + b.dataset.n).scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  });
+});
+
+setTime(0);
+</script>

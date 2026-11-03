@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BPO Collections Data - Business Insights Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-detail {
+            color: #999;
+            font-size: 0.85em;
+            margin-top: 5px;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .chart-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .insight-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .insight-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .insight-section {
+            margin-bottom: 15px;
+        }
+
+        .insight-label {
+            font-weight: bold;
+            color: #555;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .insight-text {
+            color: #333;
+            line-height: 1.6;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .category-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+        }
+
+        .quality-alert {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        .quality-alert.high {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+
+        .quality-alert.medium {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+        }
+
+        .quality-alert.low {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            background: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .recommendation {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+
+        .recommendation h4 {
+            color: #155724;
+            margin-bottom: 8px;
+        }
+
+        .recommendation ul {
+            margin-left: 20px;
+            color: #155724;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 BPO Collections Data - Business Insights</h1>
+            <p class="subtitle">Comprehensive analysis of 3,673 BPO service records across providers and categories</p>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Records</div>
+                <div class="stat-value">3,673</div>
+                <div class="stat-detail">Collections extraction dataset</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Category Coverage</div>
+                <div class="stat-value">100%</div>
+                <div class="stat-detail">3,672 records categorized</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Unique Providers</div>
+                <div class="stat-value">3</div>
+                <div class="stat-detail">8.5% records identified (311)</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Service Categories</div>
+                <div class="stat-value">49</div>
+                <div class="stat-detail">From 50-category taxonomy</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Data Quality Issues</div>
+                <div class="stat-value">5,743</div>
+                <div class="stat-detail">Logged and categorized</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label">Duplicate Rate</div>
+                <div class="stat-value">64.8%</div>
+                <div class="stat-detail">2,380 duplicate entries</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">📊 Overview</button>
+            <button class="tab" onclick="showTab('providers')">🏢 Providers</button>
+            <button class="tab" onclick="showTab('categories')">📂 Categories</button>
+            <button class="tab" onclick="showTab('insights')">💡 Business Insights</button>
+            <button class="tab" onclick="showTab('quality')">⚠️ Data Quality</button>
+            <button class="tab" onclick="showTab('recommendations')">🎯 Recommendations</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="chart-container">
+                <h2 class="chart-title">Market Distribution Overview</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <canvas id="providerChart"></canvas>
+                    </div>
+                    <div>
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h2 class="chart-title">Top 10 Service Categories by Volume</h2>
+                <canvas id="topCategoriesChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Providers Tab -->
+        <div id="providers" class="tab-content">
+            <div class="chart-container">
+                <h2 class="chart-title">Provider Analysis</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Provider</th>
+                            <th>Records</th>
+                            <th>Market Share</th>
+                            <th>Coverage</th>
+                            <th>Top Services</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1</strong></td>
+                            <td><strong>Ar Solutions</strong></td>
+                            <td>293</td>
+                            <td>94.2%</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 94.2%"></div>
+                                </div>
+                            </td>
+                            <td>Autonomous Agents, Agent Assist, P2P</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2</strong></td>
+                            <td><strong>Alorica</strong></td>
+                            <td>14</td>
+                            <td>4.5%</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 4.5%"></div>
+                                </div>
+                            </td>
+                            <td>CX Operations, Digital Transform, HRO</td>
+                        </tr>
+                        <tr>
+                            <td><strong>3</strong></td>
+                            <td><strong>Encore Capital Group</strong></td>
+                            <td>4</td>
+                            <td>1.3%</td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 1.3%"></div>
+                                </div>
+                            </td>
+                            <td>Digital Self-Cure, HRO, B2B Collections</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="quality-alert medium">
+                    <strong>⚠️ Provider Coverage Issue:</strong> Only 8.5% of records (311 out of 3,673) have identified providers.
+                    3,362 records lack provider information, limiting competitive analysis.
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Tab -->
+        <div id="categories" class="tab-content">
+            <div class="chart-container">
+                <h2 class="chart-title">Service Category Landscape</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Category</th>
+                            <th>Records</th>
+                            <th>Prevalence</th>
+                            <th>Coverage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>1</strong></td>
+                            <td><strong>Agent Assist & Copilot</strong></td>
+                            <td>3,122</td>
+                            <td>85.0%</td>
+                            <td><div class="progress-bar"><div class="progress-fill" style="width: 85%"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>2</strong></td>
+                            <td><strong>Autonomous Service Agents</strong></td>
+                            <td>2,939</td>
+                            <td>80.0%</td>
+                            <td><div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>3</strong></td>
+                            <td><strong>Procure-to-Pay (P2P)</strong></td>
+                            <td>2,286</td>
+                            <td>62.2%</td>
+                            <td><div class="progress-bar"><div class="progress-fill" style="width: 62.2%"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>4</strong></td>
+                            <td><strong>Back-Office & Process Management</strong></td>
+                            <td>2,171</td>
+                            <td>59.1%</td>
+                            <td><div class="progress-bar"><div class="progress-fill" style="width: 59.1%"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>5</strong></td>
+                            <td><strong>HR Helpdesk</strong></td>
+                            <td>2,147</td>
+                            <td>58.5%</td>
+                            <td><div class="progress-bar"><div class="progress-fill" style="width: 58.5%"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>6</strong></td>
+                            <td><strong>Auto & Asset-Backed</strong></td>
+                            <td>1,954</td>
+                            <td>53.2%</td>
+                            <td><div class="progress-bar"><div class="progress-fill" style="width: 53.2%"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>7</strong></td>
+                            <td><strong>Data, Analytics & Insights</strong></td>
+                            <td>1,800</td>
+                            <td>49.0%</td>
+                            <td><div class="progress-bar"><div class="progress-fill" style="width: 49%"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>8</strong></td>
+                            <td><strong>Order-to-Cash (O2C)</strong></td>
+                            <td>1,420</td>
+                            <td>38.7%</td>
+                            <td><div class="progress-bar"><div class="progress-fill" style="width: 38.7%"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>9</strong></td>
+                            <td><strong>CX Transformation & Consulting</strong></td>
+                            <td>1,413</td>
+                            <td>38.5%</td>
+                            <td><div class="progress-bar"><div class="progress-fill" style="width: 38.5%"></div></div></td>
+                        </tr>
+                        <tr>
+                            <td><strong>10</strong></td>
+                            <td><strong>Collections, Credit & Revenue Recovery</strong></td>
+                            <td>1,317</td>
+                            <td>35.9%</td>
+                            <td><div class="progress-bar"><div class="progress-fill" style="width: 35.9%"></div></div></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Business Insights Tab -->
+        <div id="insights" class="tab-content">
+            <div class="chart-container">
+                <h2 class="chart-title">Key Business Insights</h2>
+
+                <div class="insight-section" style="background: #e7f3ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <h3 style="color: #0066cc; margin-bottom: 10px;">🚀 AI Automation Dominance</h3>
+                    <p><strong>Finding:</strong> AI-enabled services lead the market with Agent Assist & Copilot (85%) and Autonomous Service Agents (80%) appearing in the vast majority of offerings.</p>
+                    <p><strong>Implication:</strong> The BPO market is rapidly shifting toward AI-augmented and autonomous service delivery. Traditional labor arbitrage models are being replaced by technology-enabled solutions.</p>
+                </div>
+
+                <div class="insight-section" style="background: #fff3e0; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <h3 style="color: #e65100; margin-bottom: 10px;">💼 Back-Office Transformation</h3>
+                    <p><strong>Finding:</strong> Back-office functions (P2P 62%, Back-Office Management 59%, HR Helpdesk 59%) show high prevalence, indicating strong demand for operational process outsourcing.</p>
+                    <p><strong>Implication:</strong> Companies are increasingly outsourcing core operational processes beyond customer service, seeking end-to-end business process management.</p>
+                </div>
+
+                <div class="insight-section" style="background: #f3e5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <h3 style="color: #6a1b9a; margin-bottom: 10px;">📊 Collections & Recovery Focus</h3>
+                    <p><strong>Finding:</strong> Collections services (36%) and Auto/Asset-Backed (53%) categories are well-represented, reflecting specialized debt recovery capabilities.</p>
+                    <p><strong>Implication:</strong> BPO providers are developing vertical-specific expertise in regulated, high-compliance areas like debt collections and asset recovery.</p>
+                </div>
+            </div>
+
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h3>💡 Sample Business Insight #1</h3>
+                    <div class="insight-section">
+                        <div class="insight-label">Problem</div>
+                        <div class="insight-text">Operational needs in Collections, Credit & Revenue Recovery domain</div>
+                    </div>
+                    <div class="insight-section">
+                        <div class="insight-label">Evidence</div>
+                        <div class="insight-text">CX Outsourcing for Banking & Financial Services - Achieve compliant operations, build customer loyalty and lower costs</div>
+                    </div>
+                    <div class="insight-section">
+                        <div class="insight-label">Analysis</div>
+                        <div class="insight-text">Critical for Collections, Credit & Revenue Recovery, Consumer Collections operations</div>
+                    </div>
+                    <div class="insight-section">
+                        <div class="insight-label">Solution</div>
+                        <div class="insight-text">Evaluate Collections, Credit & Revenue Recovery service options</div>
+                    </div>
+                    <div class="categories">
+                        <span class="category-badge">Collections</span>
+                        <span class="category-badge">Consumer Collections</span>
+                        <span class="category-badge">Agent Assist</span>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h3>💡 Sample Business Insight #2</h3>
+                    <div class="insight-section">
+                        <div class="insight-label">Problem</div>
+                        <div class="insight-text">Operational needs in Consumer Collections domain</div>
+                    </div>
+                    <div class="insight-section">
+                        <div class="insight-label">Evidence</div>
+                        <div class="insight-text">Seasonal spikes, solved: how ECSI saved with always-on front desk automation - Tax season was breaking the system</div>
+                    </div>
+                    <div class="insight-section">
+                        <div class="insight-label">Analysis</div>
+                        <div class="insight-text">Critical for Consumer Collections, Agent Assist & Copilot operations</div>
+                    </div>
+                    <div class="insight-section">
+                        <div class="insight-label">Solution</div>
+                        <div class="insight-text">Evaluate Consumer Collections service options with seasonal scaling capabilities</div>
+                    </div>
+                    <div class="categories">
+                        <span class="category-badge">Consumer Collections</span>
+                        <span class="category-badge">Agent Assist</span>
+                        <span class="category-badge">Automation</span>
+                    </div>
+                </div>
+
+                <div class="insight-card">
+                    <h3>💡 Sample Business Insight #3</h3>
+                    <div class="insight-section">
+                        <div class="insight-label">Problem</div>
+                        <div class="insight-text">Operational needs in Agent Assist & Copilot domain</div>
+                    </div>
+                    <div class="insight-section">
+                        <div class="insight-label">Evidence</div>
+                        <div class="insight-text">A leading retailer achieves over $10 million in savings - Support delivered from India, Philippines, Nicaragua and Mexico</div>
+                    </div>
+                    <div class="insight-section">
+                        <div class="insight-label">Analysis</div>
+                        <div class="insight-text">Critical for Agent Assist & Copilot, Inventory Planning operations</div>
+                    </div>
+                    <div class="insight-section">
+                        <div class="insight-label">Solution</div>
+                        <div class="insight-text">Evaluate Agent Assist & Copilot service options with global delivery capabilities</div>
+                    </div>
+                    <div class="categories">
+                        <span class="category-badge">Agent Assist</span>
+                        <span class="category-badge">Inventory Planning</span>
+                        <span class="category-badge">Global Delivery</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Quality Tab -->
+        <div id="quality" class="tab-content">
+            <div class="chart-container">
+                <h2 class="chart-title">Data Quality Assessment</h2>
+
+                <div class="quality-alert high">
+                    <strong>🔴 High Severity Issues (3,362):</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>Missing provider information in 91.5% of records</li>
+                        <li>Significantly limits competitive analysis and market mapping</li>
+                        <li><strong>Recommendation:</strong> Implement enhanced provider extraction from URLs and content</li>
+                    </ul>
+                </div>
+
+                <div class="quality-alert high">
+                    <strong>🔴 Critical: Duplicate Content (2,380 records - 64.8%):</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>Nearly two-thirds of the dataset contains duplicate entries</li>
+                        <li>Inflates volume metrics and skews category distribution</li>
+                        <li><strong>Recommendation:</strong> Review data collection process and implement deduplication at source</li>
+                    </ul>
+                </div>
+
+                <div class="quality-alert low">
+                    <strong>🟢 Strengths:</strong>
+                    <ul style="margin-top: 10px;">
+                        <li>✅ 100% category coverage (3,672/3,673 records)</li>
+                        <li>✅ Comprehensive 50-category taxonomy applied</li>
+                        <li>✅ All original data preserved for traceability</li>
+                        <li>✅ Standardized text normalization applied</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <canvas id="qualityChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendations Tab -->
+        <div id="recommendations" class="tab-content">
+            <div class="chart-container">
+                <h2 class="chart-title">Strategic Recommendations</h2>
+
+                <div class="recommendation">
+                    <h4>🎯 High Priority Actions</h4>
+                    <ul>
+                        <li><strong>Deduplicate Source Data:</strong> Address the 64.8% duplicate rate by implementing content hash-based deduplication in the data collection pipeline</li>
+                        <li><strong>Enhance Provider Extraction:</strong> Deploy NLP-based provider identification from URLs, text content, and metadata to improve the 8.5% coverage rate</li>
+                        <li><strong>Validate Top Providers:</strong> Manual review of Ar Solutions (94.2% share) to ensure accurate attribution and prevent data collection bias</li>
+                        <li><strong>Quality Review Process:</strong> Establish workflow for resolving the 5,743 flagged quality issues, prioritizing high-severity items</li>
+                    </ul>
+                </div>
+
+                <div class="recommendation" style="background: #fff3cd; border-left-color: #ffc107;">
+                    <h4 style="color: #856404;">⚡ Medium Priority Enhancements</h4>
+                    <ul style="color: #856404;">
+                        <li><strong>Business Lens Refinement:</strong> Enhance problem/evidence/analysis/solution extraction with domain-specific NLP patterns</li>
+                        <li><strong>Taxonomy Expansion:</strong> Review uncategorized terms in additional_tags to identify emerging service categories</li>
+                        <li><strong>Provider Hierarchy:</strong> Build organizational structure for multi-brand BPO companies (e.g., Foundever = Sitel + SYKES)</li>
+                        <li><strong>Temporal Analysis:</strong> Improve date data quality to enable trend analysis over time</li>
+                    </ul>
+                </div>
+
+                <div class="recommendation" style="background: #d1ecf1; border-left-color: #17a2b8;">
+                    <h4 style="color: #0c5460;">🔬 Advanced Analytics Opportunities</h4>
+                    <ul style="color: #0c5460;">
+                        <li><strong>Market Segmentation:</strong> Cluster providers by service portfolio similarity using category vectors</li>
+                        <li><strong>Competitive Intelligence:</strong> Map service coverage gaps and white space opportunities</li>
+                        <li><strong>Topic Modeling:</strong> Apply LDA/NMF to discover latent themes beyond taxonomy categories</li>
+                        <li><strong>Pricing Analysis:</strong> Extract and normalize pricing signals from evidence fields</li>
+                        <li><strong>Geographic Mapping:</strong> Parse and visualize global delivery locations mentioned in content</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px; border: 2px solid #667eea;">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">📈 Expected Outcomes</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>Impact</th>
+                                <th>Timeline</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Implement deduplication</td>
+                                <td>Reduce dataset by ~65%, improve accuracy</td>
+                                <td>1-2 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Enhance provider extraction</td>
+                                <td>Increase provider coverage from 8.5% to 60%+</td>
+                                <td>2-3 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Refine business lens</td>
+                                <td>Improve insight quality by 40-50%</td>
+                                <td>2-4 weeks</td>
+                            </tr>
+                            <tr>
+                                <td>Expand taxonomy</td>
+                                <td>Capture 10-15 new emerging service categories</td>
+                                <td>1-2 weeks</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            contents.forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Provider Distribution Chart
+        const providerCtx = document.getElementById('providerChart').getContext('2d');
+        new Chart(providerCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Ar Solutions', 'Alorica', 'Encore Capital Group', 'No Provider'],
+                datasets: [{
+                    data: [293, 14, 4, 3362],
+                    backgroundColor: [
+                        '#667eea',
+                        '#764ba2',
+                        '#f093fb',
+                        '#e0e0e0'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Provider Distribution (All Records)'
+                    }
+                }
+            }
+        });
+
+        // Category Coverage Chart
+        const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+        new Chart(categoryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Categorized', 'Uncategorized'],
+                datasets: [{
+                    data: [3672, 1],
+                    backgroundColor: [
+                        '#28a745',
+                        '#dc3545'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Category Coverage (100%)'
+                    }
+                }
+            }
+        });
+
+        // Top Categories Chart
+        const topCatCtx = document.getElementById('topCategoriesChart').getContext('2d');
+        new Chart(topCatCtx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Agent Assist',
+                    'Autonomous Agents',
+                    'Procure-to-Pay',
+                    'Back-Office',
+                    'HR Helpdesk',
+                    'Auto Collections',
+                    'Analytics',
+                    'Order-to-Cash',
+                    'CX Transform',
+                    'Collections'
+                ],
+                datasets: [{
+                    label: 'Number of Records',
+                    data: [3122, 2939, 2286, 2171, 2147, 1954, 1800, 1420, 1413, 1317],
+                    backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                    borderColor: 'rgba(102, 126, 234, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Quality Chart
+        const qualityCtx = document.getElementById('qualityChart').getContext('2d');
+        new Chart(qualityCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Missing Provider', 'Duplicate Content', 'No Categories', 'Other Issues'],
+                datasets: [{
+                    label: 'Number of Issues',
+                    data: [3362, 2380, 1, 0],
+                    backgroundColor: [
+                        'rgba(220, 53, 69, 0.8)',
+                        'rgba(255, 193, 7, 0.8)',
+                        'rgba(23, 162, 184, 0.8)',
+                        'rgba(40, 167, 69, 0.8)'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Data Quality Issues Breakdown'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
